@@ -12,17 +12,23 @@ const bars = [40, 51, 74, 54, 54, 32, 10, 21, 15, 43, 49, 57, 64, 63];
 
 export function TrustedBy() {
   return (
-    <section className="border-y border-border py-20">
-      <div className="mx-auto max-w-6xl px-6 text-center">
-        <p className="mb-10 text-xs tracking-[0.2em] text-muted-foreground uppercase">
+    <section className="border-y border-border py-16 md:py-20 overflow-hidden">
+      <div className="mx-auto max-w-full text-center relative">
+        <p className="mb-10 text-xs tracking-[0.2em] text-muted-foreground uppercase px-6">
           Trusted by engineers at world-class firms
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-60">
-          {firms.map((f) => (
-            <span key={f} className="font-display text-xl font-bold tracking-wider">
-              {f}
-            </span>
-          ))}
+        <div className="relative flex overflow-hidden max-w-7xl mx-auto mask-marquee">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
+          
+          <div className="flex shrink-0 animate-marquee items-center opacity-60">
+            {/* Duplicated list for seamless looping */}
+            {[...firms, ...firms, ...firms, ...firms].map((f, i) => (
+              <span key={`${f}-${i}`} className="font-display text-xl font-bold tracking-wider mx-8 md:mx-12 whitespace-nowrap">
+                {f}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
