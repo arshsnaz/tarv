@@ -3,7 +3,8 @@ import { SiteNav } from "@/components/site/site-nav";
 import { Hero } from "@/components/site/hero";
 import { Platform, TrustedBy } from "@/components/site/platform";
 import { Hvac, Schedules } from "@/components/site/hvac";
-import { AiEngineer, Testimonials } from "@/components/site/ai-engineer";
+import { AiEngineer } from "@/components/site/ai-engineer";
+import { CalculatorSuite } from "@/components/site/calculator-suite";
 import { Company, Faq } from "@/components/site/company";
 import { Cta, SiteFooter } from "@/components/site/cta";
 
@@ -55,7 +56,7 @@ function Index() {
         <Hvac />
         <Schedules />
         <AiEngineer />
-        <Testimonials />
+        <CalculatorSuite />
         <Company />
         <Faq />
         <Cta />

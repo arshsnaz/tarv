@@ -87,13 +87,14 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <title>TARV — AI-Powered MEP Design Automation</title>
+        <title>TARV — MEP Engineering Software | HVAC & AI Optimization</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="TARV is the AI-powered platform automating mechanical, electrical, and plumbing design workflows. Founded in Stockholm, Sweden."
+          content="TARV is the premier AI-powered platform for the MEP (mechanical, electrical and plumbing) field. Automate HVAC systems design, perform airflow calculations, and optimize equipment schedules."
         />
+        <meta name="keywords" content="MEP, mechanical electrical and plumbing, HVAC, AI engineering, equipment schedules, airflow calculations, TARV, MEP design software" />
         <meta name="author" content="TARV Engineering AB" />
         <meta property="og:site_name" content="TARV" />
         <meta property="og:type" content="website" />

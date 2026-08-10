@@ -7,7 +7,7 @@ export function Cta() {
   const [sent, setSent] = useState(false);
 
   return (
-    <section id="cta" className="px-6 py-28 md:py-32">
+    <section id="cta" className="px-4 md:px-6 py-28 md:py-32">
       <Reveal>
         <div className="glass relative mx-auto max-w-5xl overflow-hidden rounded-[2.5rem] p-10 text-center md:p-20">
           <div className="halo pointer-events-none absolute -top-32 left-1/2 size-[600px] -translate-x-1/2 rounded-full blur-3xl" />
@@ -36,7 +36,7 @@ export function Cta() {
               />
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 font-medium text-primary-foreground transition hover:opacity-90 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:opacity-90 sm:w-auto"
               >
                 Get access <ArrowRight size={16} />
               </button>
@@ -81,13 +81,21 @@ const footerCols = [
       { label: "DPA", href: "#" },
     ],
   },
+  {
+    title: "Social",
+    links: [
+      { label: "LinkedIn", href: "#" },
+      { label: "Twitter (X)", href: "#" },
+      { label: "Instagram", href: "#" },
+    ],
+  },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border px-6 py-14">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
-        <div>
+    <footer className="border-t border-border px-4 md:px-6 py-14">
+      <div className="mx-auto grid max-w-6xl gap-8 sm:gap-10 grid-cols-2 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+        <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-2">
             <img
               src="/favicon.png"
@@ -104,7 +112,7 @@ export function SiteFooter() {
             <div className="flex items-center gap-2">
               <MapPin size={14} /> Dubai, United Arab Emirates
             </div>
-            <a href="mailto:contact@tarv.ai" className="flex items-center gap-2 hover:text-foreground">
+            <a href="mailto:contact@tarv.ai" className="flex items-center gap-2 transition-all duration-300 hover:text-foreground">
               <Mail size={14} /> contact@tarv.ai
             </a>
           </div>
@@ -118,7 +126,7 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2.5 text-sm">
               {col.links.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} className="text-muted-foreground transition hover:text-foreground">
+                  <a href={l.href} className="text-muted-foreground transition-all duration-300 hover:text-foreground">
                     {l.label}
                   </a>
                 </li>

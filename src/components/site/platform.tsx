@@ -36,11 +36,10 @@ export function Platform() {
         <Reveal>
           <div className="eyebrow">The platform</div>
           <h2 className="text-balance mt-4 text-4xl font-bold tracking-tight md:text-6xl">
-            One canvas for every MEP decision.
+            The MEP calculator platform built for how engineers actually work.
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            Drafting, sizing, scheduling, and optimization — unified in a single interactive
-            workspace.
+            HVAC load and duct sizing. Electrical distribution and cable sizing. Fire fighting hydraulics. Plumbing and drainage design. One platform, every calculation ASHRAE, NEC, and NFPA expect.
           </p>
         </Reveal>
       </div>
@@ -65,7 +64,7 @@ export function Platform() {
 
             <div className="grid gap-4 md:grid-cols-3">
               {metrics.map((m) => (
-                <div key={m.label} className="rounded-2xl border border-border bg-card p-5">
+                <div key={m.label} className="rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                   <div className="text-xs tracking-wider text-muted-foreground uppercase">
                     {m.label}
                   </div>
@@ -84,7 +83,7 @@ export function Platform() {
               ))}
             </div>
 
-            <div className="relative mt-4 overflow-hidden rounded-2xl border border-border bg-card p-6">
+            <div className="relative mt-4 overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-lg">
               <div className="shimmer-bg pointer-events-none absolute inset-0 opacity-40" />
               <div className="mb-4 flex items-center justify-between">
                 <div className="text-sm font-medium">Floor analysis · Tower A</div>

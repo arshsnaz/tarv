@@ -4,7 +4,7 @@ import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useTheme } from "@/hooks/use-theme";
 
 const links = [
-  { href: "/access", label: "Access" },
+  { href: "#top", label: "Home" },
   { href: "#platform", label: "Platform" },
   { href: "#hvac", label: "HVAC" },
   { href: "#schedules", label: "Schedules" },
@@ -44,8 +44,9 @@ export function SiteNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4">
       <div
-        className={`flex w-full items-center gap-6 rounded-full px-4 py-2.5 transition-all duration-500 sm:px-5 ${scrolled ? "glass max-w-4xl" : "glass-subtle max-w-5xl"
-          }`}
+        className={`flex w-full items-center gap-6 rounded-full border border-border/40 bg-background/40 px-4 py-2.5 shadow-sm backdrop-blur-xl transition-all duration-500 sm:px-6 ${
+          scrolled ? "max-w-4xl" : "max-w-5xl"
+        }`}
       >
         <a
           href="#top"
@@ -99,7 +100,7 @@ export function SiteNav() {
               navigate({ to: "/access" });
               setOpen(false);
             }}
-            className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-medium text-primary-foreground"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
             Get access <ArrowRight size={14} />
           </button>

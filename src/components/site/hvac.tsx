@@ -48,7 +48,7 @@ export function Hvac() {
         </Reveal>
 
         <Reveal delay={120}>
-          <div className="glass rounded-3xl p-6">
+          <div className="glass rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
             <div className="mb-5 flex items-center justify-between">
               <div className="text-sm font-semibold">Load calculation</div>
               <div className="font-mono text-xs text-success">converged</div>
@@ -81,7 +81,7 @@ export function Schedules() {
     <section id="schedules" className="py-28 md:py-32">
       <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 md:grid-cols-2">
         <Reveal>
-          <div className="glass overflow-hidden rounded-3xl">
+          <div className="glass overflow-hidden rounded-3xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
               <div className="text-sm font-semibold">Equipment schedule · Project Aurora</div>
               <div className="font-mono text-xs text-muted-foreground">v12</div>

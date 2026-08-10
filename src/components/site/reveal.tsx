@@ -37,7 +37,7 @@ export function Reveal({
       style={{
         opacity: shown ? 1 : 0,
         transform: shown ? "none" : "translateY(24px)",
-        transition: `opacity .9s cubic-bezier(.22,1,.36,1) ${delay}ms, transform .9s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+        transition: `opacity 1.4s cubic-bezier(.22,1,.36,1) ${delay}ms, transform 1.4s cubic-bezier(.22,1,.36,1) ${delay}ms`,
       }}
     >
       {children}
