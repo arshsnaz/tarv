@@ -116,7 +116,7 @@ export function SiteNav() {
       </div>
 
       {open ? (
-        <div className="glass absolute inset-x-4 top-20 rounded-3xl p-4 md:hidden">
+        <div className="absolute inset-x-4 top-20 rounded-3xl p-4 md:hidden border border-border bg-background/95 shadow-2xl backdrop-blur-xl">
           <nav className="flex flex-col">
             {links.map((l) =>
               l.href.startsWith("/") ? (
@@ -127,7 +127,7 @@ export function SiteNav() {
                     navigate({ to: l.href });
                     setOpen(false);
                   }}
-                  className="rounded-xl px-4 py-3 text-left text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  className="rounded-xl px-4 py-3 text-left text-base font-medium text-foreground transition-colors hover:bg-accent"
                 >
                   {l.label}
                 </button>
@@ -139,7 +139,7 @@ export function SiteNav() {
                     goToHash(e, l.href);
                     setOpen(false);
                   }}
-                  className="rounded-xl px-4 py-3 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  className="block rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors hover:bg-accent"
                 >
                   {l.label}
                 </a>
