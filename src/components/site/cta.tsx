@@ -8,47 +8,70 @@ export function Cta() {
 
   return (
     <section id="cta" className="px-4 md:px-6 py-28 md:py-32">
-      <Reveal>
-        <div className="glass relative mx-auto max-w-5xl overflow-hidden rounded-[2.5rem] p-10 text-center md:p-20">
-          <div className="halo pointer-events-none absolute -top-32 left-1/2 size-[600px] -translate-x-1/2 rounded-full blur-3xl" />
-          <div className="relative">
-            <h2 className="text-balance text-4xl font-bold tracking-tight md:text-7xl">
-              Engineer what&apos;s next.
-            </h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-              Join the firms shaping tomorrow&apos;s built environment. Request access to TARV today.
-            </p>
-            <form
-              className="mx-auto mt-10 flex max-w-md flex-col items-center justify-center gap-3 sm:flex-row"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSent(true);
-              }}
-            >
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@firm.com"
-                aria-label="Work email"
-                className="w-full rounded-full border border-border bg-card px-5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-ring sm:flex-1"
-              />
-              <button
-                type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:opacity-90 sm:w-auto"
+      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        
+        {/* Left Panel - Pitch & Form */}
+        <Reveal>
+          <div className="glass relative flex h-full min-h-[450px] md:min-h-[600px] flex-col justify-center overflow-hidden rounded-[2.5rem] bg-zinc-950/80 p-10 md:p-16 border border-white/5 dark:border-white/5 shadow-2xl transition-all hover:shadow-brand-soft/10">
+            <div className="relative z-10">
+              <h2 className="text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+                Engineer what's <br className="hidden md:block" /> next.
+              </h2>
+              <p className="mt-6 max-w-md text-lg text-muted-foreground leading-relaxed">
+                Ready to streamline your workflow? Request access today and experience the power of TARV firsthand.
+              </p>
+              <form
+                className="mt-10 flex w-full max-w-sm flex-col gap-3 sm:flex-row"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSent(true);
+                }}
               >
-                Get access <ArrowRight size={16} />
-              </button>
-            </form>
-            <p className="mt-4 text-xs text-muted-foreground">
-              {sent
-                ? "Thanks — we'll be in touch shortly."
-                : "Private beta · Onboarding select firms now"}
-            </p>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@firm.com"
+                  aria-label="Work email"
+                  className="w-full rounded-full border border-border/50 bg-background/50 px-5 py-3.5 text-sm text-foreground placeholder:text-muted-foreground outline-none backdrop-blur-md transition-all focus:border-brand focus:ring-1 focus:ring-brand sm:flex-1"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-all hover:-translate-y-1 hover:shadow-lg sm:w-auto"
+                >
+                  Request access <ArrowRight size={16} />
+                </button>
+              </form>
+              <p className="mt-4 text-xs font-medium text-brand">
+                {sent
+                  ? "Thanks — we'll be in touch shortly."
+                  : "Private beta · Onboarding select firms now"}
+              </p>
+            </div>
+            
+            {/* Subtle background glow for left panel */}
+            <div className="pointer-events-none absolute -bottom-32 -left-32 size-[400px] rounded-full bg-brand-soft/10 blur-[100px]" />
           </div>
-        </div>
-      </Reveal>
+        </Reveal>
+
+        {/* Right Panel - Video */}
+        <Reveal delay={150}>
+          <div className="glass relative h-full min-h-[450px] md:min-h-[600px] overflow-hidden rounded-[2.5rem] border border-white/5 dark:border-white/5 shadow-2xl transition-all hover:shadow-brand-soft/10">
+            <video 
+              src="/ref4.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover scale-[1.01]"
+            />
+            {/* Inner ring for premium feel */}
+            <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] ring-1 ring-inset ring-white/10" />
+          </div>
+        </Reveal>
+
+      </div>
     </section>
   );
 }
