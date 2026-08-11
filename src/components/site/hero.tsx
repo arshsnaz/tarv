@@ -76,22 +76,125 @@ export function HomeHero() {
 }
 
 export function VideoHero() {
-  return (
-    <section id="video" className="relative hidden md:block w-full max-w-6xl mx-auto rounded-xl overflow-hidden shadow-2xl mb-20 border border-border/50">
-      <div className="aspect-video relative bg-background">
-        <video
-          className="pointer-events-none absolute inset-0 size-full object-cover"
-          src={heroVideoSrc}
-          muted
-          playsInline
-          autoPlay
-          loop
-        />
-        {/* Subtle overlay gradient to blend with the site */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
-      </div>
-    </section>
-  );
+ const sectionRef = useRef<HTMLDivElement>(null);
+ const videoRef = useRef<HTMLVideoElement>(null);
+ const [duration, setDuration] = useState(0);
+
+ useEffect(() => {
+ const syncDuration = () => {
+ const video = videoRef.current;
+ if (!video) return;
+ const nextDuration = video.duration;
+ if (Number.isFinite(nextDuration) && nextDuration > 0) {
+ setDuration(nextDuration);
+ }
+ };
+
+ syncDuration();
+ const video = videoRef.current;
+ video?.addEventListener("loadedmetadata", syncDuration);
+ video?.addEventListener("durationchange", syncDuration);
+ const interval = window.setInterval(syncDuration, 100);
+ return () => {
+ window.clearInterval(interval);
+ video?.removeEventListener("loadedmetadata", syncDuration);
+ video?.removeEventListener("durationchange", syncDuration);
+ };
+ }, []);
+
+ // Scroll-scrubbed playback: section.offsetTop handles section position on page
+ useEffect(() => {
+ if (!duration) return;
+ const targetTimeRef = { current: HERO_VIDEO_START_TIME };
+ let frame = 0;
+
+ const syncTargetTime = () => {
+ const section = sectionRef.current;
+ const video = videoRef.current;
+ if (!section || !video) return;
+ const scrollTop = document.scrollingElement?.scrollTop ?? window.scrollY;
+ const scrolled = Math.min(
+ Math.max(scrollTop - section.offsetTop, 0),
+ Math.max(duration - HERO_VIDEO_START_TIME - 0.05, 0) * PX_PER_SECOND,
+ );
+ targetTimeRef.current = Math.min(
+ HERO_VIDEO_START_TIME + scrolled / PX_PER_SECOND,
+ duration - 0.05,
+ );
+ };
+
+ const tick = () => {
+ frame = 0;
+ const video = videoRef.current;
+ if (!video) return;
+
+ const targetTime = targetTimeRef.current;
+ const currentTime = video.currentTime;
+ const delta = targetTime - currentTime;
+
+ if (Number.isFinite(delta) && Math.abs(delta) > 0.01) {
+ const nextTime = currentTime + delta * 0.18;
+ try {
+ if (typeof video.fastSeek === "function" && Math.abs(delta) > 0.25) video.fastSeek(nextTime);
+ else video.currentTime = nextTime;
+ } catch {
+ video.currentTime = nextTime;
+ }
+ frame = requestAnimationFrame(tick);
+ }
+ };
+
+ const schedule = () => {
+ syncTargetTime();
+ if (!frame) frame = requestAnimationFrame(tick);
+ };
+
+ const video = videoRef.current;
+ schedule();
+ window.addEventListener("scroll", schedule, { passive: true });
+ window.addEventListener("resize", schedule);
+ return () => {
+ if (frame) cancelAnimationFrame(frame);
+ window.removeEventListener("scroll", schedule);
+ window.removeEventListener("resize", schedule);
+ };
+ }, [duration]);
+
+ return (
+ <section
+ id="video"
+ ref={sectionRef}
+ className="relative bg-black"
+ style={{ height: `calc(100vh + ${(duration || 6) * PX_PER_SECOND}px)` }}
+ >
+ <div className="sticky top-0 h-screen overflow-hidden">
+ {/* pure scroll-scrubbed background video */}
+ <video
+ ref={videoRef}
+ className="pointer-events-none absolute inset-0 size-full object-cover"
+ src={heroVideoSrc}
+ muted
+ playsInline
+ preload="auto"
+ aria-hidden="true"
+ onLoadedMetadata={(e) => {
+ const v = e.currentTarget;
+ v.pause();
+ v.currentTime = HERO_VIDEO_START_TIME;
+ if (Number.isFinite(v.duration)) setDuration(v.duration);
+ }}
+ onDurationChange={(e) => {
+ const d = e.currentTarget.duration;
+ if (Number.isFinite(d) && d > 0) setDuration(d);
+ }}
+ />
+
+ <div className="relative flex h-full flex-col items-center justify-center px-6 text-center pointer-events-none">
+ {/* Pure video section with no text overlay */}
+ </div>
+ </div>
+ </section>
+ );
 }
 
 export function Hero() {
