@@ -164,7 +164,7 @@ export function VideoHero() {
  <section
  id="video"
  ref={sectionRef}
- className="relative bg-black"
+ className="relative bg-background"
  style={{ height: `calc(100vh + ${(duration || 6) * PX_PER_SECOND}px)` }}
  >
  <div className="sticky top-0 h-screen overflow-hidden">
