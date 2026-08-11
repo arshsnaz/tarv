@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 
 type Theme = "light" | "dark";
 
-const STORAGE_KEY = "tarv-theme";
+const STORAGE_KEY = "tarv-theme-v2";
 
 function apply(theme: Theme) {
   const root = document.documentElement;

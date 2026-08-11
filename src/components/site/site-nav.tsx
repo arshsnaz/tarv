@@ -90,7 +90,7 @@ export function SiteNav() {
  type="button"
  onClick={toggle}
  aria-label="Toggle dark mode"
- className="grid size-9 place-items-center border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+ className="grid size-10 place-items-center text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
  >
  {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
  </button>
@@ -108,7 +108,7 @@ export function SiteNav() {
  type="button"
  aria-label="Toggle menu"
  onClick={() => setOpen((v) => !v)}
- className="grid size-9 place-items-center border border-border text-muted-foreground md:hidden"
+ className="grid size-10 place-items-center text-muted-foreground md:hidden transition-colors hover:bg-accent hover:text-foreground"
  >
  {open ? <X size={16} /> : <Menu size={16} />}
  </button>
