@@ -80,7 +80,7 @@ const calculatorData = [
 ];
 
 export function CalculatorSuite() {
- const [activeTab, setActiveTab] = useState(calculatorData[0].id);
+ const [activeTab, setActiveTab] = useState(calculatorData[0]?.id || "hvac");
  const data = calculatorData.find((d) => d.id === activeTab)!;
 
  return (

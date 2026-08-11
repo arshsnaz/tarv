@@ -1,6 +1,6 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig((env) => ({
+export default defineConfig({
   vite: {
     base: "/",
     resolve: {
@@ -18,4 +18,4 @@ export default defineConfig((env) => ({
       entry: "server",
     },
   },
-}));
+} as any);
