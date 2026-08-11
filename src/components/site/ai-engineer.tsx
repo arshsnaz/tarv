@@ -47,8 +47,8 @@ export function AiEngineer() {
 
  {/* Massive Video Showcase */}
  <Reveal delay={150} className="relative mt-20 z-10">
- <div className="glass shadow-glass mx-auto max-w-6xl -[2rem] p-3 md:p-4 transition-all duration-700 hover:shadow-brand-soft/20">
- <div className="relative overflow-hidden -[1.5rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl">
+ <div className="glass shadow-glass mx-auto max-w-6xl p-3 md:p-4 transition-all duration-700 hover:shadow-brand-soft/20">
+ <div className="relative overflow-hidden bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl">
  <video 
  src="/ref3.mp4"
  autoPlay
@@ -58,7 +58,7 @@ export function AiEngineer() {
  className="w-full object-cover scale-[1.01]"
  />
  {/* Internal overlay gradient for depth */}
- <div className="pointer-events-none absolute inset-0 -[1.5rem] ring-1 ring-inset ring-white/10" />
+ <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10" />
  </div>
  </div>
  </Reveal>

@@ -80,7 +80,7 @@ export function Schedules() {
  return (
  <section id="schedules" className="py-28 md:py-32">
  <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 md:grid-cols-2">
- <Reveal>
+ <Reveal className="min-w-0">
  <div className="glass overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
  <div className="flex items-center justify-between border-b border-border px-6 py-4">
  <div className="text-sm font-semibold">Equipment schedule · Project Aurora</div>
