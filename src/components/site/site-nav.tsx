@@ -100,7 +100,7 @@ export function SiteNav() {
  navigate({ to: "/access" });
  setOpen(false);
  }}
- className="inline-flex items-center justify-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+ className="hidden md:inline-flex items-center justify-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
  >
  Get access <ArrowRight size={14} />
  </button>
@@ -147,10 +147,13 @@ export function SiteNav() {
  )}
  <button
  type="button"
- onClick={() => navigate({ to: "/access" })}
- className="hidden items-center gap-1.5 bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90 sm:inline-flex"
+ onClick={() => {
+ navigate({ to: "/access" });
+ setOpen(false);
+ }}
+ className="mt-4 inline-flex items-center justify-center gap-2 bg-primary px-4 py-3 text-base font-semibold text-primary-foreground transition hover:opacity-90"
  >
- Get access <ArrowRight size={14} />
+ Get access <ArrowRight size={16} />
  </button>
  </nav>
  </div>
