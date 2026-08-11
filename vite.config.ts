@@ -2,7 +2,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig((env) => ({
   vite: {
-    base: env.command === "serve" ? "/" : "/mep/",
+    base: "/",
     resolve: {
       tsconfigPaths: true,
     },
