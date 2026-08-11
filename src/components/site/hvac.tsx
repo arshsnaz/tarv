@@ -91,7 +91,7 @@ export function Schedules() {
  <thead className="bg-surface-2">
  <tr className="text-left tracking-wider text-muted-foreground uppercase">
  {["Tag", "Type", "Capacity", "Level", "Status"].map((h) => (
- <th key={h} className="px-2 py-2 md:px-4 md:py-3 font-medium">
+ <th key={h} className="px-4 py-3 font-medium">
  {h}
  </th>
  ))}
@@ -100,12 +100,12 @@ export function Schedules() {
  <tbody>
  {scheduleRows.map((r) => (
  <tr key={r[0]} className="border-t border-border">
- <td className="px-2 py-2 md:px-4 md:py-3 font-mono font-semibold">{r[0]}</td>
- <td className="px-2 py-2 md:px-4 md:py-3 text-muted-foreground">{r[1]}</td>
- <td className="px-2 py-2 md:px-4 md:py-3 font-mono">{r[2]}</td>
- <td className="px-2 py-2 md:px-4 md:py-3 text-muted-foreground">{r[3]}</td>
- <td className="px-2 py-2 md:px-4 md:py-3">
- <span className="inline-flex items-center gap-1.5 bg-success/10 px-1.5 py-0.5 md:px-2 md:py-0.5 text-[9px] md:text-[10px] font-medium text-success">
+ <td className="px-4 py-3 font-mono font-semibold">{r[0]}</td>
+ <td className="px-4 py-3 text-muted-foreground">{r[1]}</td>
+ <td className="px-4 py-3 font-mono">{r[2]}</td>
+ <td className="px-4 py-3 text-muted-foreground">{r[3]}</td>
+ <td className="px-4 py-3">
+ <span className="inline-flex items-center gap-1.5 bg-success/10 px-2 py-0.5 text-[10px] font-medium text-success">
  <span className="size-1.5 bg-success" />
  {r[4]}
  </span>
