@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Check, Cpu, Plus } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const calculatorData = [
@@ -82,17 +82,9 @@ const calculatorData = [
 export function CalculatorSuite() {
   const [activeTab, setActiveTab] = useState(calculatorData[0].id);
   const data = calculatorData.find((d) => d.id === activeTab)!;
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = window.innerWidth > 768 ? 400 : 300;
-      scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
+  // Duplicate items for seamless marquee loop
+  const marqueeItems = [...data.calculators, ...data.calculators];
 
   return (
     <section className="py-28 md:py-32">
@@ -146,48 +138,47 @@ export function CalculatorSuite() {
             </div>
           </div>
 
+          {/* AI Marquee Section */}
           <div className="border-t border-border pt-10 mb-10 relative">
-            <div className="absolute right-0 top-4 flex items-center gap-2 z-10 hidden sm:flex">
-              <button 
-                onClick={() => scroll('left')}
-                className="grid size-10 place-items-center rounded-full border border-border bg-background transition-colors hover:bg-accent shadow-sm"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button 
-                onClick={() => scroll('right')}
-                className="grid size-10 place-items-center rounded-full border border-border bg-background transition-colors hover:bg-accent shadow-sm"
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
+            {/* Fade masks for the edges */}
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 md:w-48 bg-gradient-to-r from-card to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 md:w-48 bg-gradient-to-l from-card to-transparent" />
 
-            <div 
-              ref={scrollContainerRef}
-              className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 hide-scrollbar -mx-6 px-6 md:-mx-10 md:px-10"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {data.calculators.map((calc, i) => (
-                <div
-                  key={i}
-                  className="group relative flex min-w-[280px] md:min-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[2rem] border border-border bg-card p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-foreground/20"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-foreground/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
-                  
-                  <div className="flex items-start justify-between">
-                    <div className={`grid size-12 place-items-center rounded-2xl ${data.tagColor} transition-transform duration-500 group-hover:scale-110`}>
-                      <Plus size={24} />
+            <div className="overflow-hidden -mx-6 px-6 md:-mx-10 md:px-10">
+              {/* Marquee Track */}
+              <div className="flex w-max animate-marquee hover:[animation-play-state:paused] gap-6 pb-8 pt-4">
+                {marqueeItems.map((calc, i) => (
+                  <div
+                    key={`${calc}-${i}`}
+                    className="group relative flex min-w-[320px] md:min-w-[380px] shrink-0 flex-col justify-between overflow-hidden rounded-[2rem] glass p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-brand-soft/20 cursor-pointer"
+                  >
+                    {/* Tech Background Grid & Glows */}
+                    <div className="absolute inset-0 grid-bg opacity-30" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+                    <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-brand/10 blur-3xl transition-all duration-500 group-hover:bg-brand/20" />
+                    
+                    <div className="relative z-10 flex items-start justify-between">
+                      <div className={`grid size-12 place-items-center rounded-2xl glass-subtle shadow-lg transition-transform duration-500 group-hover:scale-110 ${data.tagColor}`}>
+                        <Cpu size={22} className="opacity-80" />
+                      </div>
+                      <div className="flex items-center justify-center size-8 rounded-full border border-border/50 bg-background/50 backdrop-blur-sm opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                        <ArrowRight size={14} className="text-foreground" />
+                      </div>
+                    </div>
+                    
+                    <div className="relative z-10 mt-16">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/50 px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase mb-4 text-muted-foreground">
+                        <div className={`size-1.5 rounded-full ${data.dotColor} animate-pulse`} />
+                        AI Ready
+                      </div>
+                      <h4 className="text-xl md:text-2xl font-bold tracking-tight mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                        {calc}
+                      </h4>
+                      <div className="h-0.5 w-12 bg-border transition-all duration-500 group-hover:w-full group-hover:bg-brand mt-4" />
                     </div>
                   </div>
-                  
-                  <div className="mt-14">
-                    <h4 className="text-xl md:text-2xl font-bold tracking-tight mb-3 group-hover:text-primary transition-colors duration-300">{calc}</h4>
-                    <button className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground group-hover:text-foreground transition-colors mt-4">
-                      Open calculator <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
