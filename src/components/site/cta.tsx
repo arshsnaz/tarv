@@ -20,34 +20,14 @@ export function Cta() {
               <p className="mt-6 max-w-md text-lg text-muted-foreground leading-relaxed">
                 Ready to streamline your workflow? Request access today and experience the power of TARV firsthand.
               </p>
-              <form
-                className="mt-10 flex w-full max-w-sm flex-col gap-3 sm:flex-row"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSent(true);
-                }}
-              >
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@firm.com"
-                  aria-label="Work email"
-                  className="w-full rounded-full border border-border/50 bg-background/50 px-5 py-3.5 text-sm text-foreground placeholder:text-muted-foreground outline-none backdrop-blur-md transition-all focus:border-brand focus:ring-1 focus:ring-brand sm:flex-1"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-all hover:-translate-y-1 hover:shadow-lg sm:w-auto"
+              <div className="mt-12">
+                <a
+                  href="/access"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-[0_0_40px_-10px_rgba(255,255,255,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.4)]"
                 >
-                  Request access <ArrowRight size={16} />
-                </button>
-              </form>
-              <p className="mt-4 text-xs font-medium text-brand">
-                {sent
-                  ? "Thanks — we'll be in touch shortly."
-                  : "Private beta · Onboarding select firms now"}
-              </p>
+                  Request access <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                </a>
+              </div>
             </div>
             
             {/* Subtle background glow for left panel */}

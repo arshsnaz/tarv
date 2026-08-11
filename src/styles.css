@@ -310,3 +310,5 @@
     transform: translateX(-50%);
   }
 }
+@ u t i l i t y   h i d e - s c r o l l b a r   {   s c r o l l b a r - w i d t h :   n o n e ;   & : : - w e b k i t - s c r o l l b a r   {   d i s p l a y :   n o n e ;   }   }  
+ 
