@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { useState, useRef } from "react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const calculatorData = [
@@ -82,6 +82,17 @@ const calculatorData = [
 export function CalculatorSuite() {
   const [activeTab, setActiveTab] = useState(calculatorData[0].id);
   const data = calculatorData.find((d) => d.id === activeTab)!;
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = window.innerWidth > 768 ? 400 : 300;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <section className="py-28 md:py-32">
@@ -135,16 +146,49 @@ export function CalculatorSuite() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-10 border-t border-border pt-10">
-            {data.calculators.map((calc, i) => (
-              <button
-                key={i}
-                className="group flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-lg"
+          <div className="border-t border-border pt-10 mb-10 relative">
+            <div className="absolute right-0 top-4 flex items-center gap-2 z-10 hidden sm:flex">
+              <button 
+                onClick={() => scroll('left')}
+                className="grid size-10 place-items-center rounded-full border border-border bg-background transition-colors hover:bg-accent shadow-sm"
               >
-                <span className="text-left text-muted-foreground group-hover:text-foreground transition-colors">{calc}</span>
-                <ArrowRight size={14} className="text-muted-foreground opacity-50 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
+                <ChevronLeft size={18} />
               </button>
-            ))}
+              <button 
+                onClick={() => scroll('right')}
+                className="grid size-10 place-items-center rounded-full border border-border bg-background transition-colors hover:bg-accent shadow-sm"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+
+            <div 
+              ref={scrollContainerRef}
+              className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 hide-scrollbar -mx-6 px-6 md:-mx-10 md:px-10"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {data.calculators.map((calc, i) => (
+                <div
+                  key={i}
+                  className="group relative flex min-w-[280px] md:min-w-[340px] shrink-0 snap-start flex-col justify-between overflow-hidden rounded-[2rem] border border-border bg-card p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-foreground/20"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-foreground/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+                  
+                  <div className="flex items-start justify-between">
+                    <div className={`grid size-12 place-items-center rounded-2xl ${data.tagColor} transition-transform duration-500 group-hover:scale-110`}>
+                      <Plus size={24} />
+                    </div>
+                  </div>
+                  
+                  <div className="mt-14">
+                    <h4 className="text-xl md:text-2xl font-bold tracking-tight mb-3 group-hover:text-primary transition-colors duration-300">{calc}</h4>
+                    <button className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground group-hover:text-foreground transition-colors mt-4">
+                      Open calculator <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-border pt-6">
