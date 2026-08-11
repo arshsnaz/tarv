@@ -99,7 +99,7 @@ export function CalculatorSuite() {
 
  <Reveal delay={100} className="mx-auto mt-12 max-w-6xl px-4 md:px-6">
  {/* Tabs */}
- <div className="mb-8 flex overflow-x-auto pb-4 pt-2 snap-x items-center gap-3 md:justify-center hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+ <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
  {calculatorData.map((tab) => (
  <button
  key={tab.id}
