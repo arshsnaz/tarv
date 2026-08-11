@@ -1,11 +1,7 @@
-import { useState } from "react";
 import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { Reveal } from "./reveal";
 
 export function Cta() {
-  const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
-
   return (
     <section id="cta" className="px-4 md:px-6 py-28 md:py-32">
       <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
