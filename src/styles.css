@@ -64,7 +64,7 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.19 0.03 264);
   --card: oklch(1 0 0);
@@ -207,108 +207,10 @@
   }
 }
 
-@utility glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-glass);
-}
 
-@utility glass-subtle {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid var(--border);
-}
-
-@utility shadow-soft {
-  box-shadow: var(--shadow-soft);
-}
-
-@utility shadow-glass {
-  box-shadow: var(--shadow-glass);
-}
-
-@utility grid-bg {
-  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 65%);
-  mask-image: radial-gradient(ellipse at center, black 25%, transparent 65%);
-}
-
-@utility halo {
-  background: var(--gradient-halo);
-}
-
-@utility panel-gradient {
-  background: var(--gradient-panel);
-}
-
-@utility gradient-text {
-  background: var(--gradient-headline);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-@utility text-balance {
-  text-wrap: balance;
-}
-
-@utility eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-}
-
-@utility shimmer-bg {
-  background: linear-gradient(110deg, transparent 30%, var(--brand-soft) 50%, transparent 70%);
-  background-size: 200% 100%;
-  animation: tarv-shimmer 3s linear infinite;
-}
-
-@utility animate-float {
-  animation: tarv-float 8s ease-in-out infinite;
-}
-
-@utility animate-marquee {
-  animation: tarv-marquee 30s linear infinite;
-}
-
-@keyframes tarv-shimmer {
-  to {
-    background-position: -200% 0;
+@utility hide-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
-
-@keyframes tarv-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translateY(-12px) rotate(0.5deg);
-  }
-}
-
-@keyframes tarv-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-@ u t i l i t y   h i d e - s c r o l l b a r   {   s c r o l l b a r - w i d t h :   n o n e ;   & : : - w e b k i t - s c r o l l b a r   {   d i s p l a y :   n o n e ;   }   }  
- 
