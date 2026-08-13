@@ -83,17 +83,13 @@ function AccessPage() {
     e.preventDefault();
     setStatus("submitting");
     setErrorMsg("");
-    const subject = encodeURIComponent(`Private Beta Access Request: ${form.name} (${form.company || "Individual"})`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nWork Email: ${form.email}\nCompany / Firm: ${form.company}\nCountry: ${form.country}\nTeam Size: ${form.companySize}\nPrimary System: ${form.system}\nNotes:\n${form.message}`
-    );
     try {
       await submitAccessRequest({ data: form });
-    } catch {
-      // Continue to client mailto
+      setStatus("success");
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     }
-    window.location.href = `mailto:admin@tarv.ai?subject=${subject}&body=${body}`;
-    setStatus("success");
   }
 
   return (
