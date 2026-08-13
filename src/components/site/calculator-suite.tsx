@@ -99,18 +99,18 @@ export function CalculatorSuite() {
 
       <Reveal delay={100} className="mx-auto mt-12 max-w-6xl px-4 md:px-6">
         {/* Tabs */}
-        <div className="mb-8 flex overflow-x-auto pb-4 pt-2 snap-x items-center gap-3 md:justify-center hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+        <div className="mb-8 flex overflow-x-auto pb-3 pt-1 snap-x snap-mandatory items-center gap-2 sm:gap-3 md:justify-center hide-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
           {calculatorData.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex shrink-0 snap-center items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
+              className={`flex shrink-0 snap-center items-center gap-2 rounded-full border px-4 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold transition-all duration-300 hover:shadow-lg ${
                 activeTab === tab.id
-                  ? "border-foreground bg-foreground text-background dark:border-white dark:bg-white dark:text-black shadow-xl"
-                  : "border-border/50 bg-card/50 text-muted-foreground backdrop-blur-sm hover:border-foreground/20 hover:text-foreground"
+                  ? "border-foreground bg-foreground text-background dark:border-white dark:bg-white dark:text-black shadow-xl scale-100 sm:scale-105"
+                  : "border-border/60 bg-card/60 text-muted-foreground backdrop-blur-sm hover:border-foreground/20 hover:text-foreground"
               }`}
             >
-              <span className={`size-2.5 rounded-full ${tab.dotColor} shadow-[0_0_10px_currentColor]`} />
+              <span className={`size-2 sm:size-2.5 rounded-full ${tab.dotColor} shadow-[0_0_8px_currentColor]`} />
               {tab.label}
             </button>
           ))}

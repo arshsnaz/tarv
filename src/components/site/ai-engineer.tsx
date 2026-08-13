@@ -150,7 +150,7 @@ export function AiEngineer() {
 
           {/* Dynamic Category Switcher */}
           <Reveal delay={100} className="mt-10">
-            <div className="inline-flex flex-wrap justify-center gap-3 rounded-full border border-white/10 dark:border-white/10 bg-background/60 p-2 backdrop-blur-xl shadow-xl">
+            <div className="mx-auto flex max-w-full overflow-x-auto hide-scrollbar gap-2 sm:gap-3 rounded-2xl sm:rounded-full border border-border/80 bg-card/80 p-1.5 sm:p-2 backdrop-blur-xl shadow-xl justify-start sm:justify-center -mx-2 px-2 sm:mx-0 sm:px-0">
               {(Object.keys(recommendationsData) as RecommendationCategory[]).map((catKey) => {
                 const cat = recommendationsData[catKey];
                 const Icon = cat.icon;
@@ -159,13 +159,13 @@ export function AiEngineer() {
                   <button
                     key={catKey}
                     onClick={() => setActiveCategory(catKey)}
-                    className={`flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 ${
+                    className={`flex shrink-0 items-center gap-2 rounded-xl sm:rounded-full px-3.5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold transition-all duration-300 ${
                       isActive
-                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-105"
+                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-100 sm:scale-105"
                         : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
                     }`}
                   >
-                    <Icon size={16} />
+                    <Icon size={14} className="sm:w-4 sm:h-4" />
                     {cat.label}
                   </button>
                 );
@@ -176,8 +176,8 @@ export function AiEngineer() {
 
         {/* 3D Video Showcase with HUD Overlay */}
         <Reveal delay={150} className="relative mt-16 z-10">
-          <div className="glass shadow-glass mx-auto max-w-6xl rounded-[2.5rem] p-3 md:p-5 transition-all duration-700 hover:shadow-brand-soft/20 border border-white/10 dark:border-white/10">
-            <div className="relative overflow-hidden rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl">
+          <div className="glass shadow-glass mx-auto max-w-6xl rounded-[1.5rem] sm:rounded-[2.5rem] p-2 sm:p-4 transition-all duration-700 hover:shadow-brand-soft/20 border border-white/10 dark:border-white/10">
+            <div className="relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl">
               <video 
                 src="/ref3.mp4"
                 autoPlay
@@ -188,8 +188,8 @@ export function AiEngineer() {
               />
 
               {/* Floating Real-Time HUD Badges */}
-              <div className="absolute top-4 left-4 md:top-6 md:left-6 flex flex-wrap gap-2 z-20">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-zinc-950/80 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md shadow-xl">
+              <div className="absolute top-2.5 left-2.5 sm:top-6 sm:left-6 flex flex-wrap gap-1.5 sm:gap-2 z-20">
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/20 bg-zinc-950/85 px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold text-white backdrop-blur-md shadow-xl">
                   <span className="relative flex size-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
@@ -203,22 +203,22 @@ export function AiEngineer() {
               </div>
 
               {/* Bottom Live Metrics Bar inside Video */}
-              <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/15 bg-zinc-950/85 px-6 py-4 backdrop-blur-xl text-white z-20">
-                <div className="flex items-center gap-4">
-                  <div className="grid size-10 place-items-center rounded-xl bg-brand/20 text-brand">
-                    <Activity size={20} />
+              <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-6 sm:left-6 sm:right-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 rounded-xl sm:rounded-2xl border border-white/15 bg-zinc-950/90 p-3 sm:px-6 sm:py-4 backdrop-blur-xl text-white z-20">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="grid size-8 sm:size-10 place-items-center rounded-lg sm:rounded-xl bg-brand/20 text-brand shrink-0">
+                    <Activity size={16} className="sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                    <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-zinc-400">
                       Live Solver Accuracy
                     </div>
-                    <div className="text-lg font-extrabold text-white">99.4% Mathematical Precision</div>
+                    <div className="text-xs sm:text-lg font-extrabold text-white">99.4% Mathematical Precision</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-zinc-300 font-medium">3 Optimization Moves Found</span>
-                  <div className="h-4 w-px bg-white/20" />
-                  <span className="text-xs font-bold text-emerald-400">Instant BIM Sync</span>
+                <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs border-t sm:border-t-0 border-white/10 pt-1.5 sm:pt-0 w-full sm:w-auto justify-between sm:justify-end">
+                  <span className="text-zinc-300 font-medium">3 Optimization Moves Found</span>
+                  <div className="h-3 w-px bg-white/20" />
+                  <span className="font-bold text-emerald-400">Instant BIM Sync</span>
                 </div>
               </div>
 
