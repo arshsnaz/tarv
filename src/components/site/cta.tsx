@@ -1,5 +1,6 @@
-import { ArrowRight, Mail, MapPin, ShieldCheck, Cpu, Zap } from "lucide-react";
+import { ArrowRight, Mail, MapPin, ShieldCheck, Cpu, Zap, Linkedin, Github, Youtube, Instagram } from "lucide-react";
 import { Reveal } from "./reveal";
+import { Link } from "@tanstack/react-router";
 
 const liveStats = [
   { label: "Calculations Run", value: "50,000+" },
@@ -35,12 +36,12 @@ export function Cta() {
 
               {/* Action Button */}
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <a
-                  href="/access"
+                <Link
+                  to="/access"
                   className="group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-105 hover:opacity-90"
                 >
                   Request access <ArrowRight size={18} className="transition-transform group-hover:translate-x-1.5" />
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -110,86 +111,125 @@ const footerCols = [
   {
     title: "Platform",
     links: [
-      { label: "Overview", href: "#platform" },
-      { label: "Smart HVAC", href: "#hvac" },
-      { label: "Schedules", href: "#schedules" },
-      { label: "AI engineer", href: "#ai" },
+      { label: "Overview", to: "/" },
+      { label: "Smart HVAC", to: "/" },
+      { label: "Schedules", to: "/" },
+      { label: "AI Solver", to: "/" },
+      { label: "Calculators", to: "/" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About", href: "#company" },
-      { label: "FAQ", href: "#faq" },
-      { label: "Careers", href: "#cta" },
-      { label: "Contact", href: "mailto:contact@tarv.ai" },
+      { label: "About Us", to: "/about" },
+      { label: "Knowledge Base & FAQ", to: "/#faq" },
+      { label: "Careers", to: "/careers" },
+      { label: "Contact Us", to: "/contact" },
+      { label: "Request Access", to: "/access" },
     ],
   },
   {
-    title: "Legal",
+    title: "Legal & Security",
     links: [
-      { label: "Privacy", href: "#" },
-      { label: "Terms", href: "#" },
-      { label: "Security", href: "#company" },
-      { label: "DPA", href: "#" },
-    ],
-  },
-  {
-    title: "Social",
-    links: [
-      { label: "LinkedIn", href: "#" },
-      { label: "Twitter (X)", href: "#" },
-      { label: "Instagram", href: "#" },
+      { label: "Privacy Policy", to: "/privacy" },
+      { label: "Terms of Service", to: "/terms" },
+      { label: "Security & Compliance", to: "/security" },
+      { label: "Data Addendum (DPA)", to: "/dpa" },
     ],
   },
 ];
 
+const socialLinks = [
+  { label: "LinkedIn", href: "https://linkedin.com", icon: Linkedin },
+  { label: "X (Twitter)", href: "https://x.com", icon: (props: any) => (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4 fill-current" {...props}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  ) },
+  { label: "GitHub", href: "https://github.com", icon: Github },
+  { label: "YouTube", href: "https://youtube.com", icon: Youtube },
+  { label: "Instagram", href: "https://instagram.com", icon: Instagram },
+];
+
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border px-4 md:px-6 py-14">
-      <div className="mx-auto grid max-w-6xl gap-8 sm:gap-10 grid-cols-2 md:grid-cols-[1.4fr_repeat(4,1fr)]">
-        <div className="col-span-2 md:col-span-1">
+    <footer className="border-t border-border px-4 md:px-6 py-16 bg-surface/40">
+      <div className="mx-auto grid max-w-6xl gap-10 grid-cols-1 md:grid-cols-[1.5fr_repeat(3,1fr)]">
+        
+        {/* Brand Column */}
+        <div>
           <div className="flex items-center gap-2">
             <img
               src="/favicon.png"
               alt="TARV logo"
               className="size-7 rounded-md object-contain dark:invert"
             />
-            <span className="font-display text-lg font-bold tracking-tight">TARV</span>
+            <span className="font-display text-xl font-bold tracking-tight">TARV</span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-            The AI-powered platform automating mechanical, electrical, and plumbing design
-            workflows.
+            The global AI-powered platform automating mechanical, electrical, and plumbing engineering workflows.
           </p>
-          <div className="mt-4 space-y-1.5 text-sm text-muted-foreground">
+          <div className="mt-5 space-y-2 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <MapPin size={14} /> Solapur, India
+              <MapPin size={15} className="text-brand shrink-0" /> Solapur, Maharashtra, India
             </div>
-            <a href="mailto:contact@tarv.ai" className="flex items-center gap-2 transition-all duration-300 hover:text-foreground">
-              <Mail size={14} /> contact@tarv.ai
+            <a href="mailto:contact@tarv.ai" className="flex items-center gap-2 transition-colors hover:text-foreground font-mono text-xs">
+              <Mail size={15} className="text-brand shrink-0" /> contact@tarv.ai
             </a>
+          </div>
+
+          {/* Social Icons Bar */}
+          <div className="mt-6 flex items-center gap-3">
+            {socialLinks.map((s) => {
+              const Icon = s.icon;
+              return (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="grid size-9 place-items-center rounded-full bg-surface border border-white/10 text-muted-foreground transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-sm"
+                >
+                  <Icon size={16} />
+                </a>
+              );
+            })}
           </div>
         </div>
 
+        {/* Dynamic Navigation Columns */}
         {footerCols.map((col) => (
           <div key={col.title}>
-            <div className="text-xs tracking-wider text-muted-foreground uppercase">
+            <div className="text-xs font-bold tracking-widest text-foreground uppercase">
               {col.title}
             </div>
-            <ul className="mt-4 space-y-2.5 text-sm">
+            <ul className="mt-4 space-y-3 text-sm">
               {col.links.map((l) => (
                 <li key={l.label}>
-                  <a href={l.href} className="text-muted-foreground transition-all duration-300 hover:text-foreground">
+                  <Link
+                    to={l.to}
+                    className="text-muted-foreground transition-colors hover:text-brand font-medium"
+                  >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
         ))}
       </div>
-      <div className="mx-auto mt-12 max-w-6xl border-t border-border pt-6 text-xs text-muted-foreground">
-        © {new Date().getFullYear()} TARV Engineering · Headquartered in Solapur, India · All rights reserved
+
+      <div className="mx-auto mt-16 max-w-6xl border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div>
+          © {new Date().getFullYear()} TARV Engineering · Headquartered in Solapur, India · All rights reserved.
+        </div>
+        <div className="flex items-center gap-6">
+          <Link to="/privacy" className="hover:text-foreground">Privacy</Link>
+          <Link to="/terms" className="hover:text-foreground">Terms</Link>
+          <Link to="/security" className="hover:text-foreground">Security</Link>
+          <Link to="/dpa" className="hover:text-foreground">DPA</Link>
+        </div>
       </div>
     </footer>
   );
