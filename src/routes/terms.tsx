@@ -75,7 +75,7 @@ function TermsPage() {
           <section>
             <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">5. Governing Law</h2>
             <p>
-              These Terms shall be governed by and construed in accordance with the laws of India, with jurisdiction in Solapur, Maharashtra, India.
+              These Terms shall be governed by and construed in accordance with the laws of the United Arab Emirates, with jurisdiction in Dubai, UAE.
             </p>
           </section>
         </div>

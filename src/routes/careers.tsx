@@ -22,28 +22,28 @@ const jobs = [
   {
     title: "Senior MEP AI Physics Engineer",
     dept: "Engineering Solvers",
-    location: "Solapur, India / Remote",
+    location: "Dubai, UAE / Remote",
     type: "Full-Time",
     desc: "Develop computational fluid dynamics (CFD) and thermal load calculation algorithms integrated with AI solvers.",
   },
   {
     title: "Computational BIM & Revit Plugin Developer",
     dept: "BIM Integration",
-    location: "Solapur, India / Remote",
+    location: "Dubai, UAE / Remote",
     type: "Full-Time",
     desc: "Build high-performance C# / Python Revit add-ins and IFC 2-way live parameter sync engines.",
   },
   {
     title: "Lead Frontend Engineer (React / TanStack / WebGL)",
     dept: "Product Design",
-    location: "Solapur, India / Remote",
+    location: "Dubai, UAE / Remote",
     type: "Full-Time",
     desc: "Craft high-motion, ultra-responsive engineering dashboards and interactive 3D model inspectors.",
   },
   {
     title: "Enterprise Solutions Engineer (MEP Domain Specialist)",
     dept: "Customer Success",
-    location: "Solapur, India / Dubai / Remote",
+    location: "Dubai, UAE / Remote",
     type: "Full-Time",
     desc: "Partner with global engineering firms to integrate TARV into major commercial and industrial projects.",
   },
@@ -65,7 +65,7 @@ function CareersPage() {
               Shape the Future of MEP Automation.
             </h1>
             <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-              We are building the AI co-pilot for global building engineers. Join us in Solapur, India or remotely to solve hard engineering problems.
+              We are building the AI co-pilot for global building engineers. Join us in Dubai, UAE or remotely to solve hard engineering problems.
             </p>
           </div>
         </Reveal>

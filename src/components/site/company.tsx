@@ -4,7 +4,7 @@ import { Reveal } from "./reveal";
 
 const facts = [
   { icon: Flag, label: "Funded", value: "2026" },
-  { icon: Building2, label: "Headquarters", value: "Solapur, India" },
+  { icon: Building2, label: "Headquarters", value: "Dubai, UAE" },
   { icon: Workflow, label: "Focus", value: "MEP design automation" },
   { icon: Users, label: "Model", value: "Engineer-led, AI-native" },
 ];
@@ -80,10 +80,10 @@ export function Company() {
           <Reveal>
             <div className="eyebrow">Company</div>
             <h2 className="text-balance mt-4 text-4xl font-bold tracking-tight md:text-5xl">
-              Built in Solapur, for engineers everywhere.
+              Built in Dubai, for engineers everywhere.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-              TARV was founded in Solapur, India by engineers who spent their careers
+              TARV was founded in Dubai, UAE by engineers who spent their careers
               redrawing the same ducts, risers, and schedules. We build the AI-powered platform that
               automates mechanical, electrical, and plumbing design workflows — so teams spend their
               hours on the decisions that matter.

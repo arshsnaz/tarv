@@ -11,7 +11,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "TARV was founded in Solapur, India by engineers who spent their careers redrawing ducts, risers, and schedules. We build AI-powered MEP design automation software for global engineers.",
+          "TARV was founded in Dubai, UAE by engineers who spent their careers redrawing ducts, risers, and schedules. We build AI-powered MEP design automation software for global engineers.",
       },
     ],
   }),
@@ -53,7 +53,7 @@ function AboutPage() {
               Building the Future of MEP Engineering.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              Headquartered in Solapur, India, TARV is dedicated to revolutionizing mechanical, electrical, and plumbing engineering workflows with physics-based AI automation.
+              Headquartered in Dubai, UAE, TARV is dedicated to revolutionizing mechanical, electrical, and plumbing engineering workflows with physics-based AI automation.
             </p>
           </div>
         </Reveal>
@@ -75,7 +75,7 @@ function AboutPage() {
           <Reveal delay={150}>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: "Headquarters", val: "Solapur, India", icon: Building2 },
+                { label: "Headquarters", val: "Dubai, UAE", icon: Building2 },
                 { label: "Funded", val: "2026", icon: Flag },
                 { label: "Calculations Run", val: "50,000+", icon: Workflow },
                 { label: "Code Accuracy", val: "99.4%", icon: ShieldCheck },

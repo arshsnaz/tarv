@@ -222,7 +222,7 @@ export function SiteFooter() {
 
       <div className="mx-auto mt-16 max-w-6xl border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
         <div>
-          © {new Date().getFullYear()} TARV Engineering · Headquartered in Solapur, India · All rights reserved.
+          © {new Date().getFullYear()} TARV Engineering · Headquartered in Dubai, UAE · All rights reserved.
         </div>
         <div className="flex items-center gap-6">
           <Link to="/privacy" className="hover:text-foreground">Privacy</Link>

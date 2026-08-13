@@ -11,7 +11,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Get in touch with TARV Engineering at Consistent Engineering Consultants, Solapur, India. Contact enterprise sales, technical support, or schedule a custom BIM demo.",
+          "Get in touch with TARV Engineering at API World Tower, Sheikh Zayed Rd, Dubai, UAE. Contact enterprise sales, technical support, or schedule a custom BIM demo.",
       },
     ],
   }),
@@ -111,7 +111,7 @@ function ContactPage() {
                 </div>
                 <h3 className="text-2xl font-bold">Message Received!</h3>
                 <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-                  Thank you for contacting TARV Engineering. An engineer from our Solapur office will get back to you shortly.
+                  Thank you for contacting TARV Engineering. An engineer from our Dubai office will get back to you shortly.
                 </p>
               </div>
             ) : (

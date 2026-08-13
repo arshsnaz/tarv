@@ -102,9 +102,9 @@ function RootShell({ children }: { children: ReactNode }) {
       name: "TARV Engineering",
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Solapur",
-        addressRegion: "Maharashtra",
-        addressCountry: "IN",
+        streetAddress: "API World Tower 403, Sheikh Zayed Rd",
+        addressLocality: "Dubai",
+        addressCountry: "AE",
       },
     },
   };
@@ -121,7 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         <meta
           name="keywords"
-          content="MEP Engineering Software, AI HVAC Calculator, Revit BIM Parameter Sync, Electrical Voltage Drop Calculation, Duct Static Pressure Solver, Solapur India MEP, ASHRAE Load Calculation"
+          content="MEP Engineering Software, AI HVAC Calculator, Revit BIM Parameter Sync, Electrical Voltage Drop Calculation, Duct Static Pressure Solver, Dubai UAE MEP, ASHRAE Load Calculation"
         />
         <meta name="author" content="TARV Engineering" />
         <meta property="og:site_name" content="TARV Engineering" />

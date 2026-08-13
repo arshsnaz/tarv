@@ -103,7 +103,7 @@ function PrivacyPage() {
             </p>
             <div className="mt-4 p-5 glass rounded-2xl border border-border">
               <p className="font-bold text-foreground">TARV Engineering — Privacy Office</p>
-              <p className="text-sm text-muted-foreground mt-1">Solapur, Maharashtra, India</p>
+              <p className="text-sm text-muted-foreground mt-1">API World Tower 403, Sheikh Zayed Rd, Dubai, UAE</p>
               <p className="text-sm text-brand mt-1 font-mono">admin@tarv.ai</p>
             </div>
           </section>
