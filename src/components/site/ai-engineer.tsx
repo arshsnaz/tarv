@@ -174,10 +174,12 @@ export function AiEngineer() {
           </Reveal>
         </div>
 
-        {/* 3D Video Showcase with HUD Overlay */}
-        <Reveal delay={150} className="relative mt-16 z-10">
-          <div className="glass shadow-glass mx-auto max-w-6xl rounded-[1.5rem] sm:rounded-[2.5rem] p-2 sm:p-4 transition-all duration-700 hover:shadow-brand-soft/20 border border-white/10 dark:border-white/10">
-            <div className="relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl">
+        {/* 3D Video Showcase with Dedicated Below-Video HUD Status Bar */}
+        <Reveal delay={150} className="relative mt-12 sm:mt-16 z-10">
+          <div className="glass shadow-glass mx-auto max-w-6xl rounded-[1.75rem] sm:rounded-[2.5rem] p-3 sm:p-5 transition-all duration-700 hover:shadow-brand-soft/20 border border-white/10 dark:border-white/10 space-y-3 sm:space-y-4">
+            
+            {/* 3D Model Video Display Container */}
+            <div className="relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl flex items-center justify-center">
               <video 
                 src="/ref3.mp4"
                 autoPlay
@@ -187,44 +189,50 @@ export function AiEngineer() {
                 className="w-full h-auto object-contain block"
               />
 
-              {/* Floating Real-Time HUD Badges */}
-              <div className="absolute top-2.5 left-2.5 sm:top-6 sm:left-6 flex flex-wrap gap-1.5 sm:gap-2 z-20">
-                <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/20 bg-zinc-950/85 px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold text-white backdrop-blur-md shadow-xl">
+              {/* Non-Intrusive Floating Top Status Badges */}
+              <div className="absolute top-3 left-3 sm:top-5 sm:left-5 flex items-center gap-2 z-20">
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-zinc-950/85 px-3 py-1.5 text-[10px] sm:text-xs font-semibold text-white backdrop-blur-md shadow-xl">
                   <span className="relative flex size-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
                   </span>
                   AI Audit Active
                 </div>
-                <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/15 bg-zinc-900/70 px-4 py-2 text-xs font-medium text-white/90 backdrop-blur-md">
+                <div className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-zinc-900/80 px-3.5 py-1.5 text-xs font-medium text-white/90 backdrop-blur-md">
                   <FileCheck size={14} className="text-brand" />
                   ASHRAE & IPC Auto-Verified
                 </div>
               </div>
 
-              {/* Bottom Live Metrics Bar inside Video */}
-              <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-6 sm:left-6 sm:right-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 rounded-xl sm:rounded-2xl border border-white/15 bg-zinc-950/90 p-3 sm:px-6 sm:py-4 backdrop-blur-xl text-white z-20">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="grid size-8 sm:size-10 place-items-center rounded-lg sm:rounded-xl bg-brand/20 text-brand shrink-0">
-                    <Activity size={16} className="sm:w-5 sm:h-5" />
-                  </div>
-                  <div>
-                    <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                      Live Solver Accuracy
-                    </div>
-                    <div className="text-xs sm:text-lg font-extrabold text-white">99.4% Mathematical Precision</div>
-                  </div>
+              {/* Subtle inner depth ring */}
+              <div className="pointer-events-none absolute inset-0 rounded-[1.25rem] sm:rounded-[2rem] ring-1 ring-inset ring-white/10" />
+            </div>
+
+            {/* Dedicated HUD Live Solver Bar (Sits cleanly below video with ZERO overlap!) */}
+            <div className="rounded-[1.25rem] sm:rounded-[1.5rem] border border-border bg-card/90 p-3.5 sm:px-6 sm:py-4 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="grid size-9 sm:size-11 place-items-center rounded-xl bg-brand/10 text-brand shrink-0">
+                  <Activity size={18} className="sm:w-5 sm:h-5" />
                 </div>
-                <div className="flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs border-t sm:border-t-0 border-white/10 pt-1.5 sm:pt-0 w-full sm:w-auto justify-between sm:justify-end">
-                  <span className="text-zinc-300 font-medium">3 Optimization Moves Found</span>
-                  <div className="h-3 w-px bg-white/20" />
-                  <span className="font-bold text-emerald-400">Instant BIM Sync</span>
+                <div>
+                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    Live Solver Accuracy
+                  </div>
+                  <div className="text-sm sm:text-lg font-extrabold text-foreground">
+                    99.4% Mathematical Precision
+                  </div>
                 </div>
               </div>
 
-              {/* Internal overlay ring for luxury depth */}
-              <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-border/60 pt-2.5 md:pt-0">
+                <span className="text-muted-foreground font-medium">3 Optimization Moves Found</span>
+                <div className="h-3.5 w-px bg-border hidden sm:block" />
+                <span className="font-bold text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                  Instant BIM Sync Active
+                </span>
+              </div>
             </div>
+
           </div>
         </Reveal>
 
