@@ -171,7 +171,7 @@ export function SiteFooter() {
           </p>
           <div className="mt-5 space-y-2 text-sm text-muted-foreground">
             <div className="flex items-start gap-2">
-              <MapPin size={15} className="text-brand shrink-0 mt-0.5" /> Consistent Engineering Consultants, Solapur, India
+              <MapPin size={15} className="text-brand shrink-0 mt-0.5" /> Consistent Engineering Consultants, Dubai, UAE
             </div>
             <a href="mailto:admin@tarv.ai" className="flex items-center gap-2 transition-colors hover:text-foreground font-mono text-xs">
               <Mail size={15} className="text-brand shrink-0" /> admin@tarv.ai

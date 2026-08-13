@@ -52,7 +52,7 @@ function ContactPage() {
               <h3 className="text-2xl font-bold flex items-center gap-2">
                 <Building2 size={22} className="text-brand" /> Global Headquarters
               </h3>
-              <p className="text-sm text-muted-foreground mt-1">Consistent Engineering Consultants · Solapur, India</p>
+              <p className="text-sm text-muted-foreground mt-1">Consistent Engineering Consultants · Dubai, UAE</p>
             </div>
             
             <div className="space-y-5 text-sm md:text-base">
@@ -62,7 +62,7 @@ function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-foreground">Official Office Address</h4>
-                  <p className="text-muted-foreground mt-0.5 text-sm">Consistent Engineering Consultants, Solapur, Maharashtra, India</p>
+                  <p className="text-muted-foreground mt-0.5 text-sm">Consistent Engineering Consultants, Dubai, United Arab Emirates</p>
                 </div>
               </div>
 
@@ -82,7 +82,7 @@ function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-foreground">Working Hours</h4>
-                  <p className="text-muted-foreground mt-0.5 text-sm">Monday – Friday: 10:00 AM – 7:00 PM IST</p>
+                  <p className="text-muted-foreground mt-0.5 text-sm">Monday – Friday: 10:00 AM – 7:00 PM GST</p>
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@ function ContactPage() {
             {/* Interactive Embedded Google Map */}
             <div className="overflow-hidden rounded-2xl border border-border shadow-lg">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.312134341196!2d75.90163027517065!3d17.635369583294732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5db0023a159d1%3A0x7fb08ec2d0959558!2sConsistent%20Engineering%20Consultants!5e0!3m2!1sen!2sin!4v1786618973982!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!4v1786619856604!6m8!1m7!1sw1r-YQ_mPUD2HDisvL7V1w!2m2!1d25.22561241959889!2d55.28367855174471!3f185.98!4f0!5f0.7820865974627469"
                 width="100%"
                 height="240"
                 style={{ border: 0 }}
