@@ -124,39 +124,39 @@ export function Hvac() {
   };
 
   return (
-    <section id="hvac" className="panel-gradient relative py-28 md:py-36 overflow-hidden">
+    <section id="hvac" className="panel-gradient relative py-20 sm:py-28 md:py-36 overflow-hidden scroll-mt-24 sm:scroll-mt-32">
       <div className="pointer-events-none absolute right-0 top-1/2 -z-10 h-[700px] w-[700px] -translate-y-1/2 rounded-full bg-brand-soft/10 blur-[150px]" />
 
       <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
           
           <Reveal className="lg:col-span-5">
-            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3.5 py-1.5 text-[11px] sm:text-xs font-mono font-bold text-brand uppercase tracking-wider max-w-full text-center">
+            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3.5 py-1.5 text-[10px] sm:text-xs font-mono font-bold text-brand uppercase tracking-wider max-w-full text-center leading-normal">
               <Wind size={14} className="text-brand animate-pulse shrink-0" />
-              <span>SMART HVAC & BUILDING PHYSICS ENGINE</span>
+              <span className="truncate sm:whitespace-normal">SMART HVAC & BUILDING PHYSICS ENGINE</span>
             </div>
 
-            <h2 className="text-balance mt-6 text-4xl font-extrabold tracking-tight md:text-6xl text-foreground">
+            <h2 className="text-balance mt-4 sm:mt-6 text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-foreground">
               Calculations that think ahead.
             </h2>
 
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-4 sm:mt-6 text-sm sm:text-lg leading-relaxed text-muted-foreground">
               Real-time heat load, airflow, and duct static pressure calculations powered by physics-based solver engines — continuously validated by AI against ASHRAE & IPC codes.
             </p>
 
-            <ul className="mt-8 space-y-4">
+            <ul className="mt-6 sm:mt-8 space-y-3 sm:space-y-4">
               {[
                 { title: "ASHRAE 62.1 & 90.1 Load Sizing", desc: "Instant sensible, latent, and outdoor fresh air load balancing." },
                 { title: "Automatic Duct Routing & Static Pressure", desc: "Equal friction & static regain method calculations in 2 seconds." },
                 { title: "Psychrometric & Airflow Simulation", desc: "Interactive coil performance curves and VAV airflow resets." },
               ].map((p) => (
-                <li key={p.title} className="flex items-start gap-3.5">
+                <li key={p.title} className="flex items-start gap-3 p-3 sm:p-0 rounded-2xl sm:rounded-none bg-surface/50 sm:bg-transparent border border-border/40 sm:border-0 transition-all">
                   <div className="grid size-6 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-md mt-0.5">
                     <Check size={14} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-foreground">{p.title}</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{p.desc}</p>
+                    <h4 className="text-xs sm:text-sm font-extrabold text-foreground">{p.title}</h4>
+                    <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5 leading-relaxed">{p.desc}</p>
                   </div>
                 </li>
               ))}
