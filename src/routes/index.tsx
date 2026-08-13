@@ -51,7 +51,7 @@ function Index() {
       <SiteNav />
       <main>
         <Hero />
-        <TrustedBy />
+        {/* <TrustedBy /> */}
         <Platform />
         <Hvac />
         <Schedules />
