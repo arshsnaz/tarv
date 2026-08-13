@@ -31,7 +31,7 @@ export function TrustedBy() {
 
 export function Platform() {
   return (
-    <section id="platform" className="relative py-20 sm:py-28 md:py-32 min-h-[100dvh] flex items-center overflow-hidden scroll-mt-24 sm:scroll-mt-32">
+    <section id="platform" className="relative py-28 md:py-32 min-h-[100dvh] flex items-center overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 w-full">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
           

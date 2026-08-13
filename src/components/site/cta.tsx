@@ -14,20 +14,20 @@ export function Cta() {
       {/* Background ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-soft/15 blur-[150px]" />
 
-      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
+      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         
         {/* Left Panel - Pitch, Trust Ticker & CTA */}
         <Reveal>
-          <div className="glass relative flex h-full min-h-0 md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[1.75rem] sm:rounded-[2.5rem] bg-card/85 p-6 sm:p-8 md:p-14 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
+          <div className="glass relative flex h-full flex-col justify-between overflow-hidden rounded-[1.75rem] sm:rounded-[2.5rem] bg-card/85 p-5 sm:p-8 md:p-14 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
             <div className="relative z-10">
               {/* Trust Badge Ribbon */}
               <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3.5 py-1.5 text-[11px] sm:text-xs font-bold text-brand backdrop-blur-md">
-                <ShieldCheck size={14} className="shrink-0" />
+                <ShieldCheck size={14} />
                 <span>Enterprise SLA & Bank-Grade Security</span>
               </div>
 
               {/* Bold Pitch */}
-              <h2 className="mt-6 sm:mt-8 text-3xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-card-foreground leading-[1.1]">
+              <h2 className="mt-6 sm:mt-8 text-2xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-card-foreground leading-[1.1]">
                 Engineer <br className="hidden sm:inline" />
                 <span className="text-foreground font-black">what's next.</span>
               </h2>
@@ -42,24 +42,24 @@ export function Cta() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                 <Link
                   to="/access"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 sm:px-8 sm:py-4 text-sm font-extrabold text-primary-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-primary/30 w-full sm:w-auto"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-extrabold text-primary-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-primary/30"
                 >
                   <span>Get Started Now</span>
-                  <ArrowRight size={16} />
+                  <ArrowRight size={15} />
                 </Link>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card/60 px-5 py-3.5 sm:px-6 sm:py-4 text-sm font-bold text-foreground backdrop-blur-md transition-all duration-300 hover:bg-accent hover:border-foreground/20 w-full sm:w-auto"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card/60 px-5 sm:px-6 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-foreground backdrop-blur-md transition-all duration-300 hover:bg-accent hover:border-foreground/20"
                 >
                   <span>Book Enterprise Demo</span>
                 </Link>
               </div>
 
               {/* Real-time Stats Grid */}
-              <div className="grid grid-cols-3 gap-2 border-t border-border pt-5 sm:pt-6">
+              <div className="grid grid-cols-3 gap-2 border-t border-border/80 pt-4 sm:pt-6">
                 {liveStats.map((st) => (
                   <div key={st.label}>
-                    <div className="text-base sm:text-xl font-extrabold text-foreground">{st.value}</div>
+                    <div className="text-sm sm:text-xl font-extrabold text-foreground">{st.value}</div>
                     <div className="text-[9px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider mt-0.5">{st.label}</div>
                   </div>
                 ))}
@@ -67,48 +67,51 @@ export function Cta() {
             </div>
 
             {/* Background Aesthetic Watermark */}
-            <div className="pointer-events-none absolute -bottom-10 -right-10 opacity-5 text-foreground hidden sm:block">
+            <div className="pointer-events-none absolute -bottom-10 -right-10 opacity-5 text-foreground">
               <Cpu size={320} />
             </div>
           </div>
         </Reveal>
 
-        {/* Right Panel - Moving Video Showcase Card */}
+        {/* Right Panel - Moving Video Showcase with Dedicated HUD Status Footer */}
         <Reveal delay={150}>
-          <div className="glass relative flex h-full min-h-0 md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[1.75rem] sm:rounded-[2.5rem] bg-card/85 p-3.5 sm:p-5 md:p-6 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
+          <div className="glass shadow-glass relative flex flex-col justify-between overflow-hidden rounded-[1.75rem] sm:rounded-[2.5rem] border border-white/10 dark:border-white/10 p-3 sm:p-5 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20 space-y-3 sm:space-y-4">
             
-            {/* Top Video Frame Box */}
-            <div className="relative flex-1 min-h-[240px] sm:min-h-[300px] overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl flex items-center justify-center group">
+            {/* 3D Video Container */}
+            <div className="relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl flex items-center justify-center">
               <video 
                 src="/ref4.mp4"
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-auto object-contain block"
               />
-              
+
+              {/* Dark Gradient Overlay for Contrast */}
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent pointer-events-none" />
+
               {/* Floating Top Badge */}
               <div className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20">
-                <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/20 bg-zinc-950/85 px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold text-white backdrop-blur-md shadow-xl">
-                  <Zap size={13} className="text-brand animate-pulse shrink-0" />
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-zinc-950/85 px-3 py-1.5 text-[10px] sm:text-xs font-semibold text-white backdrop-blur-md shadow-xl">
+                  <Zap size={13} className="text-brand animate-pulse" />
                   <span>Real-Time BIM Automation Engine</span>
                 </div>
               </div>
 
-              {/* Inner ring for luxury depth */}
-              <div className="pointer-events-none absolute inset-0 rounded-[1.25rem] sm:rounded-[2rem] ring-1 ring-inset ring-white/15" />
+              {/* Inner ring for luxury feel */}
+              <div className="pointer-events-none absolute inset-0 rounded-[1.25rem] sm:rounded-[2rem] ring-1 ring-inset ring-white/10" />
             </div>
 
-            {/* Bottom Status Card Box */}
-            <div className="mt-3.5 sm:mt-4 rounded-xl sm:rounded-2xl border border-white/15 bg-zinc-950/90 p-3.5 sm:p-5 backdrop-blur-xl text-white">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="grid size-9 sm:size-10 place-items-center rounded-xl bg-brand/20 text-brand shrink-0">
+            {/* Integrated Below-Video Info Card */}
+            <div className="rounded-[1.25rem] sm:rounded-[1.5rem] border border-border bg-card/90 p-3.5 sm:p-4 shadow-xl backdrop-blur-xl">
+              <div className="flex items-center gap-3.5">
+                <div className="grid size-9 sm:size-10 place-items-center rounded-xl bg-brand/10 text-brand shrink-0">
                   <Cpu size={18} className="sm:w-5 sm:h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-base font-bold text-white">Instant BIM Parameter Sync</h4>
-                  <p className="text-[11px] sm:text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                  <h4 className="text-xs sm:text-base font-bold text-foreground">Instant BIM Parameter Sync</h4>
+                  <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5 leading-tight">
                     Calculated parameters push back to Revit families in 2 seconds.
                   </p>
                 </div>
