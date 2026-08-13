@@ -84,7 +84,7 @@ export function CalculatorSuite() {
   const data = calculatorData.find((d) => d.id === activeTab)!;
 
   return (
-    <section className="py-28 md:py-32">
+    <section id="calculators" className="py-28 md:py-32">
       <div className="mx-auto max-w-4xl px-4 md:px-6 text-center">
         <Reveal>
           <div className="eyebrow">The calculator suite</div>

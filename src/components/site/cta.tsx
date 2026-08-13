@@ -1,6 +1,6 @@
 import { ArrowRight, Mail, MapPin, ShieldCheck, Cpu, Zap, Linkedin, Github, Youtube, Instagram } from "lucide-react";
 import { Reveal } from "./reveal";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 
 const liveStats = [
   { label: "Calculations Run", value: "50,000+" },
@@ -23,78 +23,104 @@ export function Cta() {
               {/* Trust Badge Ribbon */}
               <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-4 py-1.5 text-xs font-bold text-brand backdrop-blur-md">
                 <ShieldCheck size={15} />
-                ENTERPRISE-GRADE MEP PLATFORM
+                <span>Enterprise SLA & Bank-Grade Security</span>
               </div>
 
-              <h2 className="text-balance mt-6 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl text-foreground">
-                Engineer what's <br className="hidden md:block" /> next.
+              {/* Bold Pitch */}
+              <h2 className="mt-8 text-3xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-card-foreground leading-[1.1]">
+                Engineer <br className="hidden sm:inline" />
+                <span className="text-foreground font-black">what's next.</span>
               </h2>
 
-              <p className="mt-6 max-w-lg text-base md:text-lg text-muted-foreground leading-relaxed">
-                Ready to streamline your MEP workflow? Join leading engineering teams automating HVAC, electrical, and plumbing calculations with total audit confidence.
+              <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-muted-foreground">
+                Automate your MEP calculation workflows today with AI accuracy. Join engineering teams delivering projects 10x faster with 100% ASHRAE & IPC code compliance.
               </p>
+            </div>
 
-              {/* Action Button */}
-              <div className="mt-10 flex flex-wrap items-center gap-4">
+            {/* Bottom Actions & Live Stats Ticker */}
+            <div className="relative z-10 mt-10 space-y-8">
+              <div className="flex flex-wrap items-center gap-4">
                 <Link
                   to="/access"
-                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-105 hover:opacity-90"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-extrabold text-primary-foreground shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-primary/30"
                 >
-                  Request access <ArrowRight size={18} className="transition-transform group-hover:translate-x-1.5" />
+                  <span>Get Started Now</span>
+                  <ArrowRight size={16} />
                 </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card/60 px-6 py-4 text-sm font-bold text-foreground backdrop-blur-md transition-all duration-300 hover:bg-accent hover:border-foreground/20"
+                >
+                  <span>Book Enterprise Demo</span>
+                </Link>
+              </div>
+
+              {/* Real-time Stats Grid */}
+              <div className="grid grid-cols-3 gap-2 border-t border-border pt-6">
+                {liveStats.map((st) => (
+                  <div key={st.label}>
+                    <div className="text-lg md:text-xl font-extrabold text-foreground">{st.value}</div>
+                    <div className="text-[10px] md:text-xs font-medium text-muted-foreground uppercase tracking-wider mt-0.5">{st.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Live Trust Metrics Footer Inside Panel */}
-            <div className="relative z-10 mt-12 pt-8 border-t border-border/80 grid grid-cols-3 gap-3">
-              {liveStats.map((st) => (
-                <div key={st.label}>
-                  <div className="font-display text-xl md:text-2xl font-extrabold text-foreground tracking-tight">{st.value}</div>
-                  <div className="text-[11px] font-semibold text-muted-foreground mt-0.5">{st.label}</div>
-                </div>
-              ))}
+            {/* Background Aesthetic Watermark */}
+            <div className="pointer-events-none absolute -bottom-10 -right-10 opacity-5 text-foreground">
+              <Cpu size={320} />
             </div>
-
-            {/* Subtle background glow for left panel */}
-            <div className="pointer-events-none absolute -bottom-32 -left-32 size-[400px] rounded-full bg-brand-soft/20 blur-[120px]" />
           </div>
         </Reveal>
 
-        {/* Right Panel - Moving Full-Bleed Video with Overlay */}
+        {/* Right Panel - Interactive Revit Add-in Feature Showcase */}
         <Reveal delay={150}>
-          <div className="glass relative h-full min-h-[500px] md:min-h-[620px] overflow-hidden rounded-[2.5rem] border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20 group">
-            {/* Background Looping Video */}
-            <video 
-              src="/ref4.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 h-full w-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-105"
-            />
-            
-            {/* Dark Gradient Overlay for Contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent" />
+          <div className="glass relative flex h-full min-h-[500px] md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-zinc-950 p-8 md:p-14 border border-white/10 text-white shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-mono font-bold text-brand-soft backdrop-blur-md">
+                <Zap size={14} className="animate-pulse text-brand" />
+                <span>NATIVE REVIT & AUTOCAD PLUGIN</span>
+              </div>
 
-            {/* Floating Top Badge */}
-            <div className="absolute top-6 left-6 z-20">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-zinc-950/80 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md shadow-xl">
-                <Zap size={14} className="text-brand animate-pulse" />
-                Real-Time BIM Automation Engine
+              <h3 className="mt-8 text-2xl font-bold md:text-4xl tracking-tight text-white leading-tight">
+                Direct 2-Way Sync With Your BIM Models.
+              </h3>
+
+              <p className="mt-4 text-sm md:text-base leading-relaxed text-zinc-400">
+                No manual CSV exports or retyping tags. TARV plugs directly into Autodesk Revit, dynamically reading duct geometries, electrical panel loads, and fixture units in real time.
+              </p>
+            </div>
+
+            {/* Simulated Live BIM Parameter Feed */}
+            <div className="my-8 rounded-2xl border border-white/10 bg-zinc-900/80 p-5 space-y-3 font-mono text-xs text-zinc-300 shadow-inner">
+              <div className="flex items-center justify-between border-b border-white/10 pb-2.5 text-zinc-400 font-bold uppercase tracking-wider text-[10px]">
+                <span>Revit Element ID</span>
+                <span>Calculated Parameter</span>
+                <span>Status</span>
+              </div>
+              <div className="flex items-center justify-between text-emerald-400">
+                <span>VAV-L4-01 (ID: 849201)</span>
+                <span>CFM: 1,450 (Airflow)</span>
+                <span className="text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded font-sans font-bold">LIVE SYNCED</span>
+              </div>
+              <div className="flex items-center justify-between text-blue-400">
+                <span>EF-BS-02 (ID: 902144)</span>
+                <span>Static Press: 1.8 in.wg</span>
+                <span className="text-[10px] bg-blue-500/20 px-2 py-0.5 rounded font-sans font-bold">AUTO SIZED</span>
+              </div>
+              <div className="flex items-center justify-between text-yellow-400">
+                <span>MDB-MAIN (ID: 104829)</span>
+                <span>VD: 1.84% (NEC Pass)</span>
+                <span className="text-[10px] bg-yellow-500/20 px-2 py-0.5 rounded font-sans font-bold">VERIFIED</span>
               </div>
             </div>
 
-            {/* Floating Bottom Card on Video */}
-            <div className="absolute bottom-6 left-6 right-6 z-20 rounded-2xl border border-white/15 bg-zinc-950/85 p-6 backdrop-blur-xl text-white">
-              <div className="flex items-center gap-3">
-                <div className="grid size-10 place-items-center rounded-xl bg-brand/20 text-brand">
-                  <Cpu size={20} />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-white">Instant BIM Parameter Sync</h4>
-                  <p className="text-xs text-zinc-400 mt-0.5">Calculated parameters push back to Revit families in 2 seconds.</p>
-                </div>
+            <div className="flex items-center justify-between text-xs text-zinc-400 border-t border-white/10 pt-6">
+              <div className="flex items-center gap-2">
+                <div className="size-2 rounded-full bg-emerald-500 animate-ping" />
+                <span className="font-bold text-white">Continuous Background Auditor</span>
               </div>
+              <span className="font-mono text-[11px]">v2.4 Live Sync Active</span>
             </div>
 
             {/* Inner ring for luxury feel */}
@@ -111,18 +137,18 @@ const footerCols = [
   {
     title: "Platform",
     links: [
-      { label: "Overview", to: "/" },
-      { label: "Smart HVAC", to: "/" },
-      { label: "Schedules", to: "/" },
-      { label: "AI Solver", to: "/" },
-      { label: "Calculators", to: "/" },
+      { label: "Overview", to: "/#platform" },
+      { label: "Smart HVAC", to: "/#hvac" },
+      { label: "Schedules", to: "/#schedules" },
+      { label: "AI Solver", to: "/#ai" },
+      { label: "Calculators", to: "/#calculators" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "About Us", to: "/about" },
-      { label: "Knowledge Base & FAQ", to: "/#faq" },
+      { label: "Knowledge Base & FAQ", to: "/#company" },
       { label: "Careers", to: "/careers" },
       { label: "Contact Us", to: "/contact" },
       { label: "Request Access", to: "/access" },
@@ -152,6 +178,28 @@ const socialLinks = [
 ];
 
 export function SiteFooter() {
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  function handleLinkClick(e: React.MouseEvent, targetTo: string) {
+    if (targetTo.includes("#")) {
+      e.preventDefault();
+      const [path, hash] = targetTo.split("#");
+      const targetPath = path || "/";
+      
+      if (pathname === targetPath || (pathname === "/" && targetPath === "/")) {
+        const el = document.getElementById(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      } else {
+        navigate({ to: targetPath as any, hash });
+      }
+    }
+  }
+
   return (
     <footer className="border-t border-border px-4 md:px-6 py-16 bg-surface/40">
       <div className="mx-auto grid max-w-6xl gap-10 grid-cols-1 md:grid-cols-[1.5fr_repeat(3,1fr)]">
@@ -209,6 +257,7 @@ export function SiteFooter() {
                 <li key={l.label}>
                   <Link
                     to={l.to}
+                    onClick={(e) => handleLinkClick(e, l.to)}
                     className="text-muted-foreground transition-colors hover:text-brand font-medium"
                   >
                     {l.label}
