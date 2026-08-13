@@ -86,7 +86,7 @@ function CareersPage() {
                   <p className="mt-2 text-sm text-muted-foreground">{j.desc}</p>
                 </div>
                 <a
-                  href="mailto:careers@tarv.ai"
+                  href="mailto:admin@tarv.ai"
                   className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-xs font-bold text-primary-foreground shadow hover:opacity-90 transition-all shrink-0"
                 >
                   Apply Now <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

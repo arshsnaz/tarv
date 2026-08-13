@@ -257,12 +257,12 @@ export function Hvac() {
                 </div>
               </div>
 
-              <div className="mt-5 rounded-2xl bg-primary p-4 text-xs leading-relaxed text-primary-foreground flex items-start gap-3 shadow-lg">
-                <Zap size={18} className="shrink-0 text-brand mt-0.5 animate-bounce" />
+              <div className="mt-5 rounded-2xl bg-gradient-to-r from-brand to-primary p-5 text-white shadow-xl border border-white/20 flex items-start gap-3">
+                <Zap size={20} className="shrink-0 text-amber-300 mt-0.5 animate-pulse" />
                 <div>
-                  <div className="font-bold text-sm">TARV AI Optimization Insight:</div>
-                  <div className="mt-1 opacity-90">{baseZone.recommendation}</div>
-                  <div className="mt-2 inline-flex items-center gap-1 font-extrabold text-brand bg-white/10 px-2.5 py-1 rounded-full text-[11px]">
+                  <div className="font-extrabold text-sm text-white flex items-center gap-1.5">TARV AI Optimization Insight:</div>
+                  <div className="mt-1.5 text-xs text-white/95 leading-relaxed font-medium">{baseZone.recommendation}</div>
+                  <div className="mt-3 inline-flex items-center gap-1.5 font-bold text-emerald-300 bg-black/40 border border-emerald-400/40 px-3 py-1.5 rounded-full text-xs shadow-sm">
                     Impact: {baseZone.savings}
                   </div>
                 </div>

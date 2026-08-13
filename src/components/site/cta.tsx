@@ -173,8 +173,8 @@ export function SiteFooter() {
             <div className="flex items-center gap-2">
               <MapPin size={15} className="text-brand shrink-0" /> Solapur, Maharashtra, India
             </div>
-            <a href="mailto:contact@tarv.ai" className="flex items-center gap-2 transition-colors hover:text-foreground font-mono text-xs">
-              <Mail size={15} className="text-brand shrink-0" /> contact@tarv.ai
+            <a href="mailto:admin@tarv.ai" className="flex items-center gap-2 transition-colors hover:text-foreground font-mono text-xs">
+              <Mail size={15} className="text-brand shrink-0" /> admin@tarv.ai
             </a>
           </div>
 

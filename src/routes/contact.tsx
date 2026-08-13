@@ -66,9 +66,8 @@ function ContactPage() {
                   <Mail size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground">Direct Emails</h4>
-                  <p className="text-muted-foreground mt-0.5">Sales & Access: <a href="mailto:contact@tarv.ai" className="text-brand font-mono">contact@tarv.ai</a></p>
-                  <p className="text-muted-foreground">Technical Support: <a href="mailto:support@tarv.ai" className="text-brand font-mono">support@tarv.ai</a></p>
+                  <h4 className="font-bold text-foreground">Official Direct Email</h4>
+                  <p className="text-muted-foreground mt-0.5">Primary Contact & Sales: <a href="mailto:admin@tarv.ai" className="text-brand font-mono">admin@tarv.ai</a></p>
                 </div>
               </div>
 

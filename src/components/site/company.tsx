@@ -174,7 +174,7 @@ export function Faq() {
                 placeholder="Search engineering questions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-full border border-white/10 dark:border-white/10 bg-background/60 backdrop-blur-md py-3 pl-11 pr-4 text-sm outline-none transition-all focus:border-brand focus:ring-2 focus:ring-brand/20"
+                className="w-full rounded-full border border-border bg-card shadow-sm py-3 pl-11 pr-4 text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-brand focus:ring-2 focus:ring-brand/30"
               />
             </div>
 
@@ -184,10 +184,10 @@ export function Faq() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 ${
+                  className={`rounded-full px-4 py-2.5 text-xs font-bold transition-all duration-300 cursor-pointer ${
                     selectedCategory === cat
-                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                      : "bg-surface/80 text-muted-foreground hover:bg-accent hover:text-foreground border border-white/5"
+                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25 scale-105"
+                      : "bg-card text-muted-foreground hover:bg-accent hover:text-foreground border border-border"
                   }`}
                 >
                   {cat}
