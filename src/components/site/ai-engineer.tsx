@@ -184,7 +184,7 @@ export function AiEngineer() {
                 loop
                 muted
                 playsInline
-                className="w-full object-cover scale-[1.01]"
+                className="w-full h-auto object-contain block"
               />
 
               {/* Floating Real-Time HUD Badges */}

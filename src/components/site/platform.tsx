@@ -58,15 +58,15 @@ export function Platform() {
             {/* Ambient glow behind the video */}
             <div className="absolute inset-0 -z-10 bg-brand-soft/20 blur-[100px]" />
             
-            <div className="glass shadow-glass rounded-[2rem] p-3 transition-all duration-500 hover:shadow-brand-soft/20">
-              <div className="relative overflow-hidden rounded-[1.5rem] bg-zinc-950 border border-white/10 dark:border-white/5">
+            <div className="glass shadow-glass rounded-[2rem] p-2.5 sm:p-3 transition-all duration-500 hover:shadow-brand-soft/20 border border-border">
+              <div className="relative overflow-hidden rounded-[1.5rem] bg-zinc-950 border border-white/10 dark:border-white/5 flex items-center justify-center">
                 <video 
                   src="/ref2.mp4"
                   autoPlay
                   loop
                   muted
                   playsInline
-                  className="w-full object-cover scale-[1.02]"
+                  className="w-full h-auto object-contain block rounded-[1.25rem]"
                 />
               </div>
             </div>
