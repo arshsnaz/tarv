@@ -311,31 +311,32 @@ export function Schedules() {
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         
         {/* Section Header */}
-        <div className="mx-auto max-w-3xl text-center mb-16">
+        <div className="mx-auto max-w-3xl text-center mb-12 sm:mb-16">
           <Reveal>
             <div className="eyebrow inline-flex items-center gap-2">
               <FileSpreadsheet size={15} className="text-brand" />
               AUTOMATED BIM SCHEDULE & TAKEOFF STUDIO
             </div>
-            <h2 className="text-balance mt-4 text-4xl font-extrabold tracking-tight md:text-6xl text-foreground">
+            <h2 className="text-balance mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight md:text-6xl text-foreground">
               Equipment schedules, generated.
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-4 text-sm sm:text-lg text-muted-foreground leading-relaxed">
               From single-line diagrams to complete, code-verified equipment schedules in seconds. Bi-directionally synced with Revit 2025, BIM 360, and your master spec library.
             </p>
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
           
           {/* Left Column: Interactive Multi-Discipline Live Revit Table */}
           <Reveal className="lg:col-span-7">
-            <div className="glass overflow-hidden rounded-[2.5rem] border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
+            <div className="glass overflow-hidden rounded-[1.5rem] sm:rounded-[2.5rem] border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
               
               {/* Discipline Switcher & Search Bar */}
-              <div className="p-5 bg-surface/60 border-b border-border/80 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
+              <div className="p-3.5 sm:p-5 bg-surface/60 border-b border-border/80 space-y-3 sm:space-y-4">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                  {/* Discipline Switcher Pills - Horizontal Touch Scrollable */}
+                  <div className="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory items-center gap-1.5 pb-1 sm:pb-0 w-full sm:w-auto">
                     {(Object.keys(scheduleData) as ScheduleDiscipline[]).map((dKey) => {
                       const disc = scheduleData[dKey];
                       const isActive = activeDiscipline === dKey;
@@ -346,7 +347,7 @@ export function Schedules() {
                             setActiveDiscipline(dKey);
                             setSelectedTag(scheduleData[dKey].rows[0].tag);
                           }}
-                          className={`rounded-full px-4 py-2 text-xs font-bold transition-all duration-300 ${
+                          className={`shrink-0 snap-center rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-bold transition-all duration-300 ${
                             isActive
                               ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105"
                               : "bg-surface text-muted-foreground hover:bg-accent hover:text-foreground border border-white/5"
@@ -361,7 +362,7 @@ export function Schedules() {
                   <button
                     onClick={triggerRevitSync}
                     disabled={isSyncing}
-                    className="inline-flex items-center gap-2 rounded-full bg-brand/10 border border-brand/20 px-4 py-2 text-xs font-mono font-bold text-brand hover:bg-brand/20 transition-all cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand/10 border border-brand/20 px-3.5 py-2 text-xs font-mono font-bold text-brand hover:bg-brand/20 transition-all cursor-pointer shrink-0"
                   >
                     <RefreshCw size={13} className={isSyncing ? "animate-spin text-brand" : ""} />
                     {isSyncing ? "Syncing Revit..." : syncSuccess ? "14 Parameters Pushed ✓" : "Push to Revit"}
@@ -370,10 +371,10 @@ export function Schedules() {
 
                 {/* Filter Input */}
                 <div className="relative">
-                  <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="text"
-                    placeholder="Search equipment tag, type, or manufacturer..."
+                    placeholder="Search equipment tag, type..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full rounded-full border border-white/10 bg-background/80 py-2.5 pl-10 pr-4 text-xs font-medium outline-none transition-all focus:border-brand"
@@ -381,13 +382,19 @@ export function Schedules() {
                 </div>
               </div>
 
+              {/* Mobile Table Swipe Hint */}
+              <div className="flex sm:hidden items-center justify-between text-[10px] text-muted-foreground px-4 py-1.5 bg-surface-2/80 border-b border-border/40 font-mono">
+                <span>EQUIPMENT SCHEDULE</span>
+                <span className="text-brand font-bold">Scroll table right →</span>
+              </div>
+
               {/* Table */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs">
+              <div className="overflow-x-auto hide-scrollbar">
+                <table className="w-full text-xs min-w-[540px] sm:min-w-full">
                   <thead className="bg-surface-2/80">
-                    <tr className="text-left tracking-wider text-muted-foreground uppercase font-bold">
+                    <tr className="text-left tracking-wider text-muted-foreground uppercase font-bold text-[10px] sm:text-xs">
                       {["Tag", "Equipment Type", "Capacity / Rating", "Duty Point", "Level", "Sync Status"].map((h) => (
-                        <th key={h} className="px-5 py-3.5">
+                        <th key={h} className="px-3.5 sm:px-5 py-3">
                           {h}
                         </th>
                       ))}
@@ -405,13 +412,13 @@ export function Schedules() {
                               isSelected ? "bg-brand/15 dark:bg-brand/20 border-l-4 border-l-brand" : "hover:bg-accent/40"
                             }`}
                           >
-                            <td className="px-5 py-4 font-mono font-extrabold text-foreground">{r.tag}</td>
-                            <td className="px-5 py-4 text-muted-foreground font-medium">{r.type}</td>
-                            <td className="px-5 py-4 font-mono font-bold text-brand">{r.capacity}</td>
-                            <td className="px-5 py-4 font-mono text-muted-foreground">{r.dutyPoint}</td>
-                            <td className="px-5 py-4 text-muted-foreground">{r.level}</td>
-                            <td className="px-5 py-4">
-                              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[10px] font-bold text-emerald-500 border border-emerald-500/20">
+                            <td className="px-3.5 sm:px-5 py-3 font-mono font-extrabold text-foreground">{r.tag}</td>
+                            <td className="px-3.5 sm:px-5 py-3 text-muted-foreground font-medium">{r.type}</td>
+                            <td className="px-3.5 sm:px-5 py-3 font-mono font-bold text-brand">{r.capacity}</td>
+                            <td className="px-3.5 sm:px-5 py-3 font-mono text-muted-foreground">{r.dutyPoint}</td>
+                            <td className="px-3.5 sm:px-5 py-3 text-muted-foreground">{r.level}</td>
+                            <td className="px-3.5 sm:px-5 py-3">
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] font-bold text-emerald-500 border border-emerald-500/20">
                                 <span className="size-1.5 rounded-full bg-emerald-500 animate-ping" />
                                 {r.status}
                               </span>
@@ -431,12 +438,12 @@ export function Schedules() {
               </div>
 
               {/* Active Inspector Footer */}
-              <div className="border-t border-border/80 p-4 bg-zinc-950 text-white flex items-center justify-between">
+              <div className="border-t border-border/80 p-3.5 sm:p-4 bg-zinc-950 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-3">
                   <Activity size={16} className="text-brand animate-pulse" />
                   <span className="text-xs font-mono">Active Tag: <strong className="text-brand font-bold">{selectedItem.tag}</strong></span>
                 </div>
-                <div className="text-xs text-zinc-400 font-medium flex items-center gap-1">
+                <div className="text-[11px] sm:text-xs text-zinc-400 font-medium flex items-center gap-1">
                   2-Way Revit Parameter Mapping Active <ChevronRight size={14} className="text-brand" />
                 </div>
               </div>
