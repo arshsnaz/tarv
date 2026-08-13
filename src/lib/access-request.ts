@@ -25,7 +25,7 @@ export const submitAccessRequest = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const apiKey = process.env["RESEND_API_KEY"];
-    const toEmail = process.env["ACCESS_REQUEST_TO_EMAIL"] ?? "hello@tarv.se";
+    const toEmail = process.env["ACCESS_REQUEST_TO_EMAIL"] ?? "admin@tarv.ai";
 
     if (!apiKey) {
       throw new Error("Email service is not configured");

@@ -3,6 +3,7 @@ import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/cta";
 import { Mail, MapPin, Send, CheckCircle2, MessageSquare, Clock, Building2 } from "lucide-react";
 import { useState } from "react";
+import { submitContactRequest } from "@/lib/contact-request";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -20,16 +21,31 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Contact Inquiry: ${form.name} (${form.company || "Individual"})`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\n\nMessage:\n${form.message}`
-    );
-    window.location.href = `mailto:admin@tarv.ai?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      const res = await submitContactRequest({ data: form });
+      if (res?.fallbackMailto) {
+        const subject = encodeURIComponent(`Contact Inquiry: ${form.name} (${form.company || "Individual"})`);
+        const body = encodeURIComponent(
+          `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\n\nMessage:\n${form.message}`
+        );
+        window.location.href = `mailto:admin@tarv.ai?subject=${subject}&body=${body}`;
+      }
+    } catch {
+      const subject = encodeURIComponent(`Contact Inquiry: ${form.name} (${form.company || "Individual"})`);
+      const body = encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\n\nMessage:\n${form.message}`
+      );
+      window.location.href = `mailto:admin@tarv.ai?subject=${subject}&body=${body}`;
+    } finally {
+      setLoading(false);
+      setSubmitted(true);
+    }
   };
 
   return (
