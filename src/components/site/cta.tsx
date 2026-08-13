@@ -14,11 +14,11 @@ export function Cta() {
       {/* Background ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-soft/15 blur-[150px]" />
 
-      <div className="mx-auto max-w-7xl grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2">
+      <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         
-        {/* Left Panel */}
-        <Reveal className="h-full">
-          <div className="glass relative flex h-full flex-col justify-between overflow-hidden rounded-[2.5rem] bg-card/85 p-6 sm:p-8 md:p-12 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
+        {/* Left Panel - Pitch, Trust Ticker & CTA */}
+        <Reveal>
+          <div className="glass relative flex h-full min-h-[500px] md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-card/85 p-8 md:p-14 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
             <div className="relative z-10">
               {/* Trust Badge Ribbon */}
               <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-4 py-1.5 text-xs font-bold text-brand backdrop-blur-md">
@@ -73,45 +73,42 @@ export function Cta() {
           </div>
         </Reveal>
 
-        {/* Right Panel - Perfectly Height-Matched Video Showcase Card */}
-        <Reveal delay={150} className="h-full">
-          <div className="glass relative flex h-full flex-col justify-between overflow-hidden rounded-[2.5rem] p-6 sm:p-8 md:p-10 border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20 space-y-4">
+        {/* Right Panel - Moving Video Showcase Card */}
+        <Reveal delay={150}>
+          <div className="glass relative flex h-full min-h-[500px] md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-card/85 p-4 md:p-6 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
             
-            {/* Video Container - Stretches to fill available card height seamlessly */}
-            <div className="relative flex-1 overflow-hidden rounded-[1.75rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl flex items-center justify-center min-h-[300px] sm:min-h-[360px]">
+            {/* Top Video Frame Box */}
+            <div className="relative flex-1 min-h-[300px] overflow-hidden rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl flex items-center justify-center group">
               <video 
                 src="/ref4.mp4"
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="h-full w-full object-cover rounded-[1.75rem] sm:rounded-[2rem]"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               
               {/* Floating Top Badge */}
               <div className="absolute top-4 left-4 sm:top-5 sm:left-5 z-20">
-                <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/20 bg-zinc-950/85 px-3.5 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold text-white backdrop-blur-md shadow-xl">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-zinc-950/85 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md shadow-xl">
                   <Zap size={14} className="text-brand animate-pulse shrink-0" />
                   <span>Real-Time BIM Automation Engine</span>
                 </div>
               </div>
 
-              {/* Subtle Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/60 via-transparent to-transparent pointer-events-none" />
-
-              {/* Inner ring for luxury feel */}
-              <div className="pointer-events-none absolute inset-0 rounded-[1.75rem] sm:rounded-[2rem] ring-1 ring-inset ring-white/15" />
+              {/* Inner ring for luxury depth */}
+              <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/15" />
             </div>
 
-            {/* Bottom Status Card (Height-Aligned with Left Panel Footer) */}
-            <div className="rounded-[1.5rem] sm:rounded-[1.75rem] border border-white/15 bg-zinc-950/90 p-4 sm:p-5 backdrop-blur-xl text-white shrink-0">
-              <div className="flex items-center gap-3.5 sm:gap-4">
-                <div className="grid size-10 sm:size-11 place-items-center rounded-xl bg-brand/20 text-brand shrink-0">
-                  <Cpu size={20} className="sm:w-5 sm:h-5" />
+            {/* Bottom Status Card Box */}
+            <div className="mt-4 rounded-2xl border border-white/15 bg-zinc-950/90 p-5 backdrop-blur-xl text-white">
+              <div className="flex items-center gap-4">
+                <div className="grid size-10 place-items-center rounded-xl bg-brand/20 text-brand shrink-0">
+                  <Cpu size={20} />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-sm font-bold text-white">Instant BIM Parameter Sync</h4>
-                  <p className="text-[11px] sm:text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                  <h4 className="text-sm sm:text-base font-bold text-white">Instant BIM Parameter Sync</h4>
+                  <p className="text-xs text-zinc-400 mt-0.5 leading-relaxed">
                     Calculated parameters push back to Revit families in 2 seconds.
                   </p>
                 </div>
