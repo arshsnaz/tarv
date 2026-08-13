@@ -136,9 +136,9 @@ export function AiEngineer() {
         {/* Header Section */}
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <div className="eyebrow inline-flex items-center gap-2">
-              <Sparkles size={16} className="text-brand animate-pulse" />
-              TARV AI RECOMMENDATION SOLVER
+            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3.5 py-1.5 text-[11px] sm:text-xs font-mono font-bold text-brand uppercase tracking-wider max-w-full text-center">
+              <Sparkles size={14} className="text-brand animate-pulse shrink-0" />
+              <span>TARV AI RECOMMENDATION SOLVER</span>
             </div>
             <h2 className="text-balance mt-6 text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
               Recommendations, <br className="hidden md:block" /> not guesswork.

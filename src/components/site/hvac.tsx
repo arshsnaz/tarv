@@ -131,9 +131,9 @@ export function Hvac() {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           
           <Reveal className="lg:col-span-5">
-            <div className="eyebrow inline-flex items-center gap-2">
-              <Wind size={15} className="text-brand animate-pulse" />
-              SMART HVAC & BUILDING PHYSICS ENGINE
+            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3.5 py-1.5 text-[11px] sm:text-xs font-mono font-bold text-brand uppercase tracking-wider max-w-full text-center">
+              <Wind size={14} className="text-brand animate-pulse shrink-0" />
+              <span>SMART HVAC & BUILDING PHYSICS ENGINE</span>
             </div>
 
             <h2 className="text-balance mt-6 text-4xl font-extrabold tracking-tight md:text-6xl text-foreground">
@@ -313,9 +313,9 @@ export function Schedules() {
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center mb-12 sm:mb-16">
           <Reveal>
-            <div className="eyebrow inline-flex items-center gap-2">
-              <FileSpreadsheet size={15} className="text-brand" />
-              AUTOMATED BIM SCHEDULE & TAKEOFF STUDIO
+            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3.5 py-1.5 text-[11px] sm:text-xs font-mono font-bold text-brand uppercase tracking-wider max-w-full text-center">
+              <FileSpreadsheet size={14} className="text-brand shrink-0" />
+              <span>AUTOMATED BIM SCHEDULE & TAKEOFF STUDIO</span>
             </div>
             <h2 className="text-balance mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight md:text-6xl text-foreground">
               Equipment schedules, generated.
