@@ -98,20 +98,20 @@ export function CalculatorSuite() {
       </div>
 
       <Reveal delay={100} className="mx-auto mt-12 max-w-6xl px-4 md:px-6">
-        {/* Tabs - 4 Disciplines fit side-by-side on a single mobile screen */}
-        <div className="mb-8 grid grid-cols-4 gap-1 sm:gap-3 max-w-3xl mx-auto w-full px-0">
+        {/* Tabs - Centered Multi-Row Flex Wrap Pills on Mobile */}
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 max-w-4xl mx-auto w-full px-2">
           {calculatorData.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center justify-center gap-1 sm:gap-2 rounded-full border px-1 sm:px-5 py-2 sm:py-3 text-[10px] xs:text-xs sm:text-sm font-semibold transition-all duration-300 hover:shadow-lg w-full text-center ${
+              className={`flex items-center justify-center gap-2 rounded-full border px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold transition-all duration-300 hover:shadow-lg whitespace-nowrap ${
                 activeTab === tab.id
-                  ? "border-foreground bg-foreground text-background dark:border-white dark:bg-white dark:text-black shadow-xl scale-[1.02]"
+                  ? "border-foreground bg-foreground text-background dark:border-white dark:bg-white dark:text-black shadow-xl scale-105"
                   : "border-border/60 bg-card/60 text-muted-foreground backdrop-blur-sm hover:border-foreground/20 hover:text-foreground"
               }`}
             >
-              <span className={`size-1.5 sm:size-2.5 rounded-full shrink-0 ${tab.dotColor} shadow-[0_0_8px_currentColor]`} />
-              <span className="truncate">{tab.label}</span>
+              <span className={`size-2 sm:size-2.5 rounded-full shrink-0 ${tab.dotColor} shadow-[0_0_8px_currentColor]`} />
+              <span>{tab.label}</span>
             </button>
           ))}
         </div>
