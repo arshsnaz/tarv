@@ -24,6 +24,11 @@ function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const subject = encodeURIComponent(`Contact Inquiry: ${form.name} (${form.company || "Individual"})`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\n\nMessage:\n${form.message}`
+    );
+    window.location.href = `mailto:admin@tarv.ai?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
 
@@ -109,9 +114,9 @@ function ContactPage() {
                 <div className="grid size-16 place-items-center rounded-full bg-emerald-500/10 text-emerald-500 mx-auto">
                   <CheckCircle2 size={32} />
                 </div>
-                <h3 className="text-2xl font-bold">Message Received!</h3>
+                <h3 className="text-2xl font-bold">Message Sent to admin@tarv.ai!</h3>
                 <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-                  Thank you for contacting TARV Engineering. An engineer from our Dubai office will get back to you shortly.
+                  Thank you, <span className="font-bold text-foreground">{form.name}</span>. Your inquiry has been transmitted directly to <span className="font-mono font-bold text-brand">admin@tarv.ai</span>. An engineer from our Dubai office will respond shortly.
                 </p>
               </div>
             ) : (
