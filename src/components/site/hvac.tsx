@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Wind, Thermometer, ShieldCheck, RefreshCw, Cpu, Zap, Sliders, ChevronRight, Activity, FileSpreadsheet } from "lucide-react";
+import { Check, Wind, Thermometer, ShieldCheck, RefreshCw, Cpu, Zap, Sliders, ChevronRight, Activity, FileSpreadsheet, Layers, DollarSign, Search, CheckCircle2, ArrowRight } from "lucide-react";
 import { Reveal } from "./reveal";
 
 interface ZonePreset {
@@ -58,22 +58,58 @@ const zonePresets: ZonePreset[] = [
   },
 ];
 
-const scheduleRows = [
-  { tag: "AHU-01", type: "Air Handling Unit", airflow: "12,000 CFM", staticP: "2.1 in.wg", level: "Roof", status: "Validated", active: true },
-  { tag: "AHU-02", type: "Air Handling Unit", airflow: "8,400 CFM", staticP: "1.8 in.wg", level: "L14", status: "Optimized", active: true },
-  { tag: "CH-01", type: "Magnetic Chiller", airflow: "300 Tons", staticP: "N/A", level: "Plant", status: "Auto-Sized", active: true },
-  { tag: "VAV-201", type: "VAV Terminal", airflow: "1,200 CFM", staticP: "0.5 in.wg", level: "L02", status: "Auto-Routed", active: true },
-  { tag: "FCU-308", type: "Fan Coil Unit", airflow: "650 CFM", staticP: "0.3 in.wg", level: "L03", status: "Validated", active: true },
-];
+type ScheduleDiscipline = "hvac" | "electrical" | "plumbing";
+
+interface EquipmentRow {
+  tag: string;
+  type: string;
+  capacity: string;
+  dutyPoint: string;
+  level: string;
+  status: string;
+  catalog: string;
+  family: string;
+  capex: string;
+}
+
+const scheduleData: Record<ScheduleDiscipline, { label: string; rows: EquipmentRow[] }> = {
+  hvac: {
+    label: "Mechanical HVAC",
+    rows: [
+      { tag: "AHU-01", type: "Air Handling Unit", capacity: "12,000 CFM", dutyPoint: "2.1 in.wg", level: "Roof", status: "Validated", catalog: "Trane Performance AHU-45", family: "TARV_AHU_Custom.rfa", capex: "$42,500" },
+      { tag: "AHU-02", type: "Air Handling Unit", capacity: "8,400 CFM", dutyPoint: "1.8 in.wg", level: "L14", status: "Optimized", catalog: "Carrier 39M Custom", family: "TARV_AHU_Custom.rfa", capex: "$31,200" },
+      { tag: "CH-01", type: "Magnetic Chiller", capacity: "300 Tons", dutyPoint: "0.54 kW/Ton", level: "Plant", status: "Auto-Sized", catalog: "Daikin Pathfinder 300T", family: "TARV_Chiller_Mag.rfa", capex: "$145,000" },
+      { tag: "VAV-201", type: "VAV Terminal Box", capacity: "1,200 CFM", dutyPoint: "0.5 in.wg", level: "L02", status: "Auto-Routed", catalog: "Titus DTQS Dual Max", family: "TARV_VAV_Terminal.rfa", capex: "$1,850" },
+      { tag: "FCU-308", type: "Fan Coil Unit", capacity: "650 CFM", dutyPoint: "0.3 in.wg", level: "L03", status: "Validated", catalog: "McQuay ThinLine FCU", family: "TARV_FCU_Slim.rfa", capex: "$2,400" },
+    ],
+  },
+  electrical: {
+    label: "Electrical Power",
+    rows: [
+      { tag: "MDB-01", type: "Main Distribution Board", capacity: "2500 Amps", dutyPoint: "415V, 50kA 1s", level: "Basement", status: "Auto-Sized", catalog: "Schneider Okken 2500A", family: "TARV_MDB_Panel.rfa", capex: "$38,000" },
+      { tag: "TR-01", type: "Cast Resin Transformer", capacity: "1500 kVA", dutyPoint: "11kV / 415V", level: "Substation", status: "Optimized", catalog: "ABB EcoDry 1500kVA", family: "TARV_Transformer.rfa", capex: "$64,000" },
+      { tag: "GEN-01", type: "Standby Diesel Gen", capacity: "1000 kVA", dutyPoint: "Prime 800kW", level: "Yard", status: "Validated", catalog: "Cummins C1000D5", family: "TARV_Genset_Sound.rfa", capex: "$110,000" },
+      { tag: "PFC-01", type: "Capacitor Bank", capacity: "400 kVAR", dutyPoint: "Auto 8-Step", level: "Basement", status: "Auto-Routed", catalog: "Siemens VarSet 400", family: "TARV_PFC_Panel.rfa", capex: "$16,500" },
+    ],
+  },
+  plumbing: {
+    label: "Plumbing & Drainage",
+    rows: [
+      { tag: "PUMP-01", type: "Hydro Booster Set", capacity: "120 GPM", dutyPoint: "180 ft Head", level: "Pump Rm", status: "Validated", catalog: "Grundfos Hydro MPC-E", family: "TARV_Booster_Set.rfa", capex: "$22,400" },
+      { tag: "SUMP-02", type: "Submersible Sump", capacity: "80 GPM", dutyPoint: "45 ft Head", level: "Pit B2", status: "Optimized", catalog: "Flygt Concertor N", family: "TARV_Sump_Pump.rfa", capex: "$8,900" },
+      { tag: "TANK-01", type: "Domestic Water Tank", capacity: "50,000 Gal", dutyPoint: "GRP Sectional", level: "Roof", status: "Auto-Sized", catalog: "Pipeco GRP Panel", family: "TARV_Water_Tank.rfa", capex: "$45,000" },
+      { tag: "WTR-01", type: "Central Solar Heater", capacity: "3,000 LPD", dutyPoint: "80% Solar Fraction", level: "Roof", status: "Validated", catalog: "Racold Commercial Solar", family: "TARV_Solar_Heater.rfa", capex: "$18,200" },
+    ],
+  },
+};
 
 export function Hvac() {
   const [selectedZoneIndex, setSelectedZoneIndex] = useState(0);
-  const [glazingModifier, setGlazingModifier] = useState(0); // slider adjustment
+  const [glazingModifier, setGlazingModifier] = useState(0);
   const [isSimulating, setIsSimulating] = useState(false);
 
   const baseZone = zonePresets[selectedZoneIndex];
 
-  // Dynamic calculations based on interactive glazing modifier
   const calculatedSensible = Math.round(baseZone.sensible * (1 + glazingModifier * 0.005));
   const calculatedOutdoor = Math.round(baseZone.outdoor * (1 + glazingModifier * 0.002));
   const calculatedTotalTons = (
@@ -89,13 +125,11 @@ export function Hvac() {
 
   return (
     <section id="hvac" className="panel-gradient relative py-28 md:py-36 overflow-hidden">
-      {/* Background Glow */}
       <div className="pointer-events-none absolute right-0 top-1/2 -z-10 h-[700px] w-[700px] -translate-y-1/2 rounded-full bg-brand-soft/10 blur-[150px]" />
 
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           
-          {/* Left Column: Heading & Core Features */}
           <Reveal className="lg:col-span-5">
             <div className="eyebrow inline-flex items-center gap-2">
               <Wind size={15} className="text-brand animate-pulse" />
@@ -129,11 +163,9 @@ export function Hvac() {
             </ul>
           </Reveal>
 
-          {/* Right Column: Interactive Real-Time Simulator Dashboard */}
           <Reveal delay={120} className="lg:col-span-7">
             <div className="glass relative rounded-[2.5rem] p-6 md:p-8 border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
               
-              {/* Simulator Header */}
               <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-border/60">
                 <div className="flex items-center gap-3">
                   <div className="grid size-10 place-items-center rounded-2xl bg-brand/10 text-brand">
@@ -156,7 +188,6 @@ export function Hvac() {
                 </div>
               </div>
 
-              {/* Zone Selector Pills */}
               <div className="mt-6 flex flex-wrap gap-2">
                 {zonePresets.map((z, idx) => (
                   <button
@@ -173,7 +204,6 @@ export function Hvac() {
                 ))}
               </div>
 
-              {/* Interactive Glass Metrics Grid */}
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="glass-subtle rounded-2xl p-4 border border-white/5">
                   <div className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Sensible Heat Gain</div>
@@ -190,7 +220,6 @@ export function Hvac() {
                 </div>
               </div>
 
-              {/* Interactive Glazing Slider */}
               <div className="mt-6 rounded-2xl bg-surface/50 p-4 border border-white/5">
                 <div className="flex items-center justify-between text-xs font-bold mb-2">
                   <span className="text-muted-foreground flex items-center gap-1.5">
@@ -213,7 +242,6 @@ export function Hvac() {
                 </div>
               </div>
 
-              {/* Total Cooling Load Highlight Card */}
               <div className="mt-6 flex items-center justify-between rounded-2xl bg-zinc-950 p-5 border border-white/10 text-white shadow-xl">
                 <div>
                   <div className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Total Calculated Cooling Load</div>
@@ -229,7 +257,6 @@ export function Hvac() {
                 </div>
               </div>
 
-              {/* AI Optimization Recommendation Banner */}
               <div className="mt-5 rounded-2xl bg-primary p-4 text-xs leading-relaxed text-primary-foreground flex items-start gap-3 shadow-lg">
                 <Zap size={18} className="shrink-0 text-brand mt-0.5 animate-bounce" />
                 <div>
@@ -251,24 +278,106 @@ export function Hvac() {
 }
 
 export function Schedules() {
+  const [activeDiscipline, setActiveDiscipline] = useState<ScheduleDiscipline>("hvac");
   const [selectedTag, setSelectedTag] = useState("AHU-01");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncSuccess, setSyncSuccess] = useState(false);
+
+  const currentDiscipline = scheduleData[activeDiscipline];
+
+  const filteredRows = currentDiscipline.rows.filter(
+    (r) =>
+      r.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      r.catalog.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const selectedItem =
+    currentDiscipline.rows.find((r) => r.tag === selectedTag) || currentDiscipline.rows[0];
+
+  const triggerRevitSync = () => {
+    setIsSyncing(true);
+    setSyncSuccess(false);
+    setTimeout(() => {
+      setIsSyncing(false);
+      setSyncSuccess(true);
+      setTimeout(() => setSyncSuccess(false), 3000);
+    }, 1200);
+  };
 
   return (
-    <section id="schedules" className="py-28 md:py-36">
+    <section id="schedules" className="py-28 md:py-36 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+        
+        {/* Section Header */}
+        <div className="mx-auto max-w-3xl text-center mb-16">
+          <Reveal>
+            <div className="eyebrow inline-flex items-center gap-2">
+              <FileSpreadsheet size={15} className="text-brand" />
+              AUTOMATED BIM SCHEDULE & TAKEOFF STUDIO
+            </div>
+            <h2 className="text-balance mt-4 text-4xl font-extrabold tracking-tight md:text-6xl text-foreground">
+              Equipment schedules, generated.
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+              From single-line diagrams to complete, code-verified equipment schedules in seconds. Bi-directionally synced with Revit 2025, BIM 360, and your master spec library.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
           
-          {/* Left Column: Interactive Live Revit Schedule Inspector */}
+          {/* Left Column: Interactive Multi-Discipline Live Revit Table */}
           <Reveal className="lg:col-span-7">
             <div className="glass overflow-hidden rounded-[2.5rem] border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-border/80 px-6 py-4 bg-surface/50">
-                <div className="flex items-center gap-2.5">
-                  <FileSpreadsheet size={18} className="text-brand" />
-                  <span className="text-sm font-bold text-foreground">Revit Live Equipment Schedule · Project Aurora</span>
+              
+              {/* Discipline Switcher & Search Bar */}
+              <div className="p-5 bg-surface/60 border-b border-border/80 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    {(Object.keys(scheduleData) as ScheduleDiscipline[]).map((dKey) => {
+                      const disc = scheduleData[dKey];
+                      const isActive = activeDiscipline === dKey;
+                      return (
+                        <button
+                          key={dKey}
+                          onClick={() => {
+                            setActiveDiscipline(dKey);
+                            setSelectedTag(scheduleData[dKey].rows[0].tag);
+                          }}
+                          className={`rounded-full px-4 py-2 text-xs font-bold transition-all duration-300 ${
+                            isActive
+                              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105"
+                              : "bg-surface text-muted-foreground hover:bg-accent hover:text-foreground border border-white/5"
+                          }`}
+                        >
+                          {disc.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={triggerRevitSync}
+                    disabled={isSyncing}
+                    className="inline-flex items-center gap-2 rounded-full bg-brand/10 border border-brand/20 px-4 py-2 text-xs font-mono font-bold text-brand hover:bg-brand/20 transition-all cursor-pointer"
+                  >
+                    <RefreshCw size={13} className={isSyncing ? "animate-spin text-brand" : ""} />
+                    {isSyncing ? "Syncing Revit..." : syncSuccess ? "14 Parameters Pushed ✓" : "Push to Revit"}
+                  </button>
                 </div>
-                <div className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 border border-brand/20 px-3 py-1 text-xs font-mono font-bold text-brand">
-                  <RefreshCw size={12} className="animate-spin" /> Live Sync
+
+                {/* Filter Input */}
+                <div className="relative">
+                  <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Search equipment tag, type, or manufacturer..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full rounded-full border border-white/10 bg-background/80 py-2.5 pl-10 pr-4 text-xs font-medium outline-none transition-all focus:border-brand"
+                  />
                 </div>
               </div>
 
@@ -277,7 +386,7 @@ export function Schedules() {
                 <table className="w-full text-xs">
                   <thead className="bg-surface-2/80">
                     <tr className="text-left tracking-wider text-muted-foreground uppercase font-bold">
-                      {["Tag", "Equipment Type", "Airflow / Cap", "Static P.", "Level", "Sync Status"].map((h) => (
+                      {["Tag", "Equipment Type", "Capacity / Rating", "Duty Point", "Level", "Sync Status"].map((h) => (
                         <th key={h} className="px-5 py-3.5">
                           {h}
                         </th>
@@ -285,39 +394,47 @@ export function Schedules() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border/60">
-                    {scheduleRows.map((r) => {
-                      const isSelected = selectedTag === r.tag;
-                      return (
-                        <tr
-                          key={r.tag}
-                          onClick={() => setSelectedTag(r.tag)}
-                          className={`cursor-pointer transition-colors duration-200 ${
-                            isSelected ? "bg-brand/10 dark:bg-brand/15" : "hover:bg-accent/40"
-                          }`}
-                        >
-                          <td className="px-5 py-4 font-mono font-bold text-foreground">{r.tag}</td>
-                          <td className="px-5 py-4 text-muted-foreground font-medium">{r.type}</td>
-                          <td className="px-5 py-4 font-mono font-bold text-brand">{r.airflow}</td>
-                          <td className="px-5 py-4 font-mono text-muted-foreground">{r.staticP}</td>
-                          <td className="px-5 py-4 text-muted-foreground">{r.level}</td>
-                          <td className="px-5 py-4">
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[10px] font-bold text-emerald-500 border border-emerald-500/20">
-                              <span className="size-1.5 rounded-full bg-emerald-500 animate-ping" />
-                              {r.status}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {filteredRows.length > 0 ? (
+                      filteredRows.map((r) => {
+                        const isSelected = selectedItem.tag === r.tag;
+                        return (
+                          <tr
+                            key={r.tag}
+                            onClick={() => setSelectedTag(r.tag)}
+                            className={`cursor-pointer transition-colors duration-200 ${
+                              isSelected ? "bg-brand/15 dark:bg-brand/20 border-l-4 border-l-brand" : "hover:bg-accent/40"
+                            }`}
+                          >
+                            <td className="px-5 py-4 font-mono font-extrabold text-foreground">{r.tag}</td>
+                            <td className="px-5 py-4 text-muted-foreground font-medium">{r.type}</td>
+                            <td className="px-5 py-4 font-mono font-bold text-brand">{r.capacity}</td>
+                            <td className="px-5 py-4 font-mono text-muted-foreground">{r.dutyPoint}</td>
+                            <td className="px-5 py-4 text-muted-foreground">{r.level}</td>
+                            <td className="px-5 py-4">
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-1 text-[10px] font-bold text-emerald-500 border border-emerald-500/20">
+                                <span className="size-1.5 rounded-full bg-emerald-500 animate-ping" />
+                                {r.status}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td colSpan={6} className="px-5 py-8 text-center text-muted-foreground">
+                          No equipment matching "{searchQuery}".
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
 
               {/* Active Inspector Footer */}
-              <div className="border-t border-border/80 p-5 bg-zinc-950 text-white flex items-center justify-between">
+              <div className="border-t border-border/80 p-4 bg-zinc-950 text-white flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Activity size={16} className="text-brand" />
-                  <span className="text-xs font-mono">Inspecting: <strong className="text-brand">{selectedTag}</strong></span>
+                  <Activity size={16} className="text-brand animate-pulse" />
+                  <span className="text-xs font-mono">Active Tag: <strong className="text-brand font-bold">{selectedItem.tag}</strong></span>
                 </div>
                 <div className="text-xs text-zinc-400 font-medium flex items-center gap-1">
                   2-Way Revit Parameter Mapping Active <ChevronRight size={14} className="text-brand" />
@@ -326,33 +443,81 @@ export function Schedules() {
             </div>
           </Reveal>
 
-          {/* Right Column: Heading & Features */}
+          {/* Right Column: Live Interactive Equipment Spec & Parameter Card */}
           <Reveal delay={120} className="lg:col-span-5">
-            <div className="eyebrow inline-flex items-center gap-2">
-              <FileSpreadsheet size={15} className="text-brand" />
-              AUTOMATED BIM SCHEDULE GENERATOR
-            </div>
-            <h2 className="text-balance mt-6 text-4xl font-extrabold tracking-tight md:text-6xl text-foreground">
-              Equipment schedules, generated.
-            </h2>
-            <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              From single-line duct diagrams to complete, code-verified equipment schedule takeoffs in seconds. Bi-directionally synced with Revit, BIM 360, and your master spec library.
-            </p>
-            <div className="mt-8 grid grid-cols-2 gap-3.5">
-              {[
-                { tag: "Auto-Tagging", desc: "Zero manual tag errors" },
-                { tag: "Live Revit Sync", desc: "Bi-directional parameter push" },
-                { tag: "Cost Rollup", desc: "Instant CapEx estimation" },
-                { tag: "Spec-Aware", desc: "Factory catalog matching" },
-              ].map((item) => (
-                <div
-                  key={item.tag}
-                  className="glass-subtle rounded-2xl p-4 border border-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-brand/30"
-                >
-                  <div className="text-sm font-bold text-foreground">{item.tag}</div>
-                  <div className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</div>
+            <div className="glass relative rounded-[2.5rem] p-7 border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20 space-y-6">
+              
+              {/* Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-border/60">
+                <div className="flex items-center gap-3">
+                  <div className="grid size-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20 font-mono font-extrabold text-sm">
+                    {selectedItem.tag.substring(0, 3)}
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-brand uppercase tracking-widest">
+                      {selectedItem.type}
+                    </div>
+                    <h3 className="text-xl font-extrabold text-foreground mt-0.5">{selectedItem.tag}</h3>
+                  </div>
                 </div>
-              ))}
+                <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-500">
+                  {selectedItem.status}
+                </span>
+              </div>
+
+              {/* Live Spec Parameters */}
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between rounded-xl bg-surface/50 p-3.5 border border-white/5 text-xs">
+                  <span className="text-muted-foreground font-semibold flex items-center gap-2">
+                    <Layers size={14} className="text-brand" /> BIM Family Template:
+                  </span>
+                  <span className="font-mono font-bold text-foreground">{selectedItem.family}</span>
+                </div>
+
+                <div className="flex items-center justify-between rounded-xl bg-surface/50 p-3.5 border border-white/5 text-xs">
+                  <span className="text-muted-foreground font-semibold flex items-center gap-2">
+                    <Cpu size={14} className="text-brand" /> Manufacturer Spec Match:
+                  </span>
+                  <span className="font-bold text-brand">{selectedItem.catalog}</span>
+                </div>
+
+                <div className="flex items-center justify-between rounded-xl bg-surface/50 p-3.5 border border-white/5 text-xs">
+                  <span className="text-muted-foreground font-semibold flex items-center gap-2">
+                    <DollarSign size={14} className="text-emerald-500" /> Estimated CapEx Unit Cost:
+                  </span>
+                  <span className="font-mono font-extrabold text-emerald-500 text-sm">{selectedItem.capex}</span>
+                </div>
+              </div>
+
+              {/* Features Pill Grid */}
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                {[
+                  { title: "Auto-Tagging", desc: "Zero manual tag errors", icon: CheckCircle2 },
+                  { title: "Live Revit Sync", desc: "< 1.2s parameter push", icon: RefreshCw },
+                  { title: "Cost Rollup", desc: "Instant CapEx calculation", icon: DollarSign },
+                  { title: "Spec-Aware", desc: "100k+ catalog families", icon: Layers },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="glass-subtle rounded-2xl p-3.5 border border-white/5 transition-all duration-300 hover:-translate-y-1 hover:border-brand/30"
+                  >
+                    <item.icon size={16} className="text-brand mb-1.5" />
+                    <div className="text-xs font-bold text-foreground">{item.title}</div>
+                    <div className="text-[10px] text-muted-foreground mt-0.5">{item.desc}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={triggerRevitSync}
+                disabled={isSyncing}
+                className="w-full group inline-flex items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-bold text-primary-foreground shadow-lg transition-all duration-300 hover:opacity-90 cursor-pointer"
+              >
+                {isSyncing ? "Pushing Parameters..." : "Sync All Parameters to Revit Model"}
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              </button>
+
             </div>
           </Reveal>
 
