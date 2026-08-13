@@ -81,9 +81,8 @@ function ContactPage() {
                   <Clock size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground">Support Hours & SLA</h4>
-                  <p className="text-muted-foreground mt-0.5 text-sm">Monday – Friday: 9:00 AM – 7:00 PM IST</p>
-                  <p className="text-xs text-brand font-bold mt-1">⚡ Enterprise SLA: &lt; 2 Hour Response Guarantee</p>
+                  <h4 className="font-bold text-foreground">Working Hours</h4>
+                  <p className="text-muted-foreground mt-0.5 text-sm">Monday – Friday: 10:00 AM – 7:00 PM IST</p>
                 </div>
               </div>
             </div>
