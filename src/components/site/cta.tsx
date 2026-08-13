@@ -73,54 +73,41 @@ export function Cta() {
           </div>
         </Reveal>
 
-        {/* Right Panel - Interactive Revit Add-in Feature Showcase */}
+        {/* Right Panel - Moving Full-Bleed Video with Overlay */}
         <Reveal delay={150}>
-          <div className="glass relative flex h-full min-h-[500px] md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-zinc-950 p-8 md:p-14 border border-white/10 text-white shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-mono font-bold text-brand-soft backdrop-blur-md">
-                <Zap size={14} className="animate-pulse text-brand" />
-                <span>NATIVE REVIT & AUTOCAD PLUGIN</span>
-              </div>
+          <div className="glass relative h-full min-h-[500px] md:min-h-[620px] overflow-hidden rounded-[2.5rem] border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20 group">
+            {/* Background Looping Video */}
+            <video 
+              src="/ref4.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-105"
+            />
+            
+            {/* Dark Gradient Overlay for Contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent" />
 
-              <h3 className="mt-8 text-2xl font-bold md:text-4xl tracking-tight text-white leading-tight">
-                Direct 2-Way Sync With Your BIM Models.
-              </h3>
-
-              <p className="mt-4 text-sm md:text-base leading-relaxed text-zinc-400">
-                No manual CSV exports or retyping tags. TARV plugs directly into Autodesk Revit, dynamically reading duct geometries, electrical panel loads, and fixture units in real time.
-              </p>
-            </div>
-
-            {/* Simulated Live BIM Parameter Feed */}
-            <div className="my-8 rounded-2xl border border-white/10 bg-zinc-900/80 p-5 space-y-3 font-mono text-xs text-zinc-300 shadow-inner">
-              <div className="flex items-center justify-between border-b border-white/10 pb-2.5 text-zinc-400 font-bold uppercase tracking-wider text-[10px]">
-                <span>Revit Element ID</span>
-                <span>Calculated Parameter</span>
-                <span>Status</span>
-              </div>
-              <div className="flex items-center justify-between text-emerald-400">
-                <span>VAV-L4-01 (ID: 849201)</span>
-                <span>CFM: 1,450 (Airflow)</span>
-                <span className="text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded font-sans font-bold">LIVE SYNCED</span>
-              </div>
-              <div className="flex items-center justify-between text-blue-400">
-                <span>EF-BS-02 (ID: 902144)</span>
-                <span>Static Press: 1.8 in.wg</span>
-                <span className="text-[10px] bg-blue-500/20 px-2 py-0.5 rounded font-sans font-bold">AUTO SIZED</span>
-              </div>
-              <div className="flex items-center justify-between text-yellow-400">
-                <span>MDB-MAIN (ID: 104829)</span>
-                <span>VD: 1.84% (NEC Pass)</span>
-                <span className="text-[10px] bg-yellow-500/20 px-2 py-0.5 rounded font-sans font-bold">VERIFIED</span>
+            {/* Floating Top Badge */}
+            <div className="absolute top-6 left-6 z-20">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-zinc-950/80 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md shadow-xl">
+                <Zap size={14} className="text-brand animate-pulse" />
+                <span>Real-Time BIM Automation Engine</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs text-zinc-400 border-t border-white/10 pt-6">
-              <div className="flex items-center gap-2">
-                <div className="size-2 rounded-full bg-emerald-500 animate-ping" />
-                <span className="font-bold text-white">Continuous Background Auditor</span>
+            {/* Floating Bottom Card on Video */}
+            <div className="absolute bottom-6 left-6 right-6 z-20 rounded-2xl border border-white/15 bg-zinc-950/85 p-6 backdrop-blur-xl text-white">
+              <div className="flex items-center gap-4">
+                <div className="grid size-10 place-items-center rounded-xl bg-brand/20 text-brand shrink-0">
+                  <Cpu size={20} />
+                </div>
+                <div>
+                  <h4 className="text-sm sm:text-base font-bold text-white">Instant BIM Parameter Sync</h4>
+                  <p className="text-xs text-zinc-400 mt-0.5">Calculated parameters push back to Revit families in 2 seconds.</p>
+                </div>
               </div>
-              <span className="font-mono text-[11px]">v2.4 Live Sync Active</span>
             </div>
 
             {/* Inner ring for luxury feel */}
