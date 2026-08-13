@@ -123,6 +123,32 @@ export function Company() {
                 </div>
               </Reveal>
             ))}
+
+            {/* Google Maps Location Embed Card */}
+            <Reveal delay={350}>
+              <div className="glass rounded-3xl p-4 border border-border transition-all duration-300 hover:shadow-xl">
+                <div className="px-3 pt-2 pb-3">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-brand flex items-center gap-1.5">
+                    <Building2 size={14} /> Official Head Office Location
+                  </div>
+                  <div className="text-sm font-bold text-foreground mt-0.5">
+                    Consistent Engineering Consultants · Solapur, India
+                  </div>
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-border shadow-inner">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.312134341196!2d75.90163027517065!3d17.635369583294732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5db0023a159d1%3A0x7fb08ec2d0959558!2sConsistent%20Engineering%20Consultants!5e0!3m2!1sen!2sin!4v1786618973982!5m2!1sen!2sin"
+                    width="100%"
+                    height="200"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    title="Consistent Engineering Consultants Map"
+                  />
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>

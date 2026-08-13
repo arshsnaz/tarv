@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/cta";
-import { Mail, MapPin, Phone, Send, CheckCircle2, MessageSquare, Clock } from "lucide-react";
+import { Mail, MapPin, Send, CheckCircle2, MessageSquare, Clock, Building2 } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/contact")({
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Get in touch with TARV Engineering. Contact enterprise sales, technical support, or schedule a custom BIM demo. Headquartered in Solapur, India.",
+          "Get in touch with TARV Engineering at Consistent Engineering Consultants, Solapur, India. Contact enterprise sales, technical support, or schedule a custom BIM demo.",
       },
     ],
   }),
@@ -45,19 +45,24 @@ function ContactPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-          {/* Contact Details Card */}
-          <div className="glass p-8 md:p-10 rounded-[2.5rem] border border-white/10 space-y-8">
-            <h3 className="text-2xl font-bold">Global Headquarters</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          {/* Contact Details & Embedded Google Map Card */}
+          <div className="glass p-8 md:p-10 rounded-[2.5rem] border border-border space-y-8 shadow-xl">
+            <div>
+              <h3 className="text-2xl font-bold flex items-center gap-2">
+                <Building2 size={22} className="text-brand" /> Global Headquarters
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">Consistent Engineering Consultants · Solapur, India</p>
+            </div>
             
-            <div className="space-y-6 text-sm md:text-base">
+            <div className="space-y-5 text-sm md:text-base">
               <div className="flex items-start gap-4">
                 <div className="grid size-10 place-items-center rounded-xl bg-brand/10 text-brand shrink-0">
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-foreground">Office Address</h4>
-                  <p className="text-muted-foreground mt-0.5">Solapur, Maharashtra, India</p>
+                  <h4 className="font-bold text-foreground">Official Office Address</h4>
+                  <p className="text-muted-foreground mt-0.5 text-sm">Consistent Engineering Consultants, Solapur, Maharashtra, India</p>
                 </div>
               </div>
 
@@ -67,7 +72,7 @@ function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-foreground">Official Direct Email</h4>
-                  <p className="text-muted-foreground mt-0.5">Primary Contact & Sales: <a href="mailto:admin@tarv.ai" className="text-brand font-mono">admin@tarv.ai</a></p>
+                  <p className="text-muted-foreground mt-0.5 text-sm">Primary Contact & Sales: <a href="mailto:admin@tarv.ai" className="text-brand font-mono font-bold">admin@tarv.ai</a></p>
                 </div>
               </div>
 
@@ -77,17 +82,31 @@ function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-foreground">Support Hours & SLA</h4>
-                  <p className="text-muted-foreground mt-0.5">Monday – Friday: 9:00 AM – 7:00 PM IST</p>
-                  <p className="text-xs text-brand font-semibold mt-1">⚡ Enterprise SLA: &lt; 2 Hour Response Guarantee</p>
+                  <p className="text-muted-foreground mt-0.5 text-sm">Monday – Friday: 9:00 AM – 7:00 PM IST</p>
+                  <p className="text-xs text-brand font-bold mt-1">⚡ Enterprise SLA: &lt; 2 Hour Response Guarantee</p>
                 </div>
               </div>
+            </div>
+
+            {/* Interactive Embedded Google Map */}
+            <div className="overflow-hidden rounded-2xl border border-border shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.312134341196!2d75.90163027517065!3d17.635369583294732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5db0023a159d1%3A0x7fb08ec2d0959558!2sConsistent%20Engineering%20Consultants!5e0!3m2!1sen!2sin!4v1786618973982!5m2!1sen!2sin"
+                width="100%"
+                height="240"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="TARV Engineering Office Location Map"
+              />
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="glass p-8 md:p-10 rounded-[2.5rem] border border-white/10">
+          <div className="glass p-8 md:p-10 rounded-[2.5rem] border border-border shadow-xl">
             {submitted ? (
-              <div className="text-center py-12 space-y-4">
+              <div className="text-center py-16 space-y-4">
                 <div className="grid size-16 place-items-center rounded-full bg-emerald-500/10 text-emerald-500 mx-auto">
                   <CheckCircle2 size={32} />
                 </div>
@@ -107,7 +126,7 @@ function ContactPage() {
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="Eng. Rajesh Kumar"
-                    className="w-full rounded-2xl border border-white/10 bg-background/80 p-3.5 text-sm outline-none focus:border-brand"
+                    className="w-full rounded-2xl border border-border bg-card p-3.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
                 <div>
@@ -118,7 +137,7 @@ function ContactPage() {
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="rajesh@mepfirm.com"
-                    className="w-full rounded-2xl border border-white/10 bg-background/80 p-3.5 text-sm outline-none focus:border-brand"
+                    className="w-full rounded-2xl border border-border bg-card p-3.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
                 <div>
@@ -129,7 +148,7 @@ function ContactPage() {
                     value={form.company}
                     onChange={(e) => setForm({ ...form, company: e.target.value })}
                     placeholder="Apex MEP Consultants"
-                    className="w-full rounded-2xl border border-white/10 bg-background/80 p-3.5 text-sm outline-none focus:border-brand"
+                    className="w-full rounded-2xl border border-border bg-card p-3.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
                 <div>
@@ -140,7 +159,7 @@ function ContactPage() {
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="How can we help your engineering team?"
-                    className="w-full rounded-2xl border border-white/10 bg-background/80 p-3.5 text-sm outline-none focus:border-brand resize-none"
+                    className="w-full rounded-2xl border border-border bg-card p-3.5 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 resize-none"
                   />
                 </div>
                 <button
