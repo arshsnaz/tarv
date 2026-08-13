@@ -16,7 +16,7 @@ export function HomeHero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background pt-28 pb-16"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background pt-32 sm:pt-40 pb-16"
     >
       {/* Light background grid & ambient light radial gradient */}
       <div className="pointer-events-none absolute inset-0 grid-bg opacity-70" />

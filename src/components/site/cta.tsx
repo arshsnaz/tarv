@@ -73,45 +73,48 @@ export function Cta() {
           </div>
         </Reveal>
 
-        {/* Right Panel - Moving Full-Bleed Video with Overlay */}
+        {/* Right Panel - Moving Video Showcase with Non-Overlapping Mobile Layout */}
         <Reveal delay={150}>
-          <div className="glass relative h-full min-h-[500px] md:min-h-[620px] overflow-hidden rounded-[2.5rem] border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20 group">
-            {/* Background Looping Video */}
-            <video 
-              src="/ref4.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 h-full w-full object-cover scale-[1.02] transition-transform duration-700 group-hover:scale-105"
-            />
+          <div className="glass relative rounded-[1.75rem] sm:rounded-[2.5rem] p-3 sm:p-5 border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20 space-y-3 sm:space-y-4">
             
-            {/* Dark Gradient Overlay for Contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent" />
-
-            {/* Floating Top Badge */}
-            <div className="absolute top-6 left-6 z-20">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-zinc-950/80 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md shadow-xl">
-                <Zap size={14} className="text-brand animate-pulse" />
-                <span>Real-Time BIM Automation Engine</span>
+            {/* Video Container */}
+            <div className="relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl flex items-center justify-center">
+              <video 
+                src="/ref4.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-auto object-contain block"
+              />
+              
+              {/* Floating Top Badge */}
+              <div className="absolute top-3 left-3 sm:top-5 sm:left-5 z-20">
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/20 bg-zinc-950/85 px-3 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold text-white backdrop-blur-md shadow-xl">
+                  <Zap size={13} className="text-brand animate-pulse shrink-0" />
+                  <span>Real-Time BIM Automation Engine</span>
+                </div>
               </div>
+
+              {/* Inner ring for luxury feel */}
+              <div className="pointer-events-none absolute inset-0 rounded-[1.25rem] sm:rounded-[2rem] ring-1 ring-inset ring-white/15" />
             </div>
 
-            {/* Floating Bottom Card on Video */}
-            <div className="absolute bottom-6 left-6 right-6 z-20 rounded-2xl border border-white/15 bg-zinc-950/85 p-6 backdrop-blur-xl text-white">
-              <div className="flex items-center gap-4">
-                <div className="grid size-10 place-items-center rounded-xl bg-brand/20 text-brand shrink-0">
-                  <Cpu size={20} />
+            {/* Bottom Status Card (Sits cleanly below video on mobile with 0 overlap!) */}
+            <div className="rounded-[1.25rem] sm:rounded-[1.5rem] border border-white/15 bg-zinc-950/90 p-4 sm:p-6 backdrop-blur-xl text-white">
+              <div className="flex items-center gap-3.5 sm:gap-4">
+                <div className="grid size-9 sm:size-11 place-items-center rounded-xl bg-brand/20 text-brand shrink-0">
+                  <Cpu size={18} className="sm:w-5 sm:h-5" />
                 </div>
                 <div>
-                  <h4 className="text-sm sm:text-base font-bold text-white">Instant BIM Parameter Sync</h4>
-                  <p className="text-xs text-zinc-400 mt-0.5">Calculated parameters push back to Revit families in 2 seconds.</p>
+                  <h4 className="text-xs sm:text-base font-bold text-white">Instant BIM Parameter Sync</h4>
+                  <p className="text-[11px] sm:text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                    Calculated parameters push back to Revit families in 2 seconds.
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Inner ring for luxury feel */}
-            <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] ring-1 ring-inset ring-white/15" />
           </div>
         </Reveal>
 
