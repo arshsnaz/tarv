@@ -132,7 +132,7 @@ export function Company() {
                     <Building2 size={14} /> Official Head Office Location
                   </div>
                   <div className="text-sm font-bold text-foreground mt-0.5">
-                    Consistent Engineering Consultants · Dubai, UAE
+                    API World Tower 403, Sheikh Zayed Rd, Dubai, UAE
                   </div>
                 </div>
                 <div className="overflow-hidden rounded-2xl border border-border shadow-inner">

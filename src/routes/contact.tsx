@@ -52,7 +52,7 @@ function ContactPage() {
               <h3 className="text-2xl font-bold flex items-center gap-2">
                 <Building2 size={22} className="text-brand" /> Global Headquarters
               </h3>
-              <p className="text-sm text-muted-foreground mt-1">Consistent Engineering Consultants · Dubai, UAE</p>
+              <p className="text-sm text-muted-foreground mt-1">API World Tower · Sheikh Zayed Rd, Dubai</p>
             </div>
             
             <div className="space-y-5 text-sm md:text-base">
@@ -62,7 +62,7 @@ function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-foreground">Official Office Address</h4>
-                  <p className="text-muted-foreground mt-0.5 text-sm">Consistent Engineering Consultants, Dubai, United Arab Emirates</p>
+                  <p className="text-muted-foreground mt-0.5 text-sm leading-relaxed">API World Tower 403, Sheikh Zayed Rd - Trade Center First - Dubai - United Arab Emirates</p>
                 </div>
               </div>
 
