@@ -1,12 +1,5 @@
-import { ArrowRight, Mail, MapPin, ShieldCheck, Cpu, Zap, Lock, CheckCircle } from "lucide-react";
+import { ArrowRight, Mail, MapPin, ShieldCheck, Cpu, Zap } from "lucide-react";
 import { Reveal } from "./reveal";
-
-const trustBadges = [
-  "ISO 27001 Certified",
-  "ASHRAE & IPC Aligned",
-  "256-bit Encryption",
-  "Revit & IFC Native",
-];
 
 const liveStats = [
   { label: "Calculations Run", value: "50,000+" },
@@ -24,19 +17,19 @@ export function Cta() {
         
         {/* Left Panel - Pitch, Trust Ticker & CTA */}
         <Reveal>
-          <div className="glass relative flex h-full min-h-[500px] md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-zinc-950/85 p-8 md:p-14 border border-white/10 dark:border-white/10 shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
+          <div className="glass relative flex h-full min-h-[500px] md:min-h-[620px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-card/85 p-8 md:p-14 border border-border shadow-2xl transition-all duration-500 hover:shadow-brand-soft/20">
             <div className="relative z-10">
               {/* Trust Badge Ribbon */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold text-brand backdrop-blur-md">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-4 py-1.5 text-xs font-bold text-brand backdrop-blur-md">
                 <ShieldCheck size={15} />
                 ENTERPRISE-GRADE MEP PLATFORM
               </div>
 
-              <h2 className="text-balance mt-6 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl text-white">
+              <h2 className="text-balance mt-6 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl text-foreground">
                 Engineer what's <br className="hidden md:block" /> next.
               </h2>
 
-              <p className="mt-6 max-w-lg text-base md:text-lg text-zinc-400 leading-relaxed">
+              <p className="mt-6 max-w-lg text-base md:text-lg text-muted-foreground leading-relaxed">
                 Ready to streamline your MEP workflow? Join leading engineering teams automating HVAC, electrical, and plumbing calculations with total audit confidence.
               </p>
 
@@ -44,7 +37,7 @@ export function Cta() {
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <a
                   href="/access"
-                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.5)]"
+                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-105 hover:opacity-90"
                 >
                   Request access <ArrowRight size={18} className="transition-transform group-hover:translate-x-1.5" />
                 </a>
@@ -52,11 +45,11 @@ export function Cta() {
             </div>
 
             {/* Live Trust Metrics Footer Inside Panel */}
-            <div className="relative z-10 mt-12 pt-8 border-t border-white/10 grid grid-cols-3 gap-3">
+            <div className="relative z-10 mt-12 pt-8 border-t border-border/80 grid grid-cols-3 gap-3">
               {liveStats.map((st) => (
                 <div key={st.label}>
-                  <div className="font-display text-xl md:text-2xl font-bold text-white tracking-tight">{st.value}</div>
-                  <div className="text-[11px] font-medium text-zinc-400 mt-0.5">{st.label}</div>
+                  <div className="font-display text-xl md:text-2xl font-extrabold text-foreground tracking-tight">{st.value}</div>
+                  <div className="text-[11px] font-semibold text-muted-foreground mt-0.5">{st.label}</div>
                 </div>
               ))}
             </div>
