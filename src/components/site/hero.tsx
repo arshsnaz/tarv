@@ -7,7 +7,7 @@ import { Reveal } from "./reveal";
  * Scroll distance (px) that advances the video by one second.
  * Larger = slower, smoother scrub (Endra-style long hero scroll).
  */
-const PX_PER_SECOND = 90;
+const PX_PER_SECOND = 26;
 const HERO_VIDEO_START_TIME = 0;
 const heroVideoSrc = "https://tarvvdo.b-cdn.net/ref1.mp4";
 const logoSrc = `${import.meta.env.BASE_URL}favicon.png`;
@@ -100,16 +100,17 @@ export function VideoHero() {
     };
   }, []);
 
-  // Frame-by-frame scroll scrubbing controller
+  // Endra-Grade 60fps High-Performance Scroll Scrubbing Controller
   useEffect(() => {
-    if (!duration) return;
     const video = videoRef.current;
     const section = sectionRef.current;
     if (!video || !section) return;
 
     let animFrameId: number;
     let targetTime = 0;
+    let isSeeking = false;
 
+    // Warm up video element
     video.pause();
 
     const handleScroll = () => {
@@ -117,19 +118,25 @@ export function VideoHero() {
       const totalScrollDistance = section.offsetHeight - window.innerHeight;
       if (totalScrollDistance <= 0) return;
 
-      // Smooth progress calculation across the scroll section (0.0 to 1.0)
+      // Calculate smooth scroll progress (0.0 to 1.0)
       const currentScroll = Math.min(Math.max(-rect.top, 0), totalScrollDistance);
       const progress = currentScroll / totalScrollDistance;
 
-      targetTime = progress * Math.max(duration - 0.05, 0.1);
+      const vidDuration = video.duration || 6;
+      targetTime = progress * Math.max(vidDuration - 0.05, 0.1);
     };
 
     const render = () => {
-      if (video && Number.isFinite(targetTime)) {
+      if (video && Number.isFinite(targetTime) && !isSeeking) {
         const diff = targetTime - video.currentTime;
         if (Math.abs(diff) > 0.005) {
-          // Instant fast-response seek (0.45 interpolation factor) for immediate response to every scroll notch
-          video.currentTime = video.currentTime + diff * 0.45;
+          isSeeking = true;
+          // Hyper-responsive 0.1s frame tracking (0.85 responsiveness factor)
+          const nextTime = video.currentTime + diff * 0.85;
+          video.currentTime = nextTime;
+          requestAnimationFrame(() => {
+            isSeeking = false;
+          });
         }
       }
       animFrameId = requestAnimationFrame(render);
@@ -155,7 +162,7 @@ export function VideoHero() {
       style={{ height: `calc(100vh + ${(duration || 6) * PX_PER_SECOND}px)` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Pure scroll-scrubbed background video */}
+        {/* pure scroll-scrubbed background video */}
         <video
           ref={videoRef}
           className="pointer-events-none absolute inset-0 size-full object-cover"
@@ -163,6 +170,7 @@ export function VideoHero() {
           muted
           playsInline
           preload="auto"
+          crossOrigin="anonymous"
           aria-hidden="true"
           onLoadedMetadata={(e) => {
             const v = e.currentTarget;
@@ -177,7 +185,7 @@ export function VideoHero() {
         />
 
         <div className="relative flex h-full flex-col items-center justify-center px-6 text-center pointer-events-none">
-          {/* Pure video section */}
+          {/* Pure video section with no text overlay */}
         </div>
       </div>
     </section>
