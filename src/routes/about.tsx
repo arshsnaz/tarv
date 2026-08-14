@@ -7,13 +7,27 @@ import { Reveal } from "@/components/site/reveal";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Us | TARV — AI-Powered MEP Engineering Automation" },
+      { title: "About Us — TARV AI MEP Engineering & Calculation Software" },
       {
         name: "description",
         content:
-          "TARV was founded in Dubai, UAE by engineers who spent their careers redrawing ducts, risers, and schedules. We build AI-powered MEP design automation software for global engineers.",
+          "Learn about TARV Engineering — founded in Dubai, UAE to build the world's most advanced online MEP calculator, HVAC load solver, and MEP design automation software.",
       },
+      {
+        name: "keywords",
+        content:
+          "MEP engineering calculator, MEP design tools, MEP formulas, MEP calculation software, online engineering calculator MEP, Dubai MEP engineering",
+      },
+      { property: "og:title", content: "About Us — TARV AI MEP Engineering & Calculation Software" },
+      { property: "og:description", content: "Discover how TARV is revolutionizing MEP engineering design tools and automated calculation software." },
+      { property: "og:url", content: "https://tarvofficial.vercel.app/about" },
+      { property: "og:image", content: "https://tarvofficial.vercel.app/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "About Us — TARV AI MEP Engineering Software" },
+      { name: "twitter:description", content: "AI-Powered Online MEP Calculator & Building Systems Automation Software." },
+      { name: "twitter:image", content: "https://tarvofficial.vercel.app/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://tarvofficial.vercel.app/about" }],
   }),
   component: AboutPage,
 });

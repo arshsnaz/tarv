@@ -20,13 +20,27 @@ import { Reveal } from "@/components/site/reveal";
 export const Route = createFileRoute("/access")({
   head: () => ({
     meta: [
-      { title: "Request Private Access | TARV — AI MEP Engineering Suite" },
+      { title: "Get Access — Free Online MEP Calculator & AI MEP Design Tools | TARV" },
       {
         name: "description",
         content:
-          "Apply for private beta access to TARV. The #1 AI-powered platform for automated HVAC heat load calculations, Revit BIM parameter sync, and electrical voltage drop sizing.",
+          "Request private beta access to TARV — the #1 online MEP calculator & design software. Automate HVAC heat load calculations, electrical voltage drop, duct sizing, and BIM schedules.",
       },
+      {
+        name: "keywords",
+        content:
+          "free MEP calculator, MEP calculator online, MEP engineering calculator, MEP tools online, MEP design tools, MEP calculation software, online engineering calculator MEP, HVAC electrical plumbing calculator",
+      },
+      { property: "og:title", content: "Get Access — Free Online MEP Calculator & AI MEP Design Tools | TARV" },
+      { property: "og:description", content: "Request private access to TARV AI MEP Calculation Software & Design Automation Suite." },
+      { property: "og:url", content: "https://tarvofficial.vercel.app/access" },
+      { property: "og:image", content: "https://tarvofficial.vercel.app/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Request Access — TARV AI MEP Calculation Software" },
+      { name: "twitter:description", content: "Free Online MEP Calculator & Engineering Suite for HVAC, Electrical & Plumbing Design." },
+      { name: "twitter:image", content: "https://tarvofficial.vercel.app/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://tarvofficial.vercel.app/access" }],
   }),
   component: AccessPage,
 });

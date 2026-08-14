@@ -8,13 +8,27 @@ import { submitContactRequest } from "@/lib/contact-request";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Us | TARV — Enterprise Support & Sales" },
+      { title: "Contact Us — TARV MEP Calculator & Enterprise Engineering Support" },
       {
         name: "description",
         content:
-          "Get in touch with TARV Engineering at API World Tower, Sheikh Zayed Rd, Dubai, UAE. Contact enterprise sales, technical support, or schedule a custom BIM demo.",
+          "Contact TARV Engineering at API World Tower 403, Sheikh Zayed Rd, Dubai, UAE. Talk with our MEP calculation software team, request enterprise BIM integration, or get technical support.",
       },
+      {
+        name: "keywords",
+        content:
+          "MEP engineering calculator support, MEP tools online contact, MEP design tools sales, online engineering calculator MEP Dubai, HVAC electrical plumbing calculator",
+      },
+      { property: "og:title", content: "Contact Us — TARV MEP Calculator & Enterprise Support" },
+      { property: "og:description", content: "Get in touch with TARV Engineering in Dubai, UAE. Contact enterprise sales & technical support." },
+      { property: "og:url", content: "https://tarvofficial.vercel.app/contact" },
+      { property: "og:image", content: "https://tarvofficial.vercel.app/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Contact Us — TARV MEP Calculator & Enterprise Support" },
+      { name: "twitter:description", content: "Contact TARV Engineering in Dubai for MEP calculation software & AI design automation." },
+      { name: "twitter:image", content: "https://tarvofficial.vercel.app/og-image.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://tarvofficial.vercel.app/contact" }],
   }),
   component: ContactPage,
 });

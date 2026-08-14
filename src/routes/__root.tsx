@@ -85,54 +85,82 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const softwareSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "TARV",
-    operatingSystem: "Web-based, Windows, macOS",
-    applicationCategory: "EngineeringSoftware",
-    offers: {
-      "@type": "Offer",
-      price: "0.00",
-      priceCurrency: "USD",
-    },
-    description:
-      "TARV is the premier AI-powered platform for MEP (mechanical, electrical, plumbing) design automation, HVAC heat load calculations, equipment schedules, and Revit BIM 2-way parameter sync.",
-    author: {
-      "@type": "Organization",
-      name: "TARV Engineering",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "API World Tower 403, Sheikh Zayed Rd",
-        addressLocality: "Dubai",
-        addressCountry: "AE",
+  const ogImageUrl = `${siteUrl}og-image.jpg`;
+
+  const structuredSchemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "TARV MEP Engineering AI Software",
+      operatingSystem: "Web-based, Windows, macOS",
+      applicationCategory: "EngineeringSoftware",
+      offers: {
+        "@type": "Offer",
+        price: "0.00",
+        priceCurrency: "USD",
+      },
+      description:
+        "TARV is the premier AI-powered online MEP calculator and design automation software. Performs HVAC heat load calculations, electrical voltage drop sizing, duct static pressure solving, plumbing sizing, and Revit BIM parameter sync.",
+      url: siteUrl,
+      image: ogImageUrl,
+      author: {
+        "@type": "Organization",
+        name: "TARV Engineering",
+        url: siteUrl,
+        logo: `${siteUrl}favicon.png`,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "API World Tower 403, Sheikh Zayed Rd - Trade Center First",
+          addressLocality: "Dubai",
+          addressRegion: "Dubai",
+          addressCountry: "AE",
+        },
       },
     },
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "TARV MEP Engineering Software",
+      url: siteUrl,
+      description: "Free Online MEP Engineering Calculator, Design Automation Software & HVAC Electrical Plumbing Tools.",
+    },
+  ];
 
   return (
     <html lang="en" className="dark">
       <head>
-        <title>TARV — AI-Powered MEP Design Automation & HVAC Calculations</title>
+        <title>TARV — #1 AI MEP Calculator Online & MEP Engineering Software</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="TARV is the #1 AI-powered platform for MEP (mechanical, electrical, plumbing) design automation. Real-time HVAC heat load sizing, automated BIM equipment schedules, and ASHRAE & IPC code compliance."
+          content="Free Online MEP Calculator & Engineering Software. Automate HVAC heat load sizing, electrical voltage drop, duct static pressure, plumbing formulas, and Revit BIM schedules with AI precision."
         />
         <meta
           name="keywords"
-          content="MEP Engineering Software, AI HVAC Calculator, Revit BIM Parameter Sync, Electrical Voltage Drop Calculation, Duct Static Pressure Solver, Dubai UAE MEP, ASHRAE Load Calculation"
+          content="MEP calculator, MEP calculator online, free MEP calculator, MEP engineering calculator, MEP tools online, MEP design tools, MEP formulas, MEP calculation software, online engineering calculator MEP, HVAC electrical plumbing calculator, ASHRAE heat load solver, Revit BIM parameter sync"
         />
         <meta name="author" content="TARV Engineering" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="theme-color" content="#090d16" />
+
+        {/* OpenGraph / Social Sharing */}
         <meta property="og:site_name" content="TARV Engineering" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="TARV — AI-Powered MEP Design Automation" />
-        <meta property="og:description" content="Automate mechanical, electrical, and plumbing engineering calculations with 99.4% ASHRAE accuracy." />
+        <meta property="og:title" content="TARV — #1 AI MEP Calculator Online & MEP Engineering Software" />
+        <meta property="og:description" content="Free Online MEP Engineering Calculator & AI Design Tools. Calculate HVAC heat loads, electrical voltage drop, airflow CFM, and plumbing risers instantly." />
         <meta property="og:url" content={siteUrl} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/jpeg" />
+
+        {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="TARV — AI-Powered MEP Engineering Software" />
-        <meta name="twitter:description" content="Physics-based solver engine for HVAC load calculations, single-line diagrams, and BIM schedules." />
+        <meta name="twitter:title" content="TARV — #1 AI MEP Calculator Online & MEP Engineering Software" />
+        <meta name="twitter:description" content="Physics-based online MEP calculator & design automation software for HVAC, electrical, and plumbing engineering." />
+        <meta name="twitter:image" content={ogImageUrl} />
+
         <link rel="canonical" href={siteUrl} />
         <link rel="icon" type="image/png" href={`${baseUrl}favicon.png`} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -143,7 +171,7 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredSchemas) }}
         />
         <HeadContent />
       </head>
