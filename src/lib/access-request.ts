@@ -26,6 +26,7 @@ export const submitAccessRequest = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const apiKey = process.env["RESEND_API_KEY"];
     const toEmail = process.env["ACCESS_REQUEST_TO_EMAIL"] ?? "admin@tarv.ai";
+    const fromEmail = process.env["RESEND_FROM_EMAIL"] ?? "TARV Access Requests <onboarding@resend.dev>";
 
     if (!apiKey) {
       throw new Error("Email service is not configured");
@@ -34,7 +35,7 @@ export const submitAccessRequest = createServerFn({ method: "POST" })
     const resend = new Resend(apiKey);
 
     const { error } = await resend.emails.send({
-      from: "TARV Access Requests <onboarding@resend.dev>",
+      from: fromEmail,
       to: toEmail,
       replyTo: data.email,
       subject: `New access request — ${data.company}`,
