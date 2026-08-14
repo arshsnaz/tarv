@@ -28,6 +28,8 @@ export const submitAccessRequest = createServerFn({ method: "POST" })
     const toEmail = process.env["ACCESS_REQUEST_TO_EMAIL"] ?? "tarv.official@gmail.com";
     const fromEmail = process.env["RESEND_FROM_EMAIL"] ?? "TARV Access Requests <onboarding@resend.dev>";
 
+    console.log(`[AccessRequest] Target Email: "${toEmail}", API Key Prefix: "${apiKey?.substring(0, 7)}..."`);
+
     if (!apiKey) {
       throw new Error("Email service is not configured");
     }
