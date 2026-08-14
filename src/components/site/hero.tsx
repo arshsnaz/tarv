@@ -124,8 +124,8 @@ export function VideoHero() {
       const video = videoRef.current;
       if (video) {
         const diff = targetTime - currentAnimTime;
-        if (Math.abs(diff) > 0.00001) {
-          currentAnimTime += diff * 0.65;
+        if (Math.abs(diff) > 0.000000000001) {
+          currentAnimTime += diff * 0.75;
           if (!video.seeking) {
             try {
               video.currentTime = currentAnimTime;
