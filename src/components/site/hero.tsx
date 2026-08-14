@@ -5,9 +5,9 @@ import { Reveal } from "./reveal";
 
 /**
  * Scroll distance (px) that advances the video by one second.
- * Larger = slower, smoother scrub (Endra-style long hero scroll).
+ * Lower value = faster, immediate cursor response (0.1s feeling per scroll).
  */
-const PX_PER_SECOND = 26;
+const PX_PER_SECOND = 140;
 const HERO_VIDEO_START_TIME = 0;
 const heroVideoSrc = "https://tarvvdo.b-cdn.net/ref1.mp4";
 const logoSrc = `${import.meta.env.BASE_URL}favicon.png`;
@@ -81,76 +81,73 @@ export function VideoHero() {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
     const syncDuration = () => {
-      const d = video.duration;
-      if (Number.isFinite(d) && d > 0) {
-        setDuration(d);
+      const video = videoRef.current;
+      if (!video) return;
+      const nextDuration = video.duration;
+      if (Number.isFinite(nextDuration) && nextDuration > 0) {
+        setDuration(nextDuration);
       }
     };
 
-    if (video.readyState >= 1) syncDuration();
-    video.addEventListener("loadedmetadata", syncDuration);
-    video.addEventListener("durationchange", syncDuration);
+    syncDuration();
+    const video = videoRef.current;
+    video?.addEventListener("loadedmetadata", syncDuration);
+    video?.addEventListener("durationchange", syncDuration);
+    const interval = window.setInterval(syncDuration, 100);
     return () => {
-      video.removeEventListener("loadedmetadata", syncDuration);
-      video.removeEventListener("durationchange", syncDuration);
+      window.clearInterval(interval);
+      video?.removeEventListener("loadedmetadata", syncDuration);
+      video?.removeEventListener("durationchange", syncDuration);
     };
   }, []);
 
-  // Endra-Grade 60fps High-Performance Scroll Scrubbing Controller
+  // Butter-smooth 60FPS scroll-scrubbed playback physics
   useEffect(() => {
-    const video = videoRef.current;
-    const section = sectionRef.current;
-    if (!video || !section) return;
+    if (!duration) return;
+    let targetTime = HERO_VIDEO_START_TIME;
+    let currentAnimTime = HERO_VIDEO_START_TIME;
+    let animationFrameId: number;
 
-    let animFrameId: number;
-    let targetTime = 0;
-    let isSeeking = false;
-
-    // Warm up video element
-    video.pause();
-
-    const handleScroll = () => {
-      const rect = section.getBoundingClientRect();
-      const totalScrollDistance = section.offsetHeight - window.innerHeight;
-      if (totalScrollDistance <= 0) return;
-
-      // Calculate smooth scroll progress (0.0 to 1.0)
-      const currentScroll = Math.min(Math.max(-rect.top, 0), totalScrollDistance);
-      const progress = currentScroll / totalScrollDistance;
-
-      const vidDuration = video.duration || 6;
-      targetTime = progress * Math.max(vidDuration - 0.05, 0.1);
+    const updateTargetTime = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+      const scrollTop = document.scrollingElement?.scrollTop ?? window.scrollY;
+      const sectionTop = section.offsetTop;
+      const scrollOffset = Math.max(0, scrollTop - sectionTop);
+      const maxScroll = duration * PX_PER_SECOND;
+      const progress = Math.min(1, Math.max(0, scrollOffset / maxScroll));
+      targetTime = progress * (duration - 0.05);
     };
 
-    const render = () => {
-      if (video && Number.isFinite(targetTime) && !isSeeking) {
-        const diff = targetTime - video.currentTime;
-        if (Math.abs(diff) > 0.005) {
-          isSeeking = true;
-          // Hyper-responsive 0.1s frame tracking (0.85 responsiveness factor)
-          const nextTime = video.currentTime + diff * 0.85;
-          video.currentTime = nextTime;
-          requestAnimationFrame(() => {
-            isSeeking = false;
-          });
+    const renderLoop = () => {
+      const video = videoRef.current;
+      if (video) {
+        const diff = targetTime - currentAnimTime;
+        if (Math.abs(diff) > 0.001) {
+          currentAnimTime += diff * 0.25;
+          if (!video.seeking) {
+            try {
+              video.currentTime = currentAnimTime;
+            } catch {
+              // Ignore boundary seek errors
+            }
+          }
         }
       }
-      animFrameId = requestAnimationFrame(render);
+      animationFrameId = requestAnimationFrame(renderLoop);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
-    handleScroll();
-    animFrameId = requestAnimationFrame(render);
+    updateTargetTime();
+    animationFrameId = requestAnimationFrame(renderLoop);
+
+    window.addEventListener("scroll", updateTargetTime, { passive: true });
+    window.addEventListener("resize", updateTargetTime, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-      cancelAnimationFrame(animFrameId);
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("scroll", updateTargetTime);
+      window.removeEventListener("resize", updateTargetTime);
     };
   }, [duration]);
 
@@ -170,7 +167,6 @@ export function VideoHero() {
           muted
           playsInline
           preload="auto"
-          crossOrigin="anonymous"
           aria-hidden="true"
           onLoadedMetadata={(e) => {
             const v = e.currentTarget;
