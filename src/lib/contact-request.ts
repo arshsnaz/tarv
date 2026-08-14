@@ -32,7 +32,7 @@ export const submitContactRequest = createServerFn({ method: "POST" })
       from: "TARV Contact Us <contact@resend.dev>",
       to: toEmail,
       replyTo: data.email,
-      subject: `📩 Contact Inquiry from ${data.name} (${data.company || "Individual"})`,
+      subject: `New Contact Inquiry from ${data.name} (${data.company || "Individual"})`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -41,38 +41,38 @@ export const submitContactRequest = createServerFn({ method: "POST" })
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>New TARV Contact Inquiry</title>
         </head>
-        <body style="margin:0; padding:0; background-color:#09090b; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#f4f4f5;">
-          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#09090b; padding:40px 15px;">
+        <body style="margin:0; padding:0; background-color:#f1f5f9; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; color:#0f172a;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#f1f5f9; padding:44px 16px;">
             <tr>
               <td align="center">
-                <!-- Email Container -->
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:600px; background-color:#121215; border:1px solid #27272a; border-radius:16px; overflow:hidden; box-shadow:0 20px 25px -5px rgba(0, 0, 0, 0.5);">
+                <!-- Main Email Card Container -->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:580px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:18px; overflow:hidden; box-shadow:0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);">
                   
-                  <!-- Top Gradient Accent Bar -->
+                  <!-- Top Electric Blue Gradient Accent -->
                   <tr>
-                    <td style="height:4px; background:linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);"></td>
+                    <td style="height:5px; background:linear-gradient(90deg, #0284c7 0%, #3b82f6 50%, #6366f1 100%);"></td>
                   </tr>
 
-                  <!-- Header with Logo -->
+                  <!-- Executive Header -->
                   <tr>
-                    <td style="padding:28px 32px 20px 32px; border-bottom:1px solid #27272a;">
+                    <td style="padding:28px 36px 22px 36px; border-bottom:1px solid #f1f5f9;">
                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                           <td valign="middle">
                             <table border="0" cellspacing="0" cellpadding="0">
                               <tr>
-                                <td valign="middle" style="padding-right:12px;">
-                                  <img src="https://tarvofficial.vercel.app/favicon.png" width="36" height="36" alt="TARV Logo" style="display:block; border-radius:8px; border:1px solid rgba(255,255,255,0.1);" />
+                                <td valign="middle" style="padding-right:14px;">
+                                  <img src="https://tarvofficial.vercel.app/favicon.png" width="38" height="38" alt="TARV Logo" style="display:block; border-radius:10px; background-color:#0f172a; padding:4px;" />
                                 </td>
                                 <td valign="middle">
-                                  <span style="font-size:20px; font-weight:800; tracking:1px; color:#ffffff; letter-spacing:0.5px;">TARV</span>
-                                  <span style="display:block; font-size:11px; color:#a1a1aa; font-weight:500; text-transform:uppercase; letter-spacing:1px; margin-top:2px;">Engineering AI</span>
+                                  <span style="font-size:22px; font-weight:800; color:#0f172a; letter-spacing:-0.5px; display:block;">TARV</span>
+                                  <span style="font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:1.2px; display:block; margin-top:1px;">Engineering AI</span>
                                 </td>
                               </tr>
                             </table>
                           </td>
                           <td align="right" valign="middle">
-                            <span style="display:inline-block; padding:4px 10px; background-color:rgba(0, 242, 254, 0.1); border:1px solid rgba(0, 242, 254, 0.3); border-radius:9999px; color:#38bdf8; font-size:11px; font-weight:600; letter-spacing:0.5px;">
+                            <span style="display:inline-block; padding:5px 12px; background-color:#eff6ff; border:1px solid #bfdbfe; border-radius:9999px; color:#1d4ed8; font-size:11px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase;">
                               CONTACT INQUIRY
                             </span>
                           </td>
@@ -81,38 +81,38 @@ export const submitContactRequest = createServerFn({ method: "POST" })
                     </td>
                   </tr>
 
-                  <!-- Title Banner -->
+                  <!-- Email Subject Header -->
                   <tr>
-                    <td style="padding:28px 32px 12px 32px;">
-                      <h1 style="margin:0; font-size:22px; font-weight:700; color:#ffffff; letter-spacing:-0.5px;">
+                    <td style="padding:28px 36px 12px 36px;">
+                      <h1 style="margin:0; font-size:22px; font-weight:700; color:#0f172a; letter-spacing:-0.5px; line-height:1.3;">
                         New Website Contact Inquiry
                       </h1>
-                      <p style="margin:8px 0 0 0; font-size:14px; color:#a1a1aa; line-height:1.5;">
+                      <p style="margin:8px 0 0 0; font-size:14px; color:#475569; line-height:1.5;">
                         A visitor has submitted a message via the Contact Us form on tarv.ai.
                       </p>
                     </td>
                   </tr>
 
-                  <!-- Sender Details Card -->
+                  <!-- Structured Details Grid Container -->
                   <tr>
-                    <td style="padding:16px 32px 24px 32px;">
-                      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#18181b; border:1px solid #27272a; border-radius:12px; padding:20px; table-layout:fixed;">
+                    <td style="padding:16px 36px 24px 36px;">
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:22px; table-layout:fixed;">
                         
                         <tr>
-                          <td style="padding-bottom:14px;" width="50%">
-                            <span style="font-size:11px; font-weight:600; color:#71717a; text-transform:uppercase; letter-spacing:0.8px; display:block;">Full Name</span>
-                            <span style="font-size:15px; font-weight:600; color:#f4f4f5; display:block; margin-top:3px;">${escapeHtml(data.name)}</span>
+                          <td style="padding-bottom:16px;" width="50%">
+                            <span style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; display:block;">Full Name</span>
+                            <span style="font-size:15px; font-weight:600; color:#0f172a; display:block; margin-top:3px;">${escapeHtml(data.name)}</span>
                           </td>
-                          <td style="padding-bottom:14px;" width="50%">
-                            <span style="font-size:11px; font-weight:600; color:#71717a; text-transform:uppercase; letter-spacing:0.8px; display:block;">Work Email</span>
-                            <a href="mailto:${escapeHtml(data.email)}" style="font-size:14px; font-weight:500; color:#38bdf8; text-decoration:none; display:block; margin-top:3px; word-break:break-all;">${escapeHtml(data.email)}</a>
+                          <td style="padding-bottom:16px;" width="50%">
+                            <span style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; display:block;">Work Email</span>
+                            <a href="mailto:${escapeHtml(data.email)}" style="font-size:14px; font-weight:600; color:#2563eb; text-decoration:none; display:block; margin-top:3px; word-break:break-all;">${escapeHtml(data.email)}</a>
                           </td>
                         </tr>
 
                         <tr>
                           <td colspan="2">
-                            <span style="font-size:11px; font-weight:600; color:#71717a; text-transform:uppercase; letter-spacing:0.8px; display:block;">Company / Firm</span>
-                            <span style="font-size:15px; font-weight:600; color:#ffffff; display:block; margin-top:3px;">${escapeHtml(data.company || "N/A")}</span>
+                            <span style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; display:block;">Company / Firm</span>
+                            <span style="font-size:15px; font-weight:600; color:#0f172a; display:block; margin-top:3px;">${escapeHtml(data.company || "N/A")}</span>
                           </td>
                         </tr>
 
@@ -122,29 +122,29 @@ export const submitContactRequest = createServerFn({ method: "POST" })
 
                   <!-- Message Content -->
                   <tr>
-                    <td style="padding:0 32px 28px 32px;">
-                      <span style="font-size:12px; font-weight:600; color:#a1a1aa; text-transform:uppercase; letter-spacing:0.8px; display:block; margin-bottom:8px;">Message Content</span>
-                      <div style="background-color:#18181b; border-left:3px solid #00f2fe; border-radius:4px 8px 8px 4px; padding:16px; font-size:14px; color:#e4e4e7; line-height:1.6;">
+                    <td style="padding:0 36px 28px 36px;">
+                      <span style="font-size:12px; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.8px; display:block; margin-bottom:8px;">Message Content</span>
+                      <div style="background-color:#f0f9ff; border:1px solid #e0f2fe; border-left:4px solid #0284c7; border-radius:6px 12px 12px 6px; padding:18px; font-size:14px; color:#1e293b; line-height:1.6;">
                         ${escapeHtml(data.message).replace(/\n/g, "<br/>")}
                       </div>
                     </td>
                   </tr>
 
-                  <!-- Action CTA Button -->
+                  <!-- Primary Executive Action Button -->
                   <tr>
-                    <td style="padding:0 32px 32px 32px;" align="center">
-                      <a href="mailto:${escapeHtml(data.email)}?subject=${encodeURIComponent(`Re: TARV Contact Inquiry — ${data.name}`)}" style="display:inline-block; background:linear-gradient(90deg, #00f2fe 0%, #4facfe 100%); color:#09090b; font-size:14px; font-weight:700; padding:12px 28px; border-radius:9999px; text-decoration:none; box-shadow:0 4px 14px rgba(0, 242, 254, 0.3);">
+                    <td style="padding:4px 36px 36px 36px;" align="center">
+                      <a href="mailto:${escapeHtml(data.email)}?subject=${encodeURIComponent(`Re: TARV Contact Inquiry — ${data.name}`)}" style="display:inline-block; background-color:#0f172a; color:#ffffff; font-size:14px; font-weight:700; padding:14px 32px; border-radius:9999px; text-decoration:none; box-shadow:0 4px 12px rgba(15, 23, 42, 0.15); letter-spacing:0.2px;">
                         Reply Directly to ${escapeHtml(data.name)} &rarr;
                       </a>
                     </td>
                   </tr>
 
-                  <!-- Footer -->
+                  <!-- Executive Footer -->
                   <tr>
-                    <td style="padding:20px 32px; background-color:#09090b; border-top:1px solid #27272a; text-align:center;">
-                      <p style="margin:0; font-size:12px; color:#71717a; line-height:1.5;">
-                        TARV AI Inc. &bull; API World Tower 403, Sheikh Zayed Rd, Dubai, UAE<br/>
-                        <a href="https://tarvofficial.vercel.app" style="color:#a1a1aa; text-decoration:underline;">tarv.ai</a> &bull; Physics-Grade MEP Automation Suite
+                    <td style="padding:22px 36px; background-color:#f8fafc; border-top:1px solid #e2e8f0; text-align:center;">
+                      <p style="margin:0; font-size:12px; color:#64748b; line-height:1.6;">
+                        <strong>TARV AI Inc.</strong> &bull; API World Tower 403, Sheikh Zayed Rd, Dubai, UAE<br/>
+                        <a href="https://tarvofficial.vercel.app" style="color:#0284c7; text-decoration:none; font-weight:600;">tarv.ai</a> &bull; Physics-Grade MEP Automation Suite
                       </p>
                     </td>
                   </tr>
