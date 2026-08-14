@@ -161,10 +161,10 @@ export function VideoHero() {
       style={{ height: `calc(100vh + ${(duration || 6) * PX_PER_SECOND}px)` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* pure scroll-scrubbed background video with subtle scale to crop watermark naturally */}
+        {/* pure scroll-scrubbed background video with top-left origin scale to push bottom-right watermark completely offscreen */}
         <video
           ref={videoRef}
-          className="pointer-events-none absolute inset-0 size-full object-cover scale-[1.08] origin-bottom-right"
+          className="pointer-events-none absolute inset-0 size-full object-cover scale-[1.22] origin-top-left"
           src={heroVideoSrc}
           muted
           playsInline
@@ -183,7 +183,7 @@ export function VideoHero() {
         />
 
         {/* Full-width cinematic gradient fade to naturally blend video bottom into section */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-44 bg-gradient-to-t from-black via-black/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-44 bg-gradient-to-t from-black via-black/80 to-transparent" />
 
         <div className="relative flex h-full flex-col items-center justify-center px-6 text-center pointer-events-none">
           {/* Pure video section with no text overlay */}
