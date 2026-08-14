@@ -61,13 +61,15 @@ export function Platform() {
             <div className="glass shadow-glass rounded-[2rem] p-2.5 sm:p-3 transition-all duration-500 hover:shadow-brand-soft/20 border border-border">
               <div className="relative overflow-hidden rounded-[1.5rem] bg-zinc-950 border border-white/10 dark:border-white/5 flex items-center justify-center">
                 <video 
-                  src="/ref2.mp4"
                   autoPlay
                   loop
                   muted
                   playsInline
+                  preload="auto"
                   className="w-full h-auto object-contain block rounded-[1.25rem]"
-                />
+                >
+                  <source src="https://tarvvdo.b-cdn.net/ref2.mp4" type="video/mp4" />
+                </video>
               </div>
             </div>
           </Reveal>
