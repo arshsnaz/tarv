@@ -233,9 +233,9 @@
 @utility grid-bg {
   background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
-  mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 58%);
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 58%);
 }
 
 @utility halo {
