@@ -103,7 +103,7 @@
     oklch(0.35 0.12 260) 42%,
     oklch(0.52 0.22 260)
   );
-  --gradient-halo: radial-gradient(circle at center, oklch(0.58 0.25 255 / 0.8), transparent 75%);
+  --gradient-halo: radial-gradient(circle at center, oklch(0.58 0.22 255 / 0.52), transparent 70%);
   --gradient-panel: linear-gradient(180deg, var(--surface), var(--background));
 
   --chart-1: oklch(0.52 0.22 260);
@@ -163,7 +163,7 @@
     oklch(0.86 0.04 256) 40%,
     oklch(0.66 0.20 256)
   );
-  --gradient-halo: radial-gradient(circle at center, oklch(0.66 0.24 255 / 0.85), transparent 75%);
+  --gradient-halo: radial-gradient(circle at center, oklch(0.64 0.22 255 / 0.55), transparent 70%);
   --gradient-panel: linear-gradient(180deg, var(--surface-2), var(--background));
 
   --chart-1: oklch(0.66 0.20 256);

@@ -22,8 +22,8 @@ export function HomeHero() {
       <div className="pointer-events-none absolute inset-0 grid-bg opacity-90" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
-        {/* Ambient blue lens halo mathematically centered directly behind headline */}
-        <div className="pointer-events-none absolute top-[38%] left-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 halo blur-3xl opacity-85" />
+        {/* Ambient blue lens halo mathematically centered directly behind headline (toned to 60% brightness) */}
+        <div className="pointer-events-none absolute top-[38%] left-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 halo blur-3xl opacity-50" />
 
         <Reveal>
           <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-3.5 py-1.5 text-xs font-medium text-black/85 backdrop-blur-sm dark:border-white/20 dark:bg-white/10 dark:text-white/85">
