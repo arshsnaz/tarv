@@ -186,7 +186,12 @@ export function AiEngineer() {
                 loop
                 muted
                 playsInline
-                className="w-full h-auto object-contain block"
+                controlsList="nodownload no-remote-playback noremoteplayback"
+                disablePictureInPicture
+                disableRemotePlayback
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+                className="w-full h-auto object-contain block select-none pointer-events-none"
               />
 
               {/* Non-Intrusive Floating Top Status Badges */}

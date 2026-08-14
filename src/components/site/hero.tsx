@@ -166,12 +166,17 @@ export function VideoHero() {
         {/* pure scroll-scrubbed background video with top-left origin scale to push bottom-right watermark completely offscreen */}
         <video
           ref={videoRef}
-          className="pointer-events-none absolute inset-0 size-full object-cover scale-[1.22] origin-top-left"
+          className="pointer-events-none absolute inset-0 size-full object-cover scale-[1.22] origin-top-left select-none"
           src={heroVideoSrc}
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
+          controlsList="nodownload no-remote-playback noremoteplayback"
+          disablePictureInPicture
+          disableRemotePlayback
+          onContextMenu={(e) => e.preventDefault()}
+          onDragStart={(e) => e.preventDefault()}
           onLoadedMetadata={(e) => {
             const v = e.currentTarget;
             v.pause();

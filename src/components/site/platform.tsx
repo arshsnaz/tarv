@@ -66,7 +66,12 @@ export function Platform() {
                   loop
                   muted
                   playsInline
-                  className="w-full h-auto object-contain block rounded-[1.25rem]"
+                  controlsList="nodownload no-remote-playback noremoteplayback"
+                  disablePictureInPicture
+                  disableRemotePlayback
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
+                  className="w-full h-auto object-contain block rounded-[1.25rem] select-none pointer-events-none"
                 />
               </div>
             </div>
