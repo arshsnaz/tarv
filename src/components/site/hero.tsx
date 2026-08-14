@@ -5,9 +5,9 @@ import { Reveal } from "./reveal";
 
 /**
  * Scroll distance (px) that advances the video by one second.
- * Lower value = faster, immediate cursor response (0.1s feeling per scroll).
+ * Lower value = ultra-fast 0.01s instant cursor tracking response per scroll.
  */
-const PX_PER_SECOND = 140;
+const PX_PER_SECOND = 40;
 const HERO_VIDEO_START_TIME = 0;
 const heroVideoSrc = "https://tarvvdo.b-cdn.net/ref1.mp4";
 const logoSrc = `${import.meta.env.BASE_URL}favicon.png`;
@@ -124,8 +124,8 @@ export function VideoHero() {
       const video = videoRef.current;
       if (video) {
         const diff = targetTime - currentAnimTime;
-        if (Math.abs(diff) > 0.001) {
-          currentAnimTime += diff * 0.25;
+        if (Math.abs(diff) > 0.0005) {
+          currentAnimTime += diff * 0.55;
           if (!video.seeking) {
             try {
               video.currentTime = currentAnimTime;
