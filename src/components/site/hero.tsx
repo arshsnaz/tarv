@@ -75,30 +75,94 @@ export function HomeHero() {
   );
 }
 
-export function VideoHero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+const SCROLL_SPEED_PX = 350;
 
+export function VideoHero() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [duration, setDuration] = useState(6);
+
+  // Sync video duration
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Ensure seamless 60fps playback
-    video.play().catch(() => {});
+    const handleMetadata = () => {
+      if (Number.isFinite(video.duration) && video.duration > 0) {
+        setDuration(video.duration);
+      }
+    };
+
+    if (video.readyState >= 1) handleMetadata();
+    video.addEventListener("loadedmetadata", handleMetadata);
+    video.addEventListener("durationchange", handleMetadata);
+    return () => {
+      video.removeEventListener("loadedmetadata", handleMetadata);
+      video.removeEventListener("durationchange", handleMetadata);
+    };
   }, []);
+
+  // Sticky Scroll Scrubbing Controller
+  useEffect(() => {
+    const video = videoRef.current;
+    const section = sectionRef.current;
+    if (!video || !section) return;
+
+    video.pause();
+    let animFrame: number;
+    let targetTime = 0;
+
+    const updateTargetTime = () => {
+      const rect = section.getBoundingClientRect();
+      const scrollableHeight = section.offsetHeight - window.innerHeight;
+      if (scrollableHeight <= 0) return;
+
+      const scrolled = Math.min(Math.max(-rect.top, 0), scrollableHeight);
+      const progress = scrolled / scrollableHeight;
+      const totalDur = video.duration || duration || 6;
+      targetTime = progress * Math.max(totalDur - 0.05, 0.1);
+    };
+
+    const tick = () => {
+      if (video && Number.isFinite(targetTime)) {
+        const diff = targetTime - video.currentTime;
+        if (Math.abs(diff) > 0.005) {
+          // Ultra-smooth lerp seeking
+          video.currentTime += diff * 0.4;
+        }
+      }
+      animFrame = requestAnimationFrame(tick);
+    };
+
+    const handleScroll = () => {
+      updateTargetTime();
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    updateTargetTime();
+    animFrame = requestAnimationFrame(tick);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      cancelAnimationFrame(animFrame);
+    };
+  }, [duration]);
 
   return (
     <section
       id="video"
-      className="relative bg-black h-screen overflow-hidden flex items-center justify-center"
+      ref={sectionRef}
+      className="relative bg-black"
+      style={{ height: `calc(100vh + ${duration * SCROLL_SPEED_PX}px)` }}
     >
-      <div className="relative h-full w-full overflow-hidden">
-        {/* Native 60fps hardware-accelerated video background */}
+      <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
+        {/* Sticky scroll-scrubbed background video */}
         <video
           ref={videoRef}
           className="pointer-events-none absolute inset-0 size-full object-cover"
           src={heroVideoSrc}
-          autoPlay
-          loop
           muted
           playsInline
           preload="auto"
@@ -106,7 +170,7 @@ export function VideoHero() {
         />
 
         <div className="relative flex h-full flex-col items-center justify-center px-6 text-center pointer-events-none">
-          {/* Pure video showcase */}
+          {/* Pure video sticky frame */}
         </div>
       </div>
     </section>
