@@ -7,7 +7,7 @@ import { Reveal } from "./reveal";
  * Scroll distance (px) that advances the video by one second.
  * Larger = slower, smoother scrub (Endra-style long hero scroll).
  */
-const PX_PER_SECOND = 260;
+const PX_PER_SECOND = 90;
 const HERO_VIDEO_START_TIME = 0;
 const heroVideoSrc = "https://tarvvdo.b-cdn.net/ref1.mp4";
 const logoSrc = `${import.meta.env.BASE_URL}favicon.png`;
@@ -75,78 +75,75 @@ export function HomeHero() {
   );
 }
 
-const SCROLL_SPEED_PX = 350;
-
 export function VideoHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [duration, setDuration] = useState(6);
+  const [duration, setDuration] = useState(0);
 
-  // Sync video duration
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const handleMetadata = () => {
-      if (Number.isFinite(video.duration) && video.duration > 0) {
-        setDuration(video.duration);
+    const syncDuration = () => {
+      const d = video.duration;
+      if (Number.isFinite(d) && d > 0) {
+        setDuration(d);
       }
     };
 
-    if (video.readyState >= 1) handleMetadata();
-    video.addEventListener("loadedmetadata", handleMetadata);
-    video.addEventListener("durationchange", handleMetadata);
+    if (video.readyState >= 1) syncDuration();
+    video.addEventListener("loadedmetadata", syncDuration);
+    video.addEventListener("durationchange", syncDuration);
     return () => {
-      video.removeEventListener("loadedmetadata", handleMetadata);
-      video.removeEventListener("durationchange", handleMetadata);
+      video.removeEventListener("loadedmetadata", syncDuration);
+      video.removeEventListener("durationchange", syncDuration);
     };
   }, []);
 
-  // Sticky Scroll Scrubbing Controller
+  // Frame-by-frame scroll scrubbing controller
   useEffect(() => {
+    if (!duration) return;
     const video = videoRef.current;
     const section = sectionRef.current;
     if (!video || !section) return;
 
-    video.pause();
-    let animFrame: number;
+    let animFrameId: number;
     let targetTime = 0;
 
-    const updateTargetTime = () => {
-      const rect = section.getBoundingClientRect();
-      const scrollableHeight = section.offsetHeight - window.innerHeight;
-      if (scrollableHeight <= 0) return;
+    video.pause();
 
-      const scrolled = Math.min(Math.max(-rect.top, 0), scrollableHeight);
-      const progress = scrolled / scrollableHeight;
-      const totalDur = video.duration || duration || 6;
-      targetTime = progress * Math.max(totalDur - 0.05, 0.1);
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const totalScrollDistance = section.offsetHeight - window.innerHeight;
+      if (totalScrollDistance <= 0) return;
+
+      // Smooth progress calculation across the scroll section (0.0 to 1.0)
+      const currentScroll = Math.min(Math.max(-rect.top, 0), totalScrollDistance);
+      const progress = currentScroll / totalScrollDistance;
+
+      targetTime = progress * Math.max(duration - 0.05, 0.1);
     };
 
-    const tick = () => {
+    const render = () => {
       if (video && Number.isFinite(targetTime)) {
         const diff = targetTime - video.currentTime;
         if (Math.abs(diff) > 0.005) {
-          // Ultra-smooth lerp seeking
-          video.currentTime += diff * 0.4;
+          // Instant fast-response seek (0.45 interpolation factor) for immediate response to every scroll notch
+          video.currentTime = video.currentTime + diff * 0.45;
         }
       }
-      animFrame = requestAnimationFrame(tick);
-    };
-
-    const handleScroll = () => {
-      updateTargetTime();
+      animFrameId = requestAnimationFrame(render);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll, { passive: true });
-    updateTargetTime();
-    animFrame = requestAnimationFrame(tick);
+    handleScroll();
+    animFrameId = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
-      cancelAnimationFrame(animFrame);
+      cancelAnimationFrame(animFrameId);
     };
   }, [duration]);
 
@@ -155,10 +152,10 @@ export function VideoHero() {
       id="video"
       ref={sectionRef}
       className="relative bg-black"
-      style={{ height: `calc(100vh + ${duration * SCROLL_SPEED_PX}px)` }}
+      style={{ height: `calc(100vh + ${(duration || 6) * PX_PER_SECOND}px)` }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
-        {/* Sticky scroll-scrubbed background video */}
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Pure scroll-scrubbed background video */}
         <video
           ref={videoRef}
           className="pointer-events-none absolute inset-0 size-full object-cover"
@@ -167,10 +164,20 @@ export function VideoHero() {
           playsInline
           preload="auto"
           aria-hidden="true"
+          onLoadedMetadata={(e) => {
+            const v = e.currentTarget;
+            v.pause();
+            v.currentTime = HERO_VIDEO_START_TIME;
+            if (Number.isFinite(v.duration)) setDuration(v.duration);
+          }}
+          onDurationChange={(e) => {
+            const d = e.currentTarget.duration;
+            if (Number.isFinite(d) && d > 0) setDuration(d);
+          }}
         />
 
         <div className="relative flex h-full flex-col items-center justify-center px-6 text-center pointer-events-none">
-          {/* Pure video sticky frame */}
+          {/* Pure video section */}
         </div>
       </div>
     </section>
