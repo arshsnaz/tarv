@@ -19,7 +19,7 @@ export const submitContactRequest = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const apiKey = process.env["RESEND_API_KEY"];
-    const toEmail = process.env["CONTACT_TO_EMAIL"] ?? "admin@tarv.ai";
+    const toEmail = process.env["CONTACT_TO_EMAIL"] ?? "tarv.official@gmail.com";
 
     if (!apiKey) {
       // Return unconfigured flag to fallback gracefully

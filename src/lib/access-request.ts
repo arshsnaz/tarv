@@ -25,7 +25,7 @@ export const submitAccessRequest = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }) => {
     const apiKey = process.env["RESEND_API_KEY"];
-    const toEmail = process.env["ACCESS_REQUEST_TO_EMAIL"] ?? "admin@tarv.ai";
+    const toEmail = process.env["ACCESS_REQUEST_TO_EMAIL"] ?? "tarv.official@gmail.com";
     const fromEmail = process.env["RESEND_FROM_EMAIL"] ?? "TARV Access Requests <onboarding@resend.dev>";
 
     if (!apiKey) {
