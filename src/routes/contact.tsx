@@ -34,14 +34,14 @@ function ContactPage() {
         const body = encodeURIComponent(
           `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\n\nMessage:\n${form.message}`
         );
-        window.location.href = `mailto:admin@tarv.ai?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:tarv.official@gmail.com?subject=${subject}&body=${body}`;
       }
     } catch {
       const subject = encodeURIComponent(`Contact Inquiry: ${form.name} (${form.company || "Individual"})`);
       const body = encodeURIComponent(
         `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company}\n\nMessage:\n${form.message}`
       );
-      window.location.href = `mailto:admin@tarv.ai?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:tarv.official@gmail.com?subject=${subject}&body=${body}`;
     } finally {
       setLoading(false);
       setSubmitted(true);
