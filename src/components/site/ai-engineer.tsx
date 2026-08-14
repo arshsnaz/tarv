@@ -181,15 +181,13 @@ export function AiEngineer() {
             {/* 3D Model Video Display Container */}
             <div className="relative overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] bg-zinc-950 border border-white/10 dark:border-white/5 shadow-2xl flex items-center justify-center">
               <video 
+                src="/ref3.mp4"
                 autoPlay
                 loop
                 muted
                 playsInline
-                preload="auto"
                 className="w-full h-auto object-contain block"
-              >
-                <source src="https://tarvvdo.b-cdn.net/ref3.mp4" type="video/mp4" />
-              </video>
+              />
 
               {/* Non-Intrusive Floating Top Status Badges */}
               <div className="absolute top-3 left-3 sm:top-5 sm:left-5 flex items-center gap-2 z-20">
