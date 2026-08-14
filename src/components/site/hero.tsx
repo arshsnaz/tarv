@@ -18,11 +18,13 @@ export function HomeHero() {
       id="top"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background pt-28 pb-16"
     >
-      {/* Light background grid & ambient light radial gradient */}
+      {/* Light background grid */}
       <div className="pointer-events-none absolute inset-0 grid-bg opacity-90" />
-      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 halo blur-3xl opacity-85" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
+        {/* Ambient blue lens halo mathematically centered directly behind headline */}
+        <div className="pointer-events-none absolute top-[38%] left-1/2 h-[550px] w-[850px] -translate-x-1/2 -translate-y-1/2 halo blur-3xl opacity-85" />
+
         <Reveal>
           <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-3.5 py-1.5 text-xs font-medium text-black/85 backdrop-blur-sm dark:border-white/20 dark:bg-white/10 dark:text-white/85">
             <img src={logoSrc} alt="TARV logo" className="size-4 shrink-0 object-contain" />
