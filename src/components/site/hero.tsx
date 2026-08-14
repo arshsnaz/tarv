@@ -19,8 +19,8 @@ export function HomeHero() {
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background pt-28 pb-16"
     >
       {/* Light background grid & ambient light radial gradient */}
-      <div className="pointer-events-none absolute inset-0 grid-bg opacity-70" />
-      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[450px] w-[650px] -translate-x-1/2 -translate-y-1/2 halo blur-3xl opacity-50" />
+      <div className="pointer-events-none absolute inset-0 grid-bg opacity-90" />
+      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 halo blur-3xl opacity-85" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
         <Reveal>
