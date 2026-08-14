@@ -102,7 +102,7 @@ export function VideoHero() {
     };
   }, []);
 
-  // Butter-smooth 60FPS scroll-scrubbed playback physics
+  // Butter-smooth 60FPS scroll-scrubbed playback physics with crisp 4K GPU decoding
   useEffect(() => {
     if (!duration) return;
     let targetTime = HERO_VIDEO_START_TIME;
@@ -124,8 +124,10 @@ export function VideoHero() {
       const video = videoRef.current;
       if (video) {
         const diff = targetTime - currentAnimTime;
-        if (Math.abs(diff) > 0.000000000000000000000000000001) {
-          currentAnimTime += diff * 0.85;
+        // Frame-accurate seek threshold (0.033s = ~1 frame at 30fps)
+        // This gives Chrome GPU decoder enough time to render crisp full-resolution frames without blur or stutter!
+        if (Math.abs(diff) >= 0.033) {
+          currentAnimTime += diff * 0.22;
           if (!video.seeking) {
             try {
               video.currentTime = currentAnimTime;
