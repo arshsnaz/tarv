@@ -163,14 +163,10 @@ export function VideoHero() {
       style={{ height: `calc(100vh + ${(duration || 6) * PX_PER_SECOND}px)` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* pure scroll-scrubbed background video optimized for maximum 4K sharpness */}
+        {/* pure scroll-scrubbed background video with top-left origin scale to push bottom-right watermark completely offscreen */}
         <video
           ref={videoRef}
-          className="pointer-events-none absolute inset-0 size-full object-cover scale-[1.12] origin-[10%_10%] select-none transform-gpu will-change-transform contrast-[1.04] brightness-[1.02]"
-          style={{
-            WebkitBackfaceVisibility: "hidden",
-            imageRendering: "-webkit-optimize-contrast",
-          }}
+          className="pointer-events-none absolute inset-0 size-full object-cover scale-[1.22] origin-top-left select-none"
           src={heroVideoSrc}
           muted
           playsInline

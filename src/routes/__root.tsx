@@ -122,7 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
       "@type": "WebSite",
       name: "TARV MEP Engineering Software",
       url: siteUrl,
-      description: "Free Online MEP Engineering Calculator, Design Automation Software & HVAC Electrical Plumbing Tools.",
+      description: "Official Online MEP Engineering Calculator, Design Automation Software & HVAC Electrical Plumbing Tools.",
     },
   ];
 
@@ -134,11 +134,11 @@ function RootShell({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="Free Online MEP Calculator & Engineering Software. Automate HVAC heat load sizing, electrical voltage drop, duct static pressure, plumbing formulas, and Revit BIM schedules with AI precision."
+          content="Official Online MEP Calculator & Engineering Software. Automate HVAC heat load sizing, electrical voltage drop, duct static pressure, plumbing formulas, and Revit BIM schedules with AI precision."
         />
         <meta
           name="keywords"
-          content="MEP calculator, MEP calculator online, free MEP calculator, MEP engineering calculator, MEP tools online, MEP design tools, MEP formulas, MEP calculation software, online engineering calculator MEP, HVAC electrical plumbing calculator, ASHRAE heat load solver, Revit BIM parameter sync"
+          content="MEP calculator, MEP calculator online, MEP engineering calculator, MEP tools online, MEP design tools, MEP formulas, MEP calculation software, online engineering calculator MEP, HVAC electrical plumbing calculator, ASHRAE heat load solver, Revit BIM parameter sync"
         />
         <meta name="author" content="TARV Engineering" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -148,7 +148,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <meta property="og:site_name" content="TARV Engineering" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="TARV — #1 AI MEP Calculator Online & MEP Engineering Software" />
-        <meta property="og:description" content="Free Online MEP Engineering Calculator & AI Design Tools. Calculate HVAC heat loads, electrical voltage drop, airflow CFM, and plumbing risers instantly." />
+        <meta property="og:description" content="Official Online MEP Engineering Calculator & AI Design Tools. Calculate HVAC heat loads, electrical voltage drop, airflow CFM, and plumbing risers instantly." />
         <meta property="og:url" content={siteUrl} />
         <meta property="og:image" content={ogImageUrl} />
         <meta property="og:image:width" content="1200" />

@@ -89,10 +89,10 @@ export function CalculatorSuite() {
         <Reveal>
           <div className="eyebrow">The calculator suite</div>
           <h2 className="text-balance mt-4 text-4xl font-bold tracking-tight md:text-6xl">
-            Every MEP calculator. One free platform.
+            Every MEP calculator. One unified platform.
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">
-            TARV is a free online MEP calculator suite covering HVAC, electrical, fire fighting and plumbing — the same sizing and load calculations engineers run by hand, now instant, standards-referenced, and connected to your drawings.
+            TARV is an AI-powered MEP calculator suite covering HVAC, electrical, fire fighting and plumbing — the same sizing and load calculations engineers run by hand, now instant, standards-referenced, and connected to your drawings.
           </p>
         </Reveal>
       </div>

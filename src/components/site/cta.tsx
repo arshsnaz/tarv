@@ -140,12 +140,14 @@ const footerCols = [
       { label: "Schedules", to: "/#schedules" },
       { label: "AI Solver", to: "/#ai" },
       { label: "Calculators", to: "/#calculators" },
+      { label: "Pricing & Plans", to: "/pricing" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "About Us", to: "/about" },
+      { label: "Pricing", to: "/pricing" },
       { label: "Knowledge Base & FAQ", to: "/#company" },
       { label: "Careers", to: "/careers" },
       { label: "Contact Us", to: "/contact" },
