@@ -127,6 +127,18 @@ function formatInlineText(text: string): string {
   // Restore currency dollar signs
   formatted = formatted.replace(/___CURRENCY___/g, "$");
 
+  // Add automated SEO internal cross-linking mesh
+  formatted = formatted
+    .replace(/\bASHRAE 62\.1-2022\b/g, `<a href="/resources/ashrae-cooling-load-calculation-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">ASHRAE 62.1-2022</a>`)
+    .replace(/\bASHRAE Standard 62\.1\b/g, `<a href="/resources/ashrae-cooling-load-calculation-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">ASHRAE Standard 62.1</a>`)
+    .replace(/\bNEC 2023\b/g, `<a href="/resources/nec-2023-voltage-drop-cable-sizing" class="text-brand font-semibold hover:underline border-b border-brand/40">NEC 2023</a>`)
+    .replace(/\bIPC 2024\b/g, `<a href="/resources/ipc-2024-fixture-units-water-demand-sizing" class="text-brand font-semibold hover:underline border-b border-brand/40">IPC 2024</a>`)
+    .replace(/\bSMACNA\b/g, `<a href="/resources/duct-static-pressure-loss-smacna-ashrae" class="text-brand font-semibold hover:underline border-b border-brand/40">SMACNA</a>`)
+    .replace(/\bNFPA 13\b/g, `<a href="/resources/nfpa-13-fire-protection-sprinkler-k-factor" class="text-brand font-semibold hover:underline border-b border-brand/40">NFPA 13</a>`)
+    .replace(/\bDEWA\b/g, `<a href="/resources/dubai-dewa-dcl-mep-calculation-compliance-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">DEWA</a>`)
+    .replace(/\bDCL Al Sa'fat\b/g, `<a href="/resources/dubai-dewa-dcl-mep-calculation-compliance-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">DCL Al Sa'fat</a>`)
+    .replace(/\bRevit Parameter Syncing\b/g, `<a href="/resources/revit-parameter-syncing-5-pitfalls-automation" class="text-brand font-semibold hover:underline border-b border-brand/40">Revit Parameter Syncing</a>`);
+
   // Convert **bold**
   return formatted.replace(/\*\*(.*?)\*\*/g, "<strong class='text-foreground font-semibold'>$1</strong>");
 }
@@ -193,6 +205,21 @@ function ArticleDetailPage() {
   const [showModal, setShowModal] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  const currentIndex = useMemo(() => {
+    if (!article) return -1;
+    return ARTICLES.findIndex((a) => a.slug === article.slug);
+  }, [article]);
+
+  const prevArticle = useMemo(() => {
+    if (currentIndex <= 0) return ARTICLES[ARTICLES.length - 1];
+    return ARTICLES[currentIndex - 1];
+  }, [currentIndex]);
+
+  const nextArticle = useMemo(() => {
+    if (currentIndex < 0 || currentIndex >= ARTICLES.length - 1) return ARTICLES[0];
+    return ARTICLES[currentIndex + 1];
+  }, [currentIndex]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -819,6 +846,47 @@ function ArticleDetailPage() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Next & Previous Article Navigation */}
+        <div className="mt-16 border-t border-border/80 dark:border-white/10 pt-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {prevArticle && (
+              <Link
+                to={`/resources/${prevArticle.slug}`}
+                className="glass group rounded-3xl p-6 border border-border/80 dark:border-white/10 bg-card/80 dark:bg-slate-900/80 hover:border-brand/60 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between cursor-pointer"
+              >
+                <div className="flex items-center gap-2 text-xs font-black text-brand uppercase tracking-wider mb-3">
+                  <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
+                  <span>PREVIOUS ARTICLE</span>
+                </div>
+                <div className="text-base sm:text-lg font-extrabold text-foreground group-hover:text-brand transition-colors line-clamp-2">
+                  {prevArticle.title}
+                </div>
+                <div className="text-xs text-muted-foreground mt-3 font-semibold">
+                  {prevArticle.category} • {prevArticle.readTime}
+                </div>
+              </Link>
+            )}
+
+            {nextArticle && (
+              <Link
+                to={`/resources/${nextArticle.slug}`}
+                className="glass group rounded-3xl p-6 border border-border/80 dark:border-white/10 bg-card/80 dark:bg-slate-900/80 hover:border-brand/60 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between text-right sm:text-right cursor-pointer"
+              >
+                <div className="flex items-center justify-end gap-2 text-xs font-black text-brand uppercase tracking-wider mb-3">
+                  <span>NEXT ARTICLE</span>
+                  <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+                <div className="text-base sm:text-lg font-extrabold text-foreground group-hover:text-brand transition-colors line-clamp-2">
+                  {nextArticle.title}
+                </div>
+                <div className="text-xs text-muted-foreground mt-3 font-semibold">
+                  {nextArticle.category} • {nextArticle.readTime}
+                </div>
+              </Link>
+            )}
           </div>
         </div>
 
