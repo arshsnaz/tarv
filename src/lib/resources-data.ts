@@ -1495,46 +1495,236 @@ With **TARV Electrical Suite**:
     image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
     tags: ["Psychrometrics", "SHR", "Enthalpy", "HVAC Design", "Dehumidification"],
     keyTakeaways: [
-      "Psychrometrics correlates air dry-bulb temp, wet-bulb temp, relative humidity, and enthalpy.",
-      "Sensible Heat Ratio (SHR) = Qsensible / Qtotal determines coil apparatus dew point (ADP).",
-      "Enthalpy difference (Δh) determines total cooling capacity required at AHU cooling coils.",
-      "TARV Psychrometric Solver plots air mixing processes and dehumidification curves interactively."
+      "Psychrometrics defines thermodynamic state points of moist air across Dry-Bulb ($T_{db}$), Wet-Bulb ($T_{wb}$), Dew-Point ($T_{dp}$), Enthalpy ($h$), and Humidity Ratio ($W$).",
+      "Sensible Heat Ratio (SHR = $q_s / q_t$) defines the conditioning line slope and determines coil Apparatus Dew Point (ADP).",
+      "Cooling coil thermal capacity $q_t = 4.5 × CFM × \Delta h$ balances both sensible temperature drop and latent water vapor condensation.",
+      "Dedicated Outdoor Air Systems (DOAS) with Energy Recovery Ventilators (ERV) pre-cool fresh air in hot-humid coastal climates (Dubai / GCC).",
+      "TARV Psychrometric Solver plots air mixing, coil bypass factors, ADP, and condensate drain rates interactively in < 0.01 seconds."
     ],
     faqs: [
       {
         question: "What is Sensible Heat Ratio (SHR) in air conditioning?",
-        answer: "Sensible Heat Ratio (SHR) is the ratio of sensible cooling load to total cooling load (Qs / (Qs + Ql)). It determines the slope of the space conditioning line on a psychrometric chart."
+        answer: "Sensible Heat Ratio (SHR) is the ratio of sensible cooling load to total cooling load (q_s / (q_s + q_l)). It dictates the slope of the space conditioning process line on a psychrometric chart."
+      },
+      {
+        question: "How do you calculate total cooling coil capacity in Tons of Refrigeration (TR)?",
+        answer: "Total cooling coil capacity is calculated using enthalpy difference: q_t (BTU/hr) = 4.5 × CFM × (h_entering - h_leaving). Converting to Tons of Refrigeration: TR = q_t / 12,000."
+      },
+      {
+        question: "What is Apparatus Dew Point (ADP) and Coil Bypass Factor (BF)?",
+        answer: "Apparatus Dew Point (ADP) is the effective surface temperature of the cooling coil where air becomes 100% saturated (RH = 100%). Coil Bypass Factor (BF) represents the fraction of air stream that passes unconditioned between coil fins without making direct thermal contact."
+      },
+      {
+        question: "How do you calculate condensate drain water flow rate from an AHU cooling coil?",
+        answer: "Condensate drain water rate is calculated from humidity ratio change: Water Flow (GPH) = [4.5 × CFM × (W_entering - W_leaving)] / 8.34 lb/gal, where W is in lb of moisture per lb of dry air."
       }
     ],
     content: `
 # Psychrometric Air Conditioning Processes: Sensible vs. Latent Cooling Load Calculations
 
-Psychrometrics is the study of thermodynamic properties of moist air. Understanding the relationship between dry-bulb temperature (DBT), wet-bulb temperature (WBT), relative humidity (RH), and enthalpy (h) is vital for sizing AHU cooling coils and dehumidification systems.
+Designing energy-efficient HVAC systems, Air Handling Units (AHU), and chilled water cooling coils requires mastering **Psychrometrics** — the thermodynamic study of moist air mixtures.
+
+Relying purely on sensible load calculations (sizing cooling coils based solely on room dry-bulb temperature drop) leads to severe failure in humid coastal regions (such as Dubai, GCC, and tropical zones). Unhandled latent moisture loads create high indoor relative humidity (> 65% RH), mold growth, coil freeze-up, and occupant discomfort.
+
+This exhaustive masterclass handbook breaks down moist air thermodynamics, Dalton's law of partial pressures, cooling & dehumidification process lines, Apparatus Dew Point (ADP), Sensible Heat Ratio (SHR), condensate drain rate formulas, and step-by-step worked numerical calculations mapped directly to **ASHRAE Fundamentals Handbook Chapter 1**.
 
 ---
 
-## 1. Enthalpy Energy Equation
+## 1. Thermodynamic Properties of Moist Air
 
-Total thermal cooling capacity required at an AHU cooling coil is determined by enthalpy difference:
+Any state point of moist air on a standard sea-level Psychrometric Chart ($14.696 \text{ psia} / 101.325 \text{ kPa}$) is defined by any two independent properties:
 
-$$Q_total = 4.5 × CFM × (h_entering - h_leaving)$$
+### Key Psychrometric State Parameters
+
+| Property Symbol | Parameter Name | Engineering Units | Definition & Significance |
+| | --- | --- | --- |
+| **T_{db}** | Dry-Bulb Temperature | $^\circ\text{F}$ or $^\circ\text{C}$ | Ambient air temperature measured by a standard thermometer shielded from radiation. |
+| **T_{wb}** | Wet-Bulb Temperature | $^\circ\text{F}$ or $^\circ\text{C}$ | Temperature measured by a thermometer covered by a wetted wick exposed to rapid air movement. |
+| **T_{dp}** | Dew-Point Temperature | $^\circ\text{F}$ or $^\circ\text{C}$ | Temperature at which moist air becomes 100% saturated ($RH = 100\%$) and condensation begins. |
+| **RH** | Relative Humidity | Percentage (%) | Ratio of actual vapor pressure ($P_v$) to saturation vapor pressure ($P_{sat}$) at $T_{db}$. |
+| **W** | Humidity Ratio (Specific Humidity) | $\text{lb}_{\text{water}} / \text{lb}_{\text{dry\_air}}$ or $\text{Grains/lb}$ | Actual mass ratio of water vapor per pound of dry air ($1 \text{ lb} = 7,000 \text{ Grains}$). |
+| **h** | Specific Enthalpy | $\text{BTU/lb}$ or $\text{kJ/kg}$ | Total heat content (sensible + latent energy) per pound of dry air. |
+| **v** | Specific Volume | $\text{ft}^3/\text{lb}$ or $\text{m}^3/\text{kg}$ | Volume occupied by one pound of dry air at given $T_{db}$ and pressure. |
+
+### Moist Air Enthalpy Formula
+
+$$h = 0.240 × T_{db} + W × (1061 + 0.444 × T_{db})$$
 
 Where:
-- **Q_total**: Total Cooling Load (BTU/hr)
-- **h**: Enthalpy of air stream (BTU/lb of dry air)
+- **0.240**: Specific heat of dry air ($\text{BTU/lb}\cdot^\circ\text{F}$)
+- **1061**: Latent heat of vaporization of water at $0^\circ\text{F}$ ($\text{BTU/lb}$)
+- **0.444**: Specific heat of superheated water vapor ($\text{BTU/lb}\cdot^\circ\text{F}$).
 
 ---
 
-## 2. Sensible Heat Ratio (SHR)
+## 2. Core Psychrometric Air Conditioning Processes
 
-$$SHR = Q_sensible / Q_total = Q_s / (Q_s + Q_l)$$
+Air conditioning involves six primary thermodynamic process lines on the psychrometric chart:
 
-Target indoor comfort conditions (75°F DB, 50% RH) typically require an apparatus dew point (ADP) that matches the SHR slope.
+### Psychrometric Process Summary Matrix
+
+| AC Process | Chart Direction | Dry-Bulb ($T_{db}$) | Humidity Ratio ($W$) | Enthalpy ($h$) | Primary HVAC Equipment |
+| | --- | --- | --- | --- | --- |
+| **Sensible Cooling** | Horizontal Left ($\leftarrow$) | Decreases | Constant | Decreases | Dry Chilled Water Coil (Above Dew Point) |
+| **Cooling & Dehumidification** | Diagonal Left-Down ($\swarrow$) | Decreases | Decreases | Decreases | Wet Chilled Water Coil / DX Evaporator |
+| **Sensible Heating** | Horizontal Right ($\rightarrow$) | Increases | Constant | Increases | Electric Heating Coil / Hot Water Coil |
+| **Heating & Humidification** | Diagonal Right-Up ($\nearrow$) | Increases | Increases | Increases | Steam Grid Injector / Duct Humidifier |
+| **Adiabatic Evaporative Cooling** | Along Constant $T_{wb}$ ($\nwarrow$) | Decreases | Increases | Constant ($h$) | Direct Evaporative Cooler / Swamp Cooler |
+| **Chemical Dehumidification** | Constant Enthalpy ($\searrow$) | Increases | Decreases | Constant ($h$) | Desiccant Rotor Wheel Dehumidifier |
 
 ---
 
-## 3. TARV Psychrometric Calculator
-Use TARV’s interactive **Psychrometric Calculator** to plot air mixing processes, apparatus dew points, and coil bypass factors automatically.
+## 3. Governing Air Conditioning Load Equations
+
+Airflow heat transfer rates across AHU cooling coils are calculated using three fundamental equations:
+
+### 1. Sensible Heat Load Equation ($q_s$)
+
+$$q_s = 1.08 × CFM × (T_{db,\text{entering}} - T_{db,\text{leaving}})$$
+
+Where $1.08 = 60 \text{ min/hr} × 0.075 \text{ lb/ft}^3 × 0.240 \text{ BTU/lb}\cdot^\circ\text{F}$.
+
+### 2. Latent Moisture Heat Load Equation ($q_l$)
+
+$$q_l = 4840 × CFM × (W_{\text{entering}} - W_{\text{leaving}})$$
+
+Where $W$ is expressed in $\text{lb}_{\text{water}}/\text{lb}_{\text{dry\_air}}$ ($4840 = 60 × 0.075 × 1076$).
+
+### 3. Total Thermal Heat Load Equation ($q_t$)
+
+$$q_t = 4.5 × CFM × (h_{\text{entering}} - h_{\text{leaving}})$$
+
+Where $4.5 = 60 \text{ min/hr} × 0.075 \text{ lb/ft}^3$.
+
+### Sensible Heat Ratio (SHR) Formula
+
+$$SHR = q_s / q_t = q_s / (q_s + q_l)$$
+
+### Chilled Water Coil Tonnage (TR) Formula
+
+$$\text{Cooling Capacity (Tons of Refrigeration TR)} = q_t / 12,000 \text{ BTU/hr per TR}$$
+
+---
+
+## 4. Apparatus Dew Point (ADP) & Coil Bypass Factor (BF)
+
+When air flows through a wet cooling coil, a portion of the air stream contacts coil fins directly and cools to the **Apparatus Dew Point (ADP)** ($RH = 100\%$), while the remaining fraction passes through unconditioned.
+
+### Coil Bypass Factor ($BF$) & Contact Factor ($CF$)
+
+$$BF = (T_{db,\text{leaving}} - ADP) / (T_{db,\text{entering}} - ADP)$$
+$$CF = 1 - BF = (T_{db,\text{entering}} - T_{db,\text{leaving}}) / (T_{db,\text{entering}} - ADP)$$
+
+Typical Coil Bypass Factors:
+- Standard 4-Row Commercial Cooling Coil: $BF = 0.10 \text{ to } 0.15$ ($CF = 0.85 - 0.90$)
+- High-Performance 6-Row / 8-Row Cleanroom Coil: $BF = 0.05 \text{ to } 0.08$ ($CF = 0.92 - 0.95$).
+
+---
+
+## 5. Comprehensive Step-by-Step Worked Numerical Calculation Example
+
+Let us size the supply airflow rate ($CFM$), AHU chilled water cooling coil capacity ($\text{TR}$), and condensate drain rate ($\text{GPH}$) for a 1,000-person commercial ballroom in Dubai:
+
+### Design Requirements & Ambient Conditions
+- **Outdoor Air Conditions (Dubai Extreme Peak)**: $115^\circ\text{F DB} / 84^\circ\text{F WB}$ ($W_1 = 0.0175 \text{ lb/lb}, h_1 = 48.2 \text{ BTU/lb}$)
+- **Indoor Space Comfort Target**: $75^\circ\text{F DB} / 50\% RH$ ($W_2 = 0.0093 \text{ lb/lb}, h_2 = 28.1 \text{ BTU/lb}$)
+- **Room Internal Sensible Load ($q_{s,\text{room}}$)**: $600,000 \text{ BTU/hr}$
+- **Room Internal Latent Load ($q_{l,\text{room}}$)**: $200,000 \text{ BTU/hr}$
+- **Total Room Cooling Load ($q_{t,\text{room}}$)**: $800,000 \text{ BTU/hr}$
+- **Ventilation Fresh Air Requirement**: $20\% \text{ Outdoor Air} + 80\% \text{ Return Air}$.
+
+---
+
+### Step 1: Calculate Room Sensible Heat Ratio (SHR)
+
+$$SHR = 600,000 / (600,000 + 200,000) = 600,000 / 800,000 = 0.75$$
+
+---
+
+### Step 2: Calculate Required Supply Airflow Rate (CFM)
+
+Selecting a standard $20^\circ\text{F}$ supply air temperature differential ($T_{sa} = 75^\circ\text{F} - 20^\circ\text{F} = 55^\circ\text{F DB}$):
+
+$$q_{s,\text{room}} = 1.08 × CFM × (T_{\text{room}} - T_{sa})$$
+$$600,000 = 1.08 × CFM × (75 - 55) = 21.6 × CFM$$
+$$CFM = 600,000 / 21.6 = 27,778 \text{ CFM}$$
+
+---
+
+### Step 3: Calculate Mixed Air State Point ($T_{ma}, h_{ma}$) Entering Cooling Coil
+
+With 20% Outdoor Air ($115^\circ\text{F}$) and 80% Return Air ($75^\circ\text{F}$):
+
+$$T_{db,\text{mixed}} = (0.20 × 115) + (0.80 × 75) = 23.0 + 60.0 = 83.0^\circ\text{F DB}$$
+
+Mixed Enthalpy ($h_{ma}$):
+
+$$h_{ma} = (0.20 × 48.2) + (0.80 × 28.1) = 9.64 + 22.48 = 32.12 \text{ BTU/lb}$$
+
+Mixed Humidity Ratio ($W_{ma}$):
+
+$$W_{ma} = (0.20 × 0.0175) + (0.80 × 0.0093) = 0.00350 + 0.00744 = 0.01094 \text{ lb/lb}$$
+
+---
+
+### Step 4: Calculate Leaving Air Enthalpy ($h_{la}$) at $55^\circ\text{F DB}$ Supply Condition
+
+At $55^\circ\text{F DB} / 95\% RH$ exiting wet coil ($W_{la} = 0.00785 \text{ lb/lb}$):
+
+$$h_{la} = (0.240 × 55) + 0.00785 × (1061 + 0.444 × 55) = 13.20 + 8.52 = 21.72 \text{ BTU/lb}$$
+
+---
+
+### Step 5: Calculate Total AHU Cooling Coil Refrigeration Capacity (TR)
+
+$$q_{\text{coil}} = 4.5 × CFM × (h_{ma} - h_{la})$$
+$$q_{\text{coil}} = 4.5 × 27,778 × (32.12 - 21.72) = 125,001 × 10.40 = 1,300,010 \text{ BTU/hr}$$
+
+Converting to Tons of Refrigeration (TR):
+
+$$\text{Chilled Water Coil Duty} = 1,300,010 / 12,000 = 108.33 \text{ TR} ≈ \mathbf{110 \text{ TR}}$$
+
+---
+
+### Step 6: Calculate Condensate Drain Water Removal Rate (GPH)
+
+$$\Delta W = W_{ma} - W_{la} = 0.01094 - 0.00785 = 0.00309 \text{ lb}_{\text{water}}/\text{lb}_{\text{dry\_air}}$$
+
+$$\text{Condensate Water Mass} = 4.5 × CFM × \Delta W = 4.5 × 27,778 × 0.00309 = 386.25 \text{ lb/hr}$$
+
+Converting pounds of water to Gallons per Hour (GPH at $8.34 \text{ lb/gal}$):
+
+$$\mathbf{\text{Condensate Drain Rate} = 386.25 / 8.34 = 46.3 \text{ Gallons per Hour (GPH)}}$$
+
+---
+
+## 6. Psychrometrics in Hot-Humid Coastal Climates (Dubai / GCC)
+
+In high-ambient coastal zones (Dubai, Abu Dhabi, Doha, Muscat), summer outdoor air reaches $115^\circ\text{F DB} / 84^\circ\text{F WB}$ with high moisture content ($W > 0.0175 \text{ lb/lb}$).
+
+### Dedicated Outdoor Air Systems (DOAS) + Energy Recovery Wheels (ERV)
+- Standard AHUs mixing fresh air directly experience extreme coil latent loads.
+- **DOAS Configuration**: Fresh outdoor air is pre-cooled and dehumidified by a dedicated DOAS unit equipped with an Enthalpy Energy Recovery Wheel (ERV) that recovers 70% of exhaust air sensible and latent energy before fresh air enters room AHUs.
+
+---
+
+## 7. Top 5 Common Psychrometric Sizing Errors
+
+1. **Ignoring Latent Moisture Condensation**: Sizing cooling coils purely on sensible temperature drop ($1.08 × CFM × \Delta T$) underestimates total coil TR demand by 30% to 50%.
+2. **Assuming Zero Coil Bypass Factor ($BF = 0$)**: Assuming 100% contact efficiency results in under-sizing coil row depth (using 4 rows instead of 6 or 8 rows).
+3. **Over-Sizing Supply Air CFM**: High air flow rates increase fan kWh consumption, reduce air residence time across coils, and elevate indoor relative humidity.
+4. **Neglecting Reheat Coil Requirements**: Low SHR spaces (dense auditoriums, dance halls) require cooling below space dew point for dehumidification followed by sensible reheat ($55^\circ\text{F} \rightarrow 62^\circ\text{F}$).
+5. **Disconnected Load Calculations**: Manually copying enthalpy and CFM values into Revit tags introduces data mismatch during local authority submittals.
+
+---
+
+## 8. How TARV Automates Psychrometric Load Calculations
+
+With **TARV HVAC Suite**:
+- Extract 3D Revit room dimensions, occupancy counts, and envelope thermal U-values automatically.
+- Plot psychrometric state points ($T_{db}, T_{wb}, RH, h, W$), solve mixed air enthalpy, and compute Apparatus Dew Point (ADP) in **< 0.01 seconds**.
+- Size cooling coil Tonnage (TR), coil row depth, bypass factor, and condensate drain piping (GPH).
+- Synchronize CFM flow rates, coil TR capacity, and sensible/latent heat loads directly back into **Revit 2026 BIM model tags and schedules**.
     `,
   },
   {
