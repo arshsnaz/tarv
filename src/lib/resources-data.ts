@@ -72,34 +72,34 @@ This exhaustive guide breaks down the underlying physics, mathematical equations
 
 Building cooling loads are composed of external conduction heat gains, solar radiation through glass, internal heat loads (occupants, lighting, plug loads), and outdoor ventilation air loads. These loads are categorized into two primary thermodynamic components:
 
-### A. Sensible Cooling Load ($Q_s$)
+### A. Sensible Cooling Load (Q_s)
 Sensible load refers to thermal energy that directly increases room dry-bulb air temperature without changing its moisture content. It is calculated using the volumetric airflow rate and dry-bulb temperature differential:
 
-$$Q_s = 1.08 \times \text{CFM} \times (T_{\text{outdoor}} - T_{\text{indoor}})$$
+$$Q_s = 1.08 × CFM × (T_outdoor - T_indoor)$$
 
 Where:
-- $Q_s$ = Sensible Heat Gain Rate (BTU/hr)
-- $\text{CFM}$ = Volumetric Airflow Rate (Cubic Feet per Minute)
-- $T_{\text{outdoor}}$ = Ambient Outdoor Design Dry-Bulb Temperature (°F)
-- $T_{\text{indoor}}$ = Target Indoor Comfort Dry-Bulb Temperature (°F)
-- $1.08$ = Air density conversion constant derived from $60 \text{ min/hr} \times 0.075 \text{ lb/ft}^3 \times 0.24 \text{ BTU/lb}^\circ\text{F}$
+- **Q_s**: Sensible Heat Gain Rate (BTU/hr)
+- **CFM**: Volumetric Airflow Rate (Cubic Feet per Minute)
+- **T_outdoor**: Ambient Outdoor Design Dry-Bulb Temperature (°F)
+- **T_indoor**: Target Indoor Comfort Dry-Bulb Temperature (°F)
+- **1.08**: Air density conversion constant derived from 60 min/hr × 0.075 lb/ft³ × 0.24 BTU/lb·°F
 
-### B. Latent Cooling Load ($Q_l$)
+### B. Latent Cooling Load (Q_l)
 Latent load accounts for moisture addition (water vapor) into the space air from human respiration, perspiration, outdoor air infiltration, and process vapor. Dehumidification requires latent heat extraction:
 
-$$Q_l = 4840 \times \text{CFM} \times (W_{\text{outdoor}} - W_{\text{indoor}})$$
+$$Q_l = 4840 × CFM × (W_outdoor - W_indoor)$$
 
 Where:
-- $Q_l$ = Latent Heat Gain Rate (BTU/hr)
-- $W$ = Humidity Ratio (lbs of water vapor per lb of dry air)
-- $4840$ = Latent heat conversion constant derived from $60 \text{ min/hr} \times 0.075 \text{ lb/ft}^3 \times 1061 \text{ BTU/lb}$ latent heat of vaporization
+- **Q_l**: Latent Heat Gain Rate (BTU/hr)
+- **W**: Humidity Ratio (lbs of water vapor per lb of dry air)
+- **4840**: Latent heat conversion constant derived from 60 min/hr × 0.075 lb/ft³ × 1061 BTU/lb latent heat of vaporization
 
-### C. Total Cooling Load ($Q_t$)
+### C. Total Cooling Load (Q_t)
 The total thermal cooling capacity required at the cooling coil is the sum of sensible and latent loads:
 
-$$Q_t = Q_s + Q_l = 4.5 \times \text{CFM} \times (h_{\text{outdoor}} - h_{\text{indoor}})$$
+$$Q_t = Q_s + Q_l = 4.5 × CFM × (h_outdoor - h_indoor)$$
 
-Where $h$ is the air enthalpy in BTU/lb of dry air.
+Where **h** is the air enthalpy in BTU/lb of dry air.
 
 ---
 
@@ -108,48 +108,48 @@ Where $h$ is the air enthalpy in BTU/lb of dry air.
 Heat gain through the building envelope enters via conductive heat transfer through opaque walls/roofs and radiation through transparent windows.
 
 ### Conduction Heat Gain Formula
-$$Q_{\text{conduction}} = U \times A \times \text{CLTD}$$
+$$Q_conduction = U × A × CLTD$$
 
 Where:
-- $U$ = Overall thermal transmittance value (BTU/hr·ft²·°F)
-- $A$ = Net surface area (ft²)
-- $\text{CLTD}$ = Cooling Load Temperature Difference (°F), adjusted for latitude, month, and wall mass.
+- **U**: Overall thermal transmittance value (BTU/hr·ft²·°F)
+- **A**: Net surface area (ft²)
+- **CLTD**: Cooling Load Temperature Difference (°F), adjusted for latitude, month, and wall mass.
 
 ### Solar Radiation Heat Gain Formula
-$$Q_{\text{solar}} = A_{\text{glass}} \times \text{SHGC} \times \text{SC} \times \text{CLF}$$
+$$Q_solar = A_glass × SHGC × SC × CLF$$
 
 Where:
-- $\text{SHGC}$ = Solar Heat Gain Coefficient (dimensionless ratio between 0 and 1)
-- $\text{SC}$ = Shading Coefficient of internal blinds or external overhangs
-- $\text{CLF}$ = Solar Cooling Load Factor derived from ASHRAE solar tables.
+- **SHGC**: Solar Heat Gain Coefficient (dimensionless ratio between 0 and 1)
+- **SC**: Shading Coefficient of internal blinds or external overhangs
+- **CLF**: Solar Cooling Load Factor derived from ASHRAE solar tables.
 
 Under **ASHRAE Standard 90.1-2022**, high-efficiency commercial buildings in warm climate zones must enforce:
-- Maximum Roof U-value: $0.032 \text{ BTU/hr}\cdot\text{ft}^2\cdot^\circ\text{F}$ ($0.18 \text{ W/m}^2\text{K}$)
-- Maximum Wall U-value: $0.064 \text{ BTU/hr}\cdot\text{ft}^2\cdot^\circ\text{F}$ ($0.36 \text{ W/m}^2\text{K}$)
-- Maximum Window SHGC: $0.25$ for unshaded orientation.
+- Maximum Roof U-value: 0.032 BTU/hr·ft²·°F (0.18 W/m²K)
+- Maximum Wall U-value: 0.064 BTU/hr·ft²·°F (0.36 W/m²K)
+- Maximum Window SHGC: 0.25 for unshaded orientation.
 
 ---
 
 ## 3. ASHRAE 62.1 Outdoor Ventilation Rate Procedure (VRP)
 
-Maintaining Indoor Air Quality (IAQ) requires introducing conditioned outdoor air to dilute indoor contaminants (CO₂, VOCs, bio-effluents). ASHRAE Standard 62.1 specifies the Ventilation Rate Procedure (VRP) to compute minimum breathing zone outdoor airflow ($V_{bz}$):
+Maintaining Indoor Air Quality (IAQ) requires introducing conditioned outdoor air to dilute indoor contaminants (CO₂, VOCs, bio-effluents). ASHRAE Standard 62.1 specifies the Ventilation Rate Procedure (VRP) to compute minimum breathing zone outdoor airflow (V_bz):
 
-$$V_{bz} = (R_p \times P_z) + (R_a \times A_z)$$
+$$V_bz = (R_p × P_z) + (R_a × A_z)$$
 
 Where:
-- $V_{bz}$ = Breathing Zone Outdoor Airflow (CFM)
-- $R_p$ = Outdoor Airflow Rate per Person (CFM/person, from ASHRAE 62.1 Table 6.2.2.1)
-- $P_z$ = Zone Design Population (number of occupants)
-- $R_a$ = Outdoor Airflow Rate per Unit Area (CFM/ft²)
-- $A_z$ = Zone Net Occupied Floor Area (ft²)
+- **V_bz**: Breathing Zone Outdoor Airflow (CFM)
+- **R_p**: Outdoor Airflow Rate per Person (CFM/person, from ASHRAE 62.1 Table 6.2.2.1)
+- **P_z**: Zone Design Population (number of occupants)
+- **R_a**: Outdoor Airflow Rate per Unit Area (CFM/ft²)
+- **A_z**: Zone Net Occupied Floor Area (ft²)
 
-### Zone Air Distribution Efficiency ($E_z$)
-The outdoor air delivered to the primary air handler ($V_{ot}$) must account for zone air distribution effectiveness ($E_z$):
+### Zone Air Distribution Efficiency (E_z)
+The outdoor air delivered to the primary air handler (V_ot) must account for zone air distribution effectiveness (E_z):
 
-$$V_{oz} = \frac{V_{bz}}{E_z}$$
+$$V_oz = V_bz / E_z$$
 
-- Overhead cooling air distribution ($T_{\text{supply}} < T_{\text{room}}$): $E_z = 1.0$
-- Warm air floor distribution ($T_{\text{supply}} > T_{\text{room}}$): $E_z = 0.7$
+- Overhead cooling air distribution (T_supply < T_room): E_z = 1.0
+- Warm air floor distribution (T_supply > T_room): E_z = 0.7
 
 ---
 
@@ -158,68 +158,68 @@ $$V_{oz} = \frac{V_{bz}}{E_z}$$
 Let us size the cooling coil capacity and outdoor fresh air requirement for a 10-story commercial office building zone:
 
 ### Design Conditions & Inputs
-- **Floor Area ($A_z$)**: $10,000 \text{ ft}^2$
-- **Design Occupancy ($P_z$)**: $80 \text{ occupants}$
-- **Outdoor Design Climate**: $102^\circ\text{F}$ Dry-Bulb, $78^\circ\text{F}$ Wet-Bulb ($h_{\text{out}} = 41.5 \text{ BTU/lb}$)
-- **Indoor Target Climate**: $75^\circ\text{F}$ Dry-Bulb, $50\% \text{ RH}$ ($h_{\text{in}} = 28.2 \text{ BTU/lb}$)
-- **ASHRAE 62.1 Rates**: $R_p = 5 \text{ CFM/person}$, $R_a = 0.06 \text{ CFM/ft}^2$
-- **Internal Loads**: Lighting = $0.65 \text{ W/ft}^2$, Equipment = $1.5 \text{ W/ft}^2$, Occupant Sensible = $250 \text{ BTU/hr/person}$, Occupant Latent = $200 \text{ BTU/hr/person}$.
+- **Floor Area (A_z)**: 10,000 ft²
+- **Design Occupancy (P_z)**: 80 occupants
+- **Outdoor Design Climate**: 102°F Dry-Bulb, 78°F Wet-Bulb (h_out = 41.5 BTU/lb)
+- **Indoor Target Climate**: 75°F Dry-Bulb, 50% RH (h_in = 28.2 BTU/lb)
+- **ASHRAE 62.1 Rates**: R_p = 5 CFM/person, R_a = 0.06 CFM/ft²
+- **Internal Loads**: Lighting = 0.65 W/ft², Equipment = 1.5 W/ft², Occupant Sensible = 250 BTU/hr/person, Occupant Latent = 200 BTU/hr/person.
 
 ---
 
-### Step 1: Calculate Minimum Outdoor Fresh Air Ventilation ($V_{bz}$)
-$$V_{bz} = (5 \times 80) + (0.06 \times 10,000) = 400 + 600 = 1,000 \text{ CFM}$$
+### Step 1: Calculate Minimum Outdoor Fresh Air Ventilation (V_bz)
+$$V_bz = (5 × 80) + (0.06 × 10,000) = 400 + 600 = 1,000 CFM$$
 
-Since $E_z = 1.0$ for overhead cooling, $V_{oz} = 1,000 \text{ CFM}$.
+Since E_z = 1.0 for overhead cooling, V_oz = 1,000 CFM.
 
 ---
 
 ### Step 2: Calculate Internal Sensible & Latent Space Loads
 
 #### A. Internal Lighting Sensible Load
-$$Q_{\text{lighting}} = 10,000 \text{ ft}^2 \times 0.65 \text{ W/ft}^2 \times 3.412 \text{ BTU/W} = 22,178 \text{ BTU/hr}$$
+$$Q_lighting = 10,000 ft² × 0.65 W/ft² × 3.412 BTU/W = 22,178 BTU/hr$$
 
 #### B. Internal Equipment Plug Load
-$$Q_{\text{equipment}} = 10,000 \text{ ft}^2 \times 1.50 \text{ W/ft}^2 \times 3.412 \text{ BTU/W} = 51,180 \text{ BTU/hr}$$
+$$Q_equipment = 10,000 ft² × 1.50 W/ft² × 3.412 BTU/W = 51,180 BTU/hr$$
 
 #### C. Occupant Sensible & Latent Heat Gain
-$$Q_{\text{people, sensible}} = 80 \times 250 = 20,000 \text{ BTU/hr}$$
-$$Q_{\text{people, latent}} = 80 \times 200 = 16,000 \text{ BTU/hr}$$
+$$Q_people_sensible = 80 × 250 = 20,000 BTU/hr$$
+$$Q_people_latent = 80 × 200 = 16,000 BTU/hr$$
 
 #### D. Total Space Internal Loads
-$$Q_{\text{space, sensible}} = 22,178 + 51,180 + 20,000 + 45,000 \text{ (envelope conduction/solar)} = 138,358 \text{ BTU/hr}$$
-$$Q_{\text{space, latent}} = 16,000 \text{ BTU/hr}$$
+$$Q_space_sensible = 22,178 + 51,180 + 20,000 + 45,000 (envelope conduction/solar) = 138,358 BTU/hr$$
+$$Q_space_latent = 16,000 BTU/hr$$
 
 ---
 
 ### Step 3: Calculate Outdoor Fresh Air Thermal Loads
 
-#### Outdoor Air Sensible Cooling Load ($Q_{s,\text{outdoor}}$)
-$$Q_{s,\text{outdoor}} = 1.08 \times 1,000 \text{ CFM} \times (102^\circ\text{F} - 75^\circ\text{F}) = 1.08 \times 1,000 \times 27 = 29,160 \text{ BTU/hr}$$
+#### Outdoor Air Sensible Cooling Load (Q_s_outdoor)
+$$Q_s_outdoor = 1.08 × 1,000 CFM × (102°F - 75°F) = 1.08 × 1,000 × 27 = 29,160 BTU/hr$$
 
-#### Outdoor Air Total Enthalpy Cooling Load ($Q_{t,\text{outdoor}}$)
-$$Q_{t,\text{outdoor}} = 4.5 \times 1,000 \text{ CFM} \times (41.5 - 28.2) = 4.5 \times 1,000 \times 13.3 = 59,850 \text{ BTU/hr}$$
+#### Outdoor Air Total Enthalpy Cooling Load (Q_t_outdoor)
+$$Q_t_outdoor = 4.5 × 1,000 CFM × (41.5 - 28.2) = 4.5 × 1,000 × 13.3 = 59,850 BTU/hr$$
 
 ---
 
-### Step 4: Calculate Total Chilled Water Plant Refrigeration Tonnage ($TR$)
-$$Q_{\text{total, plant}} = Q_{\text{space, sensible}} + Q_{\text{space, latent}} + Q_{t,\text{outdoor}}$$
-$$Q_{\text{total, plant}} = 138,358 + 16,000 + 59,850 = 214,208 \text{ BTU/hr}$$
+### Step 4: Calculate Total Chilled Water Plant Refrigeration Tonnage (TR)
+$$Q_total_plant = Q_space_sensible + Q_space_latent + Q_t_outdoor$$
+$$Q_total_plant = 138,358 + 16,000 + 59,850 = 214,208 BTU/hr$$
 
-Converting BTU/hr to Tons of Refrigeration ($1 \text{ TR} = 12,000 \text{ BTU/hr}$):
-$$\text{Total Cooling Capacity} = \frac{214,208}{12,000} = 17.85 \text{ TR}$$
+Converting BTU/hr to Tons of Refrigeration (1 TR = 12,000 BTU/hr):
+$$\text{Total Cooling Capacity} = 214,208 / 12,000 = 17.85 TR$$
 
-Adding a standard $10\%$ safety factor for piping heat gains:
-$$\text{Design Chiller Duty} = 17.85 \times 1.10 = 19.64 \text{ TR} \approx 20 \text{ TR}$$
+Adding a standard 10% safety factor for piping heat gains:
+$$\text{Design Chiller Duty} = 17.85 × 1.10 = 19.64 TR ≈ 20 TR$$
 
 ---
 
 ## 5. Top 5 Common HVAC Sizing Errors & How to Avoid Them
 
-1. **Relying on Rule-of-Thumb Square Footage Estimates**: Estimating $400 \text{ sq ft/ton}$ ignores glass solar orientation and LED power density reductions, leading to $30\%$ oversized chillers.
+1. **Relying on Rule-of-Thumb Square Footage Estimates**: Estimating 400 sq ft/ton ignores glass solar orientation and LED power density reductions, leading to 30% oversized chillers.
 2. **Ignoring Diversity Factors**: Summing peak cooling loads for east-facing and west-facing perimeter zones simultaneously overstates central chiller plant capacity.
 3. **Neglecting Outdoor Air Moisture Content**: Sizing cooling coils purely on dry-bulb temperature differential without calculating enthalpy drop causes humidity buildup and mold growth.
-4. **Ignoring Fan Heat Gain**: Supply fans add $1^\circ\text{F}$ to $3^\circ\text{F}$ of sensible heat into the air stream, which must be added to the coil load calculation.
+4. **Ignoring Fan Heat Gain**: Supply fans add 1°F to 3°F of sensible heat into the air stream, which must be added to the coil load calculation.
 5. **Disconnected BIM Schedules**: Manually copying CFM airflow numbers from Excel to Revit room tags introduces human transcription errors.
 
 ---
@@ -292,55 +292,55 @@ The **National Electrical Code (NEC 2023)** mandates strict rules for conductor 
 
 ### A. Maximum Recommended Voltage Drop
 Under NEC Informational Notes **210.19(A)** and **215.2(A)**:
-- **Branch Circuit Maximum Voltage Drop**: $\le 3.0\%$
-- **Feeder Circuit Maximum Voltage Drop**: $\le 2.0\%$
-- **Total Combined System Voltage Drop** (Service Entrance to Farthest Outlet): $\le 5.0\%$
+- **Branch Circuit Maximum Voltage Drop**: <= 3.0%
+- **Feeder Circuit Maximum Voltage Drop**: <= 2.0%
+- **Total Combined System Voltage Drop** (Service Entrance to Farthest Outlet): <= 5.0%
 
 ### B. Continuous Load Sizing Requirement (NEC 210.20)
 A continuous load is defined as any electrical load operating continuously for **3 hours or more** (e.g., commercial lighting, HVAC chillers, server rooms). Conductors and overcurrent protective devices (OCPD) must be sized for:
 
-$$I_{\text{design}} = (1.25 \times I_{\text{continuous}}) + I_{\text{non-continuous}}$$
+$$I_design = (1.25 × I_continuous) + I_non-continuous$$
 
 ---
 
 ## 2. Fundamental Voltage Drop Equations
 
-Conductor voltage drop is caused by internal AC resistance ($R$) and inductive reactance ($X_L$) over distance.
+Conductor voltage drop is caused by internal AC resistance (R) and inductive reactance (X_L) over distance.
 
-### Three-Phase System Voltage Drop ($V_{\text{drop, 3}\phi}$)
-$$V_{\text{drop, 3}\phi} = \frac{\sqrt{3} \times I \times L \times R}{1000}$$
+### Three-Phase System Voltage Drop (V_drop_3ph)
+$$V_drop_3ph = (√3 × I × L × R) / 1000$$
 
 Where:
-- $V_{\text{drop}}$ = Line-to-line voltage drop (Volts)
-- $\sqrt{3} \approx 1.732$ = Three-phase voltage factor
-- $I$ = Operating load current (Amperes)
-- $L$ = One-way conductor feeder length (Feet)
-- $R$ = Conductor AC resistance per 1,000 ft (from NEC Chapter 9 Table 8 for DC or Table 9 for AC in steel/PVC conduit)
+- **V_drop**: Line-to-line voltage drop (Volts)
+- **√3 ≈ 1.732**: Three-phase voltage factor
+- **I**: Operating load current (Amperes)
+- **L**: One-way conductor feeder length (Feet)
+- **R**: Conductor AC resistance per 1,000 ft (from NEC Chapter 9 Table 8 for DC or Table 9 for AC in steel/PVC conduit)
 
-### Percentage Voltage Drop ($\%VD$)
-$$\%VD = \left( \frac{V_{\text{drop}}}{V_{\text{nominal}}} \right) \times 100$$
+### Percentage Voltage Drop (%VD)
+$$\%VD = (V_drop / V_nominal) × 100$$
 
-Where $V_{\text{nominal}}$ is nominal system phase-to-phase voltage (e.g., 480V, 400V, 208V).
+Where **V_nominal** is nominal system phase-to-phase voltage (e.g., 480V, 400V, 208V).
 
 ---
 
 ## 3. Conductor Ampacity Thermal Derating Factors
 
-Baseline conductor ampacities listed in **NEC Table 310.16** are based on an ambient temperature of $30^\circ\text{C}$ ($86^\circ\text{F}$) and no more than 3 current-carrying conductors in a raceway.
+Baseline conductor ampacities listed in **NEC Table 310.16** are based on an ambient temperature of 30°C (86°F) and no more than 3 current-carrying conductors in a raceway.
 
-When actual operating conditions differ, allowable ampacity ($I_{\text{allowable}}$) must be adjusted:
+When actual operating conditions differ, allowable ampacity (I_allowable) must be adjusted:
 
-$$I_{\text{allowable}} = I_{\text{table}} \times K_{\text{temp}} \times K_{\text{fill}}$$
+$$I_allowable = I_table × K_temp × K_fill$$
 
-### A. Ambient Temperature Correction Factor ($K_{\text{temp}}$)
-From NEC Table 310.15(B1), for copper conductors rated $75^\circ\text{C}$ operating in $40^\circ\text{C}$ ($104^\circ\text{F}$) ambient air:
-$$K_{\text{temp}} = 0.88$$
+### A. Ambient Temperature Correction Factor (K_temp)
+From NEC Table 310.15(B1), for copper conductors rated 75°C operating in 40°C (104°F) ambient air:
+K_temp = 0.88
 
-### B. Raceway Conductor Bundle Adjustment ($K_{\text{fill}}$)
+### B. Raceway Conductor Bundle Adjustment (K_fill)
 From NEC Table 310.15(C1), when bundling multiple current-carrying conductors in a conduit:
-- 4 to 6 conductors: $K_{\text{fill}} = 0.80$
-- 7 to 9 conductors: $K_{\text{fill}} = 0.70$
-- 10 to 20 conductors: $K_{\text{fill}} = 0.50$
+- 4 to 6 conductors: K_fill = 0.80
+- 7 to 9 conductors: K_fill = 0.70
+- 10 to 20 conductors: K_fill = 0.50
 
 ---
 
@@ -349,52 +349,52 @@ From NEC Table 310.15(C1), when bundling multiple current-carrying conductors in
 Let us size the main feeder cable and circuit breaker for a 3-phase commercial motor control center (MCC) sub-panel:
 
 ### Design Parameters
-- **Load Current**: $180 \text{ Amperes continuous load}$
-- **Feeder Distance ($L$)**: $350 \text{ feet}$
-- **System Voltage**: $480 \text{ V, 3-Phase, 4-Wire, 60Hz}$
-- **Conduit Type**: Rigid PVC Conduit installed in ambient temperature of $40^\circ\text{C}$ ($104^\circ\text{F}$)
+- **Load Current**: 180 Amperes continuous load
+- **Feeder Distance (L)**: 350 feet
+- **System Voltage**: 480 V, 3-Phase, 4-Wire, 60Hz
+- **Conduit Type**: Rigid PVC Conduit installed in ambient temperature of 40°C (104°F)
 - **Raceway Fill**: 4 current-carrying conductors in single conduit.
 
 ---
 
 ### Step 1: Calculate Minimum Required Design Ampacity
 Applying the 125% continuous load factor:
-$$I_{\text{design}} = 180 \text{ Amps} \times 1.25 = 225 \text{ Amperes}$$
+$$I_design = 180 Amps × 1.25 = 225 Amperes$$
 
 A 225A frame trip rating circuit breaker is selected.
 
 ---
 
 ### Step 2: Select Initial Conductor Size based on Thermal Derating
-We need a $75^\circ\text{C}$ THHN copper conductor whose derated ampacity exceeds 225A.
+We need a 75°C THHN copper conductor whose derated ampacity exceeds 225A.
 
 Using trial conductor: **300 kcmil Copper** (NEC Table 310.16 base rating = 285A):
-- Thermal correction ($K_{\text{temp}}$ at $40^\circ\text{C}$): $0.88$
-- Bundle correction ($K_{\text{fill}}$ for 4 conductors): $0.80$
+- Thermal correction (K_temp at 40°C): 0.88
+- Bundle correction (K_fill for 4 conductors): 0.80
 
-$$I_{\text{derated}} = 285 \text{ A} \times 0.88 \times 0.80 = 285 \times 0.704 = 200.6 \text{ Amps}$$
+$$I_derated = 285 A × 0.88 × 0.80 = 285 × 0.704 = 200.6 Amps$$
 
-Since $200.6\text{A} < 225\text{A}$, 300 kcmil is insufficient!
+Since 200.6A < 225A, 300 kcmil is insufficient!
 
 Trying **400 kcmil Copper** (NEC Table 310.16 base rating = 335A):
-$$I_{\text{derated}} = 335 \text{ A} \times 0.88 \times 0.80 = 335 \times 0.704 = 235.84 \text{ Amps}$$
+$$I_derated = 335 A × 0.88 × 0.80 = 335 × 0.704 = 235.84 Amps$$
 
-Since $235.84\text{A} > 225\text{A}$, 400 kcmil copper satisfies thermal ampacity rules!
+Since 235.84A > 225A, 400 kcmil copper satisfies thermal ampacity rules!
 
 ---
 
 ### Step 3: Verify Voltage Drop Compliance for 400 kcmil Conductor
 From NEC Chapter 9 Table 9 (AC resistance for 400 kcmil copper in PVC conduit):
-$$R = 0.035 \ \Omega / 1,000 \text{ ft}$$
+R = 0.035 Ω / 1,000 ft
 
 Calculating line voltage drop:
-$$V_{\text{drop}} = \frac{\sqrt{3} \times 180 \text{ A} \times 350 \text{ ft} \times 0.035}{1000}$$
-$$V_{\text{drop}} = \frac{1.732 \times 180 \times 350 \times 0.035}{1000} = \frac{3820.7}{1000} = 3.82 \text{ Volts}$$
+$$V_drop = (√3 × 180 A × 350 ft × 0.035) / 1000$$
+$$V_drop = (1.732 × 180 × 350 × 0.035) / 1000 = 3820.7 / 1000 = 3.82 Volts$$
 
-Calculating percentage voltage drop ($\%VD$):
-$$\%VD = \left( \frac{3.82 \text{ V}}{480 \text{ V}} \right) \times 100 = 0.795\%$$
+Calculating percentage voltage drop (%VD):
+$$\%VD = (3.82 V / 480 V) × 100 = 0.795\%$$
 
-Since $0.795\% \le 2.0\%$ feeder limit, 400 kcmil copper conductor easily satisfies both thermal ampacity and NEC voltage drop criteria!
+Since 0.795% <= 2.0% feeder limit, 400 kcmil copper conductor easily satisfies both thermal ampacity and NEC voltage drop criteria!
 
 ---
 
@@ -402,12 +402,12 @@ Since $0.795\% \le 2.0\%$ feeder limit, 400 kcmil copper conductor easily satisf
 
 | Parameter | Code Standard | Rule / Formula |
 | :--- | :--- | :--- |
-| **Continuous Load** | NEC 210.20 | $I_{\text{design}} = I_{\text{continuous}} \times 1.25$ |
-| **Branch Voltage Drop** | NEC 210.19(A) | Max $3.0\%$ |
-| **Feeder Voltage Drop** | NEC 215.2(A) | Max $2.0\%$ |
-| **Total System Drop** | NEC Informational Note | Max $5.0\%$ combined |
-| **Temperature Derating** | NEC Table 310.15(B1) | $I_{\text{allowable}} = I_{\text{table}} \times K_{\text{temp}}$ |
-| **Raceway Fill Derating** | NEC Table 310.15(C1) | $I_{\text{allowable}} = I_{\text{table}} \times K_{\text{fill}}$ |
+| **Continuous Load** | NEC 210.20 | I_design = I_continuous × 1.25 |
+| **Branch Voltage Drop** | NEC 210.19(A) | Max 3.0% |
+| **Feeder Voltage Drop** | NEC 215.2(A) | Max 2.0% |
+| **Total System Drop** | NEC Informational Note | Max 5.0% combined |
+| **Temperature Derating** | NEC Table 310.15(B1) | I_allowable = I_table × K_temp |
+| **Raceway Fill Derating** | NEC Table 310.15(C1) | I_allowable = I_table × K_fill |
 
 ---
 
@@ -538,7 +538,7 @@ By deploying the **TARV Engineering Platform**:
     content: `
 # IPC 2024 Plumbing Fixture Unit (WSFU) Sizing & Peak Water Demand Handbook
 
-Designing domestic water supply distribution networks and sanitary drainage piping requires converting discrete plumbing fixture counts (water closets, lavatories, showers, kitchen sinks) into continuous peak water demand ($GPM$) using **Hunter's Curve** methodology as standardized in International Plumbing Code (IPC 2024) Chapter 6 and Chapter 7.
+Designing domestic water supply distribution networks and sanitary drainage piping requires converting discrete plumbing fixture counts (water closets, lavatories, showers, kitchen sinks) into continuous peak water demand (GPM) using **Hunter's Curve** methodology as standardized in International Plumbing Code (IPC 2024) Chapter 6 and Chapter 7.
 
 ---
 
@@ -552,7 +552,7 @@ Each plumbing fixture is assigned a Water Supply Fixture Unit (WSFU) value refle
 - Shower Head (Private): **1.5 WSFU**
 - Kitchen Sink (Private): **1.5 WSFU**
 
-Cumulative WSFU values are converted to peak flow demand ($Q_{\text{GPM}}$) using Hunter's non-linear probability equations.
+Cumulative WSFU values are converted to peak flow demand (Q_GPM) using Hunter's non-linear probability equations.
 
 ---
 
@@ -560,20 +560,20 @@ Cumulative WSFU values are converted to peak flow demand ($Q_{\text{GPM}}$) usin
 
 Friction head loss in water supply piping is calculated using the Hazen-Williams formula:
 
-$$h_f = 0.2083 \times \left( \frac{100}{C} \right)^{1.852} \times \frac{Q^{1.852}}{d^{4.8655}}$$
+$$h_f = 0.2083 × (100 / C)^1.852 × (Q^1.852 / d^4.8655)$$
 
 Where:
-- $h_f$ = Friction head loss per 100 feet of pipe (ft of head / 100 ft)
-- $C$ = Pipe interior roughness coefficient ($C = 150$ for Copper/PEX, $C = 100$ for galvanized steel)
-- $Q$ = Peak water flow rate (GPM)
-- $d$ = Internal pipe diameter (inches)
+- **h_f**: Friction head loss per 100 feet of pipe (ft of head / 100 ft)
+- **C**: Pipe interior roughness coefficient (C = 150 for Copper/PEX, C = 100 for galvanized steel)
+- **Q**: Peak water flow rate (GPM)
+- **d**: Internal pipe diameter (inches)
 
 ### Water Velocity Limit Equation
-$$\text{Velocity } (V) = \frac{0.408 \times Q}{d^2}$$
+$$\text{Velocity } (V) = (0.408 × Q) / d²$$
 
 To prevent pipe erosion-corrosion and water hammer noise, velocity must satisfy:
-- Cold Water Lines: $V \le 8.0 \text{ ft/s}$
-- Hot Water Lines ($> 140^\circ\text{F}$): $V \le 5.0 \text{ ft/s}$
+- Cold Water Lines: V <= 8.0 ft/s
+- Hot Water Lines (> 140°F): V <= 5.0 ft/s
 
 ---
 
@@ -582,32 +582,32 @@ To prevent pipe erosion-corrosion and water hammer noise, velocity must satisfy:
 Let us size the main domestic cold water supply riser for a 5-story residential building branch:
 
 ### Fixture Count Inventory
-- **20 Water Closets (Flush Tank)**: $20 \times 2.5 = 50.0 \text{ WSFU}$
-- **20 Lavatories**: $20 \times 0.75 = 15.0 \text{ WSFU}$
-- **20 Showers**: $20 \times 1.5 = 30.0 \text{ WSFU}$
-- **20 Kitchen Sinks**: $20 \times 1.5 = 30.0 \text{ WSFU}$
-- **Total Load**: $125.0 \text{ WSFU}$
+- **20 Water Closets (Flush Tank)**: 20 × 2.5 = 50.0 WSFU
+- **20 Lavatories**: 20 × 0.75 = 15.0 WSFU
+- **20 Showers**: 20 × 1.5 = 30.0 WSFU
+- **20 Kitchen Sinks**: 20 × 1.5 = 30.0 WSFU
+- **Total Load**: 125.0 WSFU
 
 ---
 
-### Step 1: Determine Peak Demand Flow ($Q_{\text{peak}}$) via Hunter's Curve
+### Step 1: Determine Peak Demand Flow (Q_peak) via Hunter's Curve
 Using IPC Table 604.3 conversion for predominantly tank-type fixtures:
-$$125 \text{ WSFU} \implies Q_{\text{peak}} = 48 \text{ GPM}$$
+$$125 WSFU \implies Q_peak = 48 GPM$$
 
 ---
 
 ### Step 2: Select Trial Pipe Size & Verify Water Velocity
-Trial Size: **1.5" Type L Copper Pipe** ($d = 1.481 \text{ inches}$):
+Trial Size: **1.5" Type L Copper Pipe** (d = 1.481 inches):
 
-$$\text{Velocity} = \frac{0.408 \times 48 \text{ GPM}}{(1.481)^2} = \frac{19.584}{2.193} = 8.93 \text{ ft/s}$$
+$$\text{Velocity} = (0.408 × 48 GPM) / (1.481)² = 19.584 / 2.193 = 8.93 ft/s$$
 
-Since $8.93 \text{ ft/s} > 8.0 \text{ ft/s}$, 1.5" pipe exceeds IPC velocity limits!
+Since 8.93 ft/s > 8.0 ft/s, 1.5" pipe exceeds IPC velocity limits!
 
-Trial Size: **2.0" Type L Copper Pipe** ($d = 1.959 \text{ inches}$):
+Trial Size: **2.0" Type L Copper Pipe** (d = 1.959 inches):
 
-$$\text{Velocity} = \frac{0.408 \times 48 \text{ GPM}}{(1.959)^2} = \frac{19.584}{3.838} = 5.10 \text{ ft/s}$$
+$$\text{Velocity} = (0.408 × 48 GPM) / (1.959)² = 19.584 / 3.838 = 5.10 ft/s$$
 
-Since $5.10 \text{ ft/s} \le 8.0 \text{ ft/s}$, 2.0" copper pipe diameter satisfies IPC velocity criteria!
+Since 5.10 ft/s <= 8.0 ft/s, 2.0" copper pipe diameter satisfies IPC velocity criteria!
 
 ---
 
@@ -658,9 +658,9 @@ TARV Plumbing Calculator automatically aggregates fixture units across complex r
     content: `
 # Duct Static Pressure Loss & Fitting Friction Calculation: SMACNA & ASHRAE Masterclass
 
-Proper air duct sizing ensures equal airflow distribution to conditioned zones while minimizing fan total static pressure ($TSP$) requirements, fan electrical power consumption, and acoustic duct turbulence noise.
+Proper air duct sizing ensures equal airflow distribution to conditioned zones while minimizing fan total static pressure (TSP) requirements, fan electrical power consumption, and acoustic duct turbulence noise.
 
-This masterclass guide breaks down the equal friction duct sizing method, velocity pressure equations, dynamic fitting loss coefficients ($C_o$), and fan total static pressure ($TSP$) calculations mapped directly to **ASHRAE Fundamentals Handbook** and **SMACNA HVAC Duct Design Standards**.
+This masterclass guide breaks down the equal friction duct sizing method, velocity pressure equations, dynamic fitting loss coefficients (C_o), and fan total static pressure (TSP) calculations mapped directly to **ASHRAE Fundamentals Handbook** and **SMACNA HVAC Duct Design Standards**.
 
 ---
 
@@ -668,86 +668,86 @@ This masterclass guide breaks down the equal friction duct sizing method, veloci
 
 The pressure drop due to friction in a straight duct section is calculated using the Darcy-Weisbach friction equation:
 
-$$\Delta P_f = f \times \left( \frac{L}{D_h} \right) \times \left( \frac{\rho \times V^2}{2} \right)$$
+$$\Delta P_f = f × (L / D_h) × (\rho × V² / 2)$$
 
 Where:
-- $\Delta P_f$ = Friction pressure loss (in. w.g. or Pa)
-- $f$ = Friction factor (derived from Colebrook equation for sheet metal roughness)
-- $L$ = Length of straight duct section (feet)
-- $D_h$ = Hydraulic equivalent diameter ($D_h = \frac{4A}{P}$)
-- $\rho$ = Air density ($0.075 \text{ lb/ft}^3$)
-- $V$ = Air velocity (feet per minute, FPM)
+- **ΔP_f**: Friction pressure loss (in. w.g. or Pa)
+- **f**: Friction factor (derived from Colebrook equation for sheet metal roughness)
+- **L**: Length of straight duct section (feet)
+- **D_h**: Hydraulic equivalent diameter (D_h = 4A / P)
+- **ρ**: Air density (0.075 lb/ft³)
+- **V**: Air velocity (feet per minute, FPM)
 
-### Hydraulic Equivalent Diameter Formula ($D_h$)
-For rectangular ducts of width $a$ and height $b$:
+### Hydraulic Equivalent Diameter Formula (D_h)
+For rectangular ducts of width **a** and height **b**:
 
-$$D_h = \frac{1.30 \times (a \times b)^{0.625}}{(a + b)^{0.250}}$$
+$$D_h = (1.30 × (a × b)^0.625) / (a + b)^0.250$$
 
 ---
 
 ## 2. Dynamic Pressure Loss in Duct Fittings
 
-Fittings (elbows, branch tees, duct transitions, dampers, sound attenuators) create localized turbulence and pressure drops expressed via dimensionless loss coefficients ($C_o$):
+Fittings (elbows, branch tees, duct transitions, dampers, sound attenuators) create localized turbulence and pressure drops expressed via dimensionless loss coefficients (C_o):
 
-$$\Delta P_k = C_o \times P_v$$
+$$\Delta P_k = C_o × P_v$$
 
-Where $P_v$ is the air velocity pressure calculated as:
+Where P_v is the air velocity pressure calculated as:
 
-$$P_v = \left( \frac{V}{4005} \right)^2$$
+$$P_v = (V / 4005)²$$
 
-- $V$ = Duct air velocity in FPM
-- $4005$ = Standard air velocity conversion constant at sea level.
+- **V**: Duct air velocity in FPM
+- **4005**: Standard air velocity conversion constant at sea level.
 
 ---
 
 ## 3. Step-by-Step Worked Numerical Calculation Example
 
-Let us calculate the required fan total static pressure ($TSP$) for a commercial supply air duct run serving a conference room:
+Let us calculate the required fan total static pressure (TSP) for a commercial supply air duct run serving a conference room:
 
 ### Critical Path Run Inventory
-- **Total Airflow ($Q$)**: $2,500 \text{ CFM}$
-- **Straight Duct Length ($L$)**: $180 \text{ feet}$ rectangular sheet metal ($0.09 \text{ in. w.g./100 ft}$ design friction rate)
+- **Total Airflow (Q)**: 2,500 CFM
+- **Straight Duct Length (L)**: 180 feet rectangular sheet metal (0.09 in. w.g./100 ft design friction rate)
 - **Fittings on Critical Path**:
-  - $2 \times 90^\circ$ Rectangular Elbows ($C_o = 0.25$ each)
-  - $1 \times$ Duct Transition ($C_o = 0.15$)
-  - $1 \times$ Fire Damper ($\Delta P = 0.12 \text{ in. w.g.}$)
-  - $1 \times$ VAV Terminal Box ($\Delta P = 0.25 \text{ in. w.g.}$)
-  - $1 \times$ Supply Air Diffuser ($\Delta P = 0.08 \text{ in. w.g.}$)
-- **Design Air Velocity**: $1,400 \text{ FPM}$ in main trunk.
+  - 2 × 90° Rectangular Elbows (C_o = 0.25 each)
+  - 1 × Duct Transition (C_o = 0.15)
+  - 1 × Fire Damper (ΔP = 0.12 in. w.g.)
+  - 1 × VAV Terminal Box (ΔP = 0.25 in. w.g.)
+  - 1 × Supply Air Diffuser (ΔP = 0.08 in. w.g.)
+- **Design Air Velocity**: 1,400 FPM in main trunk.
 
 ---
 
-### Step 1: Calculate Straight Duct Friction Loss ($\Delta P_{\text{straight}}$)
-$$\Delta P_{\text{straight}} = 180 \text{ ft} \times \left( \frac{0.09 \text{ in. w.g.}}{100 \text{ ft}} \right) = 0.162 \text{ in. w.g.}$$
+### Step 1: Calculate Straight Duct Friction Loss (ΔP_straight)
+$$\Delta P_straight = 180 ft × (0.09 in. w.g. / 100 ft) = 0.162 in. w.g.$$
 
 ---
 
-### Step 2: Calculate Velocity Pressure ($P_v$) & Fitting Dynamic Losses ($\Delta P_{\text{fittings}}$)
-$$P_v = \left( \frac{1400}{4005} \right)^2 = (0.3495)^2 = 0.122 \text{ in. w.g.}$$
+### Step 2: Calculate Velocity Pressure (P_v) & Fitting Dynamic Losses (ΔP_fittings)
+$$P_v = (1400 / 4005)² = (0.3495)² = 0.122 in. w.g.$$
 
-Summing dynamic fitting $C_o$ coefficients:
-$$\sum C_o = (2 \times 0.25) + 0.15 = 0.50 + 0.15 = 0.65$$
+Summing dynamic fitting C_o coefficients:
+$$\sum C_o = (2 × 0.25) + 0.15 = 0.50 + 0.15 = 0.65$$
 
-$$\Delta P_{\text{fittings}} = 0.65 \times 0.122 = 0.079 \text{ in. w.g.}$$
-
----
-
-### Step 3: Calculate In-Line Equipment Pressure Drops ($\Delta P_{\text{equipment}}$)
-$$\Delta P_{\text{equipment}} = \text{Damper } (0.12) + \text{VAV } (0.25) + \text{Diffuser } (0.08) = 0.450 \text{ in. w.g.}$$
+$$\Delta P_fittings = 0.65 × 0.122 = 0.079 in. w.g.$$
 
 ---
 
-### Step 4: Calculate Total Fan Static Pressure Requirement ($TSP$)
-$$TSP = \Delta P_{\text{straight}} + \Delta P_{\text{fittings}} + \Delta P_{\text{equipment}}$$
-$$TSP = 0.162 + 0.079 + 0.450 = 0.691 \text{ in. w.g.}$$
+### Step 3: Calculate In-Line Equipment Pressure Drops (ΔP_equipment)
+$$\Delta P_equipment = Damper (0.12) + VAV (0.25) + Diffuser (0.08) = 0.450 in. w.g.$$
 
-Adding a standard $15\%$ engineering safety margin:
-$$\text{Design Fan TSP} = 0.691 \times 1.15 = 0.795 \text{ in. w.g.} \approx 0.80 \text{ in. w.g.}$$
+---
+
+### Step 4: Calculate Total Fan Static Pressure Requirement (TSP)
+$$TSP = \Delta P_straight + \Delta P_fittings + \Delta P_equipment$$
+$$TSP = 0.162 + 0.079 + 0.450 = 0.691 in. w.g.$$
+
+Adding a standard 15% engineering safety margin:
+$$\text{Design Fan TSP} = 0.691 × 1.15 = 0.795 in. w.g. ≈ 0.80 in. w.g.$$
 
 ---
 
 ## 4. TARV Interactive Ductulator & Sizing Suite
-TARV’s **Duct Sizing Suite** automatically converts rectangular dimensions to equivalent round duct diameters, traces critical friction paths across 3D Revit duct networks, and calculates fan total static pressure ($TSP$) instantly.
+TARV’s **Duct Sizing Suite** automatically converts rectangular dimensions to equivalent round duct diameters, traces critical friction paths across 3D Revit duct networks, and calculates fan total static pressure (TSP) instantly.
     `,
   },
   {
@@ -789,20 +789,20 @@ TARV’s **Duct Sizing Suite** automatically converts rectangular dimensions to 
     content: `
 # Hydraulic Sprinkler K-Factor & Hazen-Williams Sizing for Fire Protection Engineers
 
-Designing life-safety fire sprinkler networks according to **NFPA 13 (Standard for the Installation of Sprinkler Systems)** requires performing detailed hydraulic calculations to verify that available water supply pressure and flow satisfy the most hydraulically demanding design area ($1,500 \text{ ft}^2$).
+Designing life-safety fire sprinkler networks according to **NFPA 13 (Standard for the Installation of Sprinkler Systems)** requires performing detailed hydraulic calculations to verify that available water supply pressure and flow satisfy the most hydraulically demanding design area (1,500 ft²).
 
 ---
 
 ## 1. Sprinkler Discharge Flow Equation
 
-The water flow rate ($Q$) discharging from an open fire sprinkler nozzle is a function of its nominal K-factor orifice geometry and operating pressure ($P$):
+The water flow rate (Q) discharging from an open fire sprinkler nozzle is a function of its nominal K-factor orifice geometry and operating pressure (P):
 
-$$Q = K \times \sqrt{P}$$
+$$Q = K × √P$$
 
 Where:
-- $Q$ = Discharge flow rate (GPM)
-- $K$ = Sprinkler K-Factor (e.g., $K=5.6$ for standard 1/2" orifice, $K=8.0$, $K=11.2$, $K=16.8$ for ESFR heads)
-- $P$ = Operating pressure at the sprinkler head (PSI, min $7.0 \text{ PSI}$ per NFPA 13)
+- **Q**: Discharge flow rate (GPM)
+- **K**: Sprinkler K-Factor (e.g., K = 5.6 for standard 1/2" orifice, K = 8.0, K = 11.2, K = 16.8 for ESFR heads)
+- **P**: Operating pressure at the sprinkler head (PSI, min 7.0 PSI per NFPA 13)
 
 ---
 
@@ -810,13 +810,13 @@ Where:
 
 Pressure loss due to pipe friction in fire protection piping is calculated using the NFPA 13 Hazen-Williams equation:
 
-$$p_m = \frac{4.52 \times Q^{1.85}}{C^{1.85} \times d^{4.87}}$$
+$$p_m = (4.52 × Q^1.85) / (C^1.85 × d^4.87)$$
 
 Where:
-- $p_m$ = Friction loss per foot of pipe (PSI/ft)
-- $Q$ = Flow rate in pipe branch (GPM)
-- $C$ = Pipe roughness C-factor ($C = 120$ for black steel, $C = 150$ for CPVC/Copper)
-- $d$ = Internal pipe diameter (inches)
+- **p_m**: Friction loss per foot of pipe (PSI/ft)
+- **Q**: Flow rate in pipe branch (GPM)
+- **C**: Pipe roughness C-factor (C = 120 for black steel, C = 150 for CPVC/Copper)
+- **d**: Internal pipe diameter (inches)
 
 ---
 
@@ -825,38 +825,38 @@ Where:
 Let us calculate the required end-head sprinkler pressure and branch pipe friction drop for an Ordinary Hazard Group 1 occupancy:
 
 ### Design Requirements
-- **Target Density**: $0.15 \text{ GPM/ft}^2$ over $1,500 \text{ ft}^2$ remote area
-- **Sprinkler Coverage Area**: $130 \text{ ft}^2$ per sprinkler head
-- **Sprinkler Type**: Standard Response $K = 5.6$
-- **Branch Pipe**: 1.25" Schedule 40 Black Steel ($d = 1.380 \text{ in}$, $C = 120$), Length $L = 40 \text{ ft}$.
+- **Target Density**: 0.15 GPM/ft² over 1,500 ft² remote area
+- **Sprinkler Coverage Area**: 130 ft² per sprinkler head
+- **Sprinkler Type**: Standard Response K = 5.6
+- **Branch Pipe**: 1.25" Schedule 40 Black Steel (d = 1.380 in, C = 120), Length L = 40 ft.
 
 ---
 
-### Step 1: Calculate Minimum Flow per Sprinkler ($Q_{\text{head}}$)
-$$Q_{\text{head}} = \text{Area} \times \text{Density} = 130 \text{ ft}^2 \times 0.15 \text{ GPM/ft}^2 = 19.5 \text{ GPM}$$
+### Step 1: Calculate Minimum Flow per Sprinkler (Q_head)
+$$Q_head = Area × Density = 130 ft² × 0.15 GPM/ft² = 19.5 GPM$$
 
 ---
 
-### Step 2: Calculate Required Operating Pressure ($P_{\text{head}}$)
-$$19.5 = 5.6 \times \sqrt{P} \implies \sqrt{P} = \frac{19.5}{5.6} = 3.482$$
-$$P = (3.482)^2 = 12.12 \text{ PSI}$$
+### Step 2: Calculate Required Operating Pressure (P_head)
+$$19.5 = 5.6 × √P \implies √P = 19.5 / 5.6 = 3.482$$
+$$P = (3.482)² = 12.12 PSI$$
 
-Since $12.12 \text{ PSI} \ge 7.0 \text{ PSI}$, $12.12 \text{ PSI}$ is the design operating pressure at the most remote head.
+Since 12.12 PSI >= 7.0 PSI, 12.12 PSI is the design operating pressure at the most remote head.
 
 ---
 
-### Step 3: Calculate Pipe Friction Loss ($p_m$) across 40 ft Branch
-$$p_m = \frac{4.52 \times (19.5)^{1.85}}{(120)^{1.85} \times (1.380)^{4.87}} = \frac{4.52 \times 241.6}{7025.4 \times 4.757} = \frac{1092.0}{33420} = 0.03267 \text{ PSI/ft}$$
+### Step 3: Calculate Pipe Friction Loss (p_m) across 40 ft Branch
+$$p_m = (4.52 × (19.5)^1.85) / ((120)^1.85 × (1.380)^4.87) = 1092.0 / 33420 = 0.03267 PSI/ft$$
 
 Total Friction Drop across 40 ft branch:
-$$P_{\text{friction}} = 40 \text{ ft} \times 0.03267 \text{ PSI/ft} = 1.31 \text{ PSI}$$
+$$P_friction = 40 ft × 0.03267 PSI/ft = 1.31 PSI$$
 
-Total Branch End Pressure = $12.12 + 1.31 = 13.43 \text{ PSI}$.
+Total Branch End Pressure = 12.12 + 1.31 = 13.43 PSI.
 
 ---
 
 ## 4. TARV Fire Protection Solver
-TARV’s **Fire Protection Suite** automatically balances sprinkler tree networks, determines critical hydraulic paths, and outputs exact fire pump sizing specifications ($GPM @ PSI$) under NFPA 20 rules.
+TARV’s **Fire Protection Suite** automatically balances sprinkler tree networks, determines critical hydraulic paths, and outputs exact fire pump sizing specifications (GPM @ PSI) under NFPA 20 rules.
     `,
   },
   {
@@ -899,20 +899,20 @@ Properly sizing main distribution transformers and emergency standby generators 
 
 ## 1. Apparent Power Formula (kVA)
 
-Three-phase apparent power ($S_{\text{kVA}}$) is calculated as:
+Three-phase apparent power (S_kVA) is calculated as:
 
-$$S_{\text{kVA}} = \frac{\sqrt{3} \times V_{\text{L-L}} \times I_{\text{demand}}}{1000}$$
+$$S_kVA = (√3 × V_L-L × I_demand) / 1000$$
 
 Where:
-- $V_{\text{L-L}}$ = Line-to-line system voltage (e.g., 480V or 400V)
-- $I_{\text{demand}}$ = Total calculated demand current (Amperes)
+- **V_L-L**: Line-to-line system voltage (e.g., 480V or 400V)
+- **I_demand**: Total calculated demand current (Amperes)
 
 ---
 
 ## 2. Demand Factor vs. Diversity Factor
 
-- **Demand Factor** = $\frac{\text{Maximum Demand Load}}{\text{Total Connected Load}} \le 1.0$
-- **Diversity Factor** = $\frac{\sum \text{Individual Max Demands}}{\text{Coincident Peak Demand}} \ge 1.0$
+- **Demand Factor** = Maximum Demand Load / Total Connected Load <= 1.0
+- **Diversity Factor** = Sum of Individual Max Demands / Coincident Peak Demand >= 1.0
 
 ---
 
@@ -950,7 +950,7 @@ TARV’s **Electrical Calculator** compiles connected vs. demand loads across li
     content: `
 # Psychrometric Air Conditioning Processes: Sensible vs. Latent Cooling Load Calculations
 
-Psychrometrics is the study of thermodynamic properties of moist air. Understanding the relationship between dry-bulb temperature ($DBT$), wet-bulb temperature ($WBT$), relative humidity ($RH$), and enthalpy ($h$) is vital for sizing AHU cooling coils and dehumidification systems.
+Psychrometrics is the study of thermodynamic properties of moist air. Understanding the relationship between dry-bulb temperature (DBT), wet-bulb temperature (WBT), relative humidity (RH), and enthalpy (h) is vital for sizing AHU cooling coils and dehumidification systems.
 
 ---
 
@@ -958,19 +958,19 @@ Psychrometrics is the study of thermodynamic properties of moist air. Understand
 
 Total thermal cooling capacity required at an AHU cooling coil is determined by enthalpy difference:
 
-$$Q_{\text{total}} = 4.5 \times \text{CFM} \times (h_{\text{entering}} - h_{\text{leaving}})$$
+$$Q_total = 4.5 × CFM × (h_entering - h_leaving)$$
 
 Where:
-- $Q_{\text{total}}$ = Total Cooling Load (BTU/hr)
-- $h$ = Enthalpy of air stream (BTU/lb of dry air)
+- **Q_total**: Total Cooling Load (BTU/hr)
+- **h**: Enthalpy of air stream (BTU/lb of dry air)
 
 ---
 
 ## 2. Sensible Heat Ratio (SHR)
 
-$$SHR = \frac{Q_{\text{sensible}}}{Q_{\text{total}}} = \frac{Q_s}{Q_s + Q_l}$$
+$$SHR = Q_sensible / Q_total = Q_s / (Q_s + Q_l)$$
 
-Target indoor comfort conditions ($75^\circ\text{F } DB, 50\% RH$) typically require an apparatus dew point (ADP) that matches the SHR slope.
+Target indoor comfort conditions (75°F DB, 50% RH) typically require an apparatus dew point (ADP) that matches the SHR slope.
 
 ---
 
@@ -1013,7 +1013,7 @@ BIM coordination is only as good as the parameter data living inside elements. W
 
 ## The 5 Common BIM Schedule Pitfalls
 1. **Shared Parameter GUID Mismatches**: Custom family parameters not matching project shared parameter definitions.
-2. **Unit Conversion Bugs**: Inadvertently mixing Imperial (CFM, GPM, BTU/hr) and Metric ($m^3/h$, $L/s$, $kW$) parameters.
+2. **Unit Conversion Bugs**: Inadvertently mixing Imperial (CFM, GPM, BTU/hr) and Metric (m³/h, L/s, kW) parameters.
 3. **Out-of-Date Mechanical Equipment Tags**: Revisions made in engineering spreadsheets failing to update Revit tags before submission.
 4. **Disconnected DB Electrical Schedules**: Circuit breaker ratings and load totals typed as static text strings instead of dynamic parameters.
 5. **Slow Manual Typing**: Spending 40+ billable hours entering room airflow values manually.
@@ -1058,8 +1058,8 @@ MEP consulting firms operating in the Middle East (UAE, Saudi Arabia, Qatar, Oma
 ---
 
 ## Key Regional Requirements:
-1. **DEWA (Dubai Electricity and Water Authority)**: Strict power factor limits ($\ge 0.95$), continuous cable derating for $50^\circ\text{C}$ ambient soil/air temperatures.
-2. **DCL (Dubai Central Laboratory)**: Green Building Regulation envelope thermal transmittance values ($U$-values max $0.3 \text{ W/m}^2\text{K}$).
+1. **DEWA (Dubai Electricity and Water Authority)**: Strict power factor limits (>= 0.95), continuous cable derating for 50°C ambient soil/air temperatures.
+2. **DCL (Dubai Central Laboratory)**: Green Building Regulation envelope thermal transmittance values (U-values max 0.3 W/m²K).
 3. **Saudi Building Code (SBC 601 & 401)**: Energy conservation and electrical installation compliance rules.
 
 ---
