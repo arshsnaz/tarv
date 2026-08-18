@@ -372,7 +372,7 @@ function ArticleDetailPage() {
         </div>
 
         {/* Hero Image */}
-        <div className="my-10 relative overflow-hidden rounded-3xl aspect-[21/9] bg-zinc-900 border border-white/10 shadow-2xl">
+        <div className="my-6 sm:my-10 relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-[16/9] sm:aspect-[21/9] bg-zinc-900 border border-white/10 shadow-2xl">
           <img
             src={article.image}
             alt={article.title}
@@ -685,7 +685,7 @@ function ArticleDetailPage() {
           </div>
 
           {/* Sticky Sidebar Column */}
-          <div className="lg:col-span-4 space-y-6 sticky top-28">
+          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-28">
             {/* Table of Contents Widget */}
             {tocHeadings.length > 0 && (
               <div className="glass rounded-3xl p-6 border border-border/80 bg-card/80 shadow-xl">
