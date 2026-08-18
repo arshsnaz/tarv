@@ -164,6 +164,7 @@ $$V_oz = V_bz / E_z$$
 Let us size the cooling coil capacity and outdoor fresh air requirement for a 10-story commercial office building zone:
 
 ### Design Conditions & Inputs
+
 - **Floor Area (A_z)**: 10,000 ft²
 - **Design Occupancy (P_z)**: 80 occupants
 - **Outdoor Design Climate**: 102°F Dry-Bulb, 78°F Wet-Bulb (h_out = 41.5 BTU/lb)

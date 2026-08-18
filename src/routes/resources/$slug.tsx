@@ -454,18 +454,30 @@ function ArticleDetailPage() {
                 );
               }
 
-              // Bullet List Item
-              if (trimmed.startsWith("- ")) {
-                const items = trimmed.split("\n- ").map((item) => item.replace(/^- /, ""));
+              // Bullet List Item (standalone or mixed)
+              if (trimmed.startsWith("- ") || trimmed.includes("\n- ")) {
+                const nonBulletHeading = trimmed.split("\n").find((l) => !l.trim().startsWith("- ") && l.trim().length > 0);
+                const bulletLines = trimmed.split("\n").filter((l) => l.trim().startsWith("- "));
                 return (
-                  <ul key={idx} className="space-y-2.5 my-4 pl-4 border-l-2 border-brand/40">
-                    {items.map((it, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm sm:text-base text-muted-foreground">
-                        <CheckCircle2 size={16} className="text-brand shrink-0 mt-1" />
-                        <span dangerouslySetInnerHTML={{ __html: formatInlineText(it) }} />
-                      </li>
-                    ))}
-                  </ul>
+                  <div key={idx} className="my-4 space-y-3">
+                    {nonBulletHeading && (
+                      <div
+                        className="font-bold text-foreground text-sm sm:text-base"
+                        dangerouslySetInnerHTML={{ __html: formatInlineText(nonBulletHeading) }}
+                      />
+                    )}
+                    <ul className="space-y-2.5 pl-4 border-l-2 border-brand/40">
+                      {bulletLines.map((line, i) => {
+                        const itemText = line.trim().replace(/^- /, "");
+                        return (
+                          <li key={i} className="flex items-start gap-2.5 text-sm sm:text-base text-muted-foreground">
+                            <CheckCircle2 size={16} className="text-brand shrink-0 mt-1" />
+                            <span dangerouslySetInnerHTML={{ __html: formatInlineText(itemText) }} />
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
                 );
               }
 
