@@ -70,8 +70,15 @@ function formatLatexFormula(raw: string): string {
 }
 
 function formatInlineText(text: string): string {
-  let formatted = text.replace(/\$\$(.*?)\$\$/g, (_, m) => formatLatexFormula(m));
-  formatted = formatted.replace(/\$(.*?)\$/g, (_, m) => `<span class="font-mono text-brand font-semibold px-1 py-0.5 rounded bg-brand/10 border border-brand/20">${formatLatexFormula(m)}</span>`);
+  let formatted = text;
+  // Convert $$...$$ display formulas to styled card
+  formatted = formatted.replace(/\$\$(.*?)\$\$/g, (_, m) => {
+    const formula = formatLatexFormula(m);
+    return `<div class="my-5 rounded-2xl border border-brand/40 bg-card/95 p-5 sm:p-7 shadow-xl text-center font-mono text-base sm:text-xl font-bold text-foreground overflow-x-auto tracking-wider"><div class="text-[10px] font-extrabold uppercase tracking-widest text-brand mb-2 flex items-center justify-center gap-1.5">FORMULA EQUATION REFERENCE</div>${formula}</div>`;
+  });
+  // Convert $...$ inline formulas to math badge
+  formatted = formatted.replace(/\$(.*?)\$/g, (_, m) => `<span class="font-mono text-brand font-semibold px-1.5 py-0.5 rounded bg-brand/10 border border-brand/20">${formatLatexFormula(m)}</span>`);
+  // Convert **bold**
   return formatted.replace(/\*\*(.*?)\*\*/g, "<strong class='text-foreground font-semibold'>$1</strong>");
 }
 
@@ -342,35 +349,48 @@ function ArticleDetailPage() {
               const trimmed = block.trim();
               if (!trimmed) return null;
 
+              if (trimmed === "---") {
+                return <hr key={idx} className="my-8 border-border/50" />;
+              }
+
               if (trimmed.startsWith("# ")) {
                 const text = trimmed.replace("# ", "");
                 const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 return (
-                  <h1 id={id} key={idx} className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground pt-4 pb-2 border-b border-border/50 scroll-mt-28">
-                    {text}
-                  </h1>
+                  <h1
+                    id={id}
+                    key={idx}
+                    className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground pt-4 pb-2 border-b border-border/50 scroll-mt-28"
+                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
+                  />
                 );
               }
               if (trimmed.startsWith("## ")) {
                 const text = trimmed.replace("## ", "");
                 const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 return (
-                  <h2 id={id} key={idx} className="text-xl sm:text-2xl font-bold tracking-tight text-foreground pt-6 pb-2 scroll-mt-28">
-                    {text}
-                  </h2>
+                  <h2
+                    id={id}
+                    key={idx}
+                    className="text-xl sm:text-2xl font-bold tracking-tight text-foreground pt-6 pb-2 scroll-mt-28"
+                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
+                  />
                 );
               }
               if (trimmed.startsWith("### ")) {
                 const text = trimmed.replace("### ", "");
                 const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 return (
-                  <h3 id={id} key={idx} className="text-lg font-bold tracking-tight text-foreground pt-4 scroll-mt-28">
-                    {text}
-                  </h3>
+                  <h3
+                    id={id}
+                    key={idx}
+                    className="text-lg font-bold tracking-tight text-foreground pt-4 scroll-mt-28"
+                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
+                  />
                 );
               }
 
-              // Formula Callout Card
+              // Formula Callout Card (standalone block)
               if (trimmed.startsWith("$$") && trimmed.endsWith("$$")) {
                 const formula = formatLatexFormula(trimmed.replace(/\$\$/g, ""));
                 return (
@@ -402,7 +422,7 @@ function ArticleDetailPage() {
               }
 
               return (
-                <p
+                <div
                   key={idx}
                   className="text-sm sm:text-base text-muted-foreground leading-relaxed"
                   dangerouslySetInnerHTML={{

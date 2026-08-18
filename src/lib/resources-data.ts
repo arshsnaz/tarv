@@ -107,17 +107,17 @@ Where:
 ## 3. Step-by-Step Numerical Worked Example
 
 Let us calculate the required outdoor ventilation airflow and sensible cooling load for an open-plan commercial office zone:
-- **Floor Area ($A_z$)**: $5,000 \\text{ ft}^2$
-- **Occupancy ($P_z$)**: $35 \\text{ people}$
-- **Outdoor Design Temp**: $100^\\circ\\text{F}$ Dry-Bulb
-- **Indoor Target Temp**: $75^\\circ\\text{F}$ Dry-Bulb
-- **ASHRAE 62.1 Rates**: $R_p = 5 \\text{ CFM/person}$, $R_a = 0.06 \\text{ CFM/ft}^2$
+- **Floor Area ($A_z$)**: 5,000 ft²
+- **Occupancy ($P_z$)**: 35 people
+- **Outdoor Design Temp**: 100°F Dry-Bulb
+- **Indoor Target Temp**: 75°F Dry-Bulb
+- **ASHRAE 62.1 Rates**: $R_p = 5 \text{ CFM/person}$, $R_a = 0.06 \text{ CFM/ft}^2$
 
 ### Step 1: Calculate Breathing Zone Outdoor Airflow ($V_{bz}$)
-$$V_{bz} = (5 \\times 35) + (0.06 \\times 5000) = 175 + 300 = 475 \\text{ CFM}$$
+$$V_{bz} = (5 \times 35) + (0.06 \times 5000) = 175 + 300 = 475 \text{ CFM}$$
 
-### Step 2: Calculate Outdoor Air Sensible Cooling Load ($Q_{s,\\text{outdoor}}$)
-$$Q_{s,\\text{outdoor}} = 1.08 \\times 475 \\times (100 - 75) = 1.08 \\times 475 \\times 25 = 12,825 \\text{ BTU/hr} = 1.07 \\text{ Tons}$$
+### Step 2: Calculate Outdoor Air Sensible Cooling Load ($Q_{s,\text{outdoor}}$)
+$$Q_{s,\text{outdoor}} = 1.08 \times 475 \times (100 - 75) = 1.08 \times 475 \times 25 = 12,825 \text{ BTU/hr} = 1.07 \text{ Tons}$$
 
 ---
 
