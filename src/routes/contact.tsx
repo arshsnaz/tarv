@@ -107,7 +107,7 @@ function ContactPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-foreground">Official Direct Email</h4>
-                  <p className="text-muted-foreground mt-0.5 text-sm">Primary Contact & Sales: <a href="mailto:admin@tarv.ai" className="text-brand font-mono font-bold">admin@tarv.ai</a></p>
+                  <p className="text-muted-foreground mt-0.5 text-sm">Primary Contact & Sales: <a href="mailto:tarv.official@gmail.com" className="text-brand font-mono font-bold">tarv.official@gmail.com</a></p>
                 </div>
               </div>
 
@@ -144,9 +144,9 @@ function ContactPage() {
                 <div className="grid size-16 place-items-center rounded-full bg-emerald-500/10 text-emerald-500 mx-auto">
                   <CheckCircle2 size={32} />
                 </div>
-                <h3 className="text-2xl font-bold">Message Sent to admin@tarv.ai!</h3>
+                <h3 className="text-2xl font-bold">Message Sent Successfully!</h3>
                 <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-                  Thank you, <span className="font-bold text-foreground">{form.name}</span>. Your inquiry has been transmitted directly to <span className="font-mono font-bold text-brand">admin@tarv.ai</span>. An engineer from our Dubai office will respond shortly.
+                  Thank you, <span className="font-bold text-foreground">{form.name}</span>. Your inquiry has been transmitted directly to <span className="font-mono font-bold text-brand">tarv.official@gmail.com</span>. An engineer from our Dubai office will respond shortly.
                 </p>
               </div>
             ) : (

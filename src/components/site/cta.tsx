@@ -221,8 +221,8 @@ export function SiteFooter() {
             <div className="flex items-start gap-2">
               <MapPin size={15} className="text-brand shrink-0 mt-0.5" /> API World Tower 403, Sheikh Zayed Rd, Dubai, UAE
             </div>
-            <a href="mailto:admin@tarv.ai" className="flex items-center gap-2 transition-colors hover:text-foreground font-mono text-xs">
-              <Mail size={15} className="text-brand shrink-0" /> admin@tarv.ai
+            <a href="mailto:tarv.official@gmail.com" className="flex items-center gap-2 transition-colors hover:text-foreground font-mono text-xs">
+              <Mail size={15} className="text-brand shrink-0" /> tarv.official@gmail.com
             </a>
           </div>
 
