@@ -423,50 +423,63 @@ function ArticleDetailPage() {
                 return <hr key={idx} className="my-8 border-border/50" />;
               }
 
-              if (trimmed.startsWith("# ")) {
-                const text = trimmed.replace("# ", "");
-                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+              if (trimmed.startsWith("# ") || trimmed.startsWith("## ") || trimmed.startsWith("### ") || trimmed.startsWith("#### ")) {
+                const lines = trimmed.split("\n");
+                const headingText = lines[0].replace(/^#+\s*/, "");
+                const id = headingText.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                const level = lines[0].startsWith("#### ") ? 4 : lines[0].startsWith("### ") ? 3 : lines[0].startsWith("## ") ? 2 : 1;
+                const restText = lines.slice(1).join("\n").trim();
+
+                const bulletLines = restText ? restText.split("\n").filter((l) => l.trim().startsWith("- ")) : [];
+
                 return (
-                  <h1
-                    id={id}
-                    key={idx}
-                    className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground pt-4 pb-2 border-b border-border/50 scroll-mt-28"
-                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
-                  />
-                );
-              }
-              if (trimmed.startsWith("## ")) {
-                const text = trimmed.replace("## ", "");
-                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-                return (
-                  <h2
-                    id={id}
-                    key={idx}
-                    className="text-xl sm:text-2xl font-bold tracking-tight text-foreground pt-6 pb-2 scroll-mt-28"
-                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
-                  />
-                );
-              }
-              if (trimmed.startsWith("### ")) {
-                const text = trimmed.replace("### ", "");
-                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-                return (
-                  <h3
-                    id={id}
-                    key={idx}
-                    className="text-lg font-bold tracking-tight text-foreground pt-4 scroll-mt-28"
-                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
-                  />
-                );
-              }
-              if (trimmed.startsWith("#### ")) {
-                const text = trimmed.replace("#### ", "");
-                return (
-                  <h4
-                    key={idx}
-                    className="text-base font-bold tracking-tight text-brand pt-3"
-                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
-                  />
+                  <div key={idx} className="space-y-3">
+                    {level === 1 && (
+                      <h1
+                        id={id}
+                        className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground pt-4 pb-2 border-b border-border/50 scroll-mt-28"
+                        dangerouslySetInnerHTML={{ __html: formatInlineText(headingText) }}
+                      />
+                    )}
+                    {level === 2 && (
+                      <h2
+                        id={id}
+                        className="text-xl sm:text-2xl font-bold tracking-tight text-foreground pt-6 pb-2 scroll-mt-28"
+                        dangerouslySetInnerHTML={{ __html: formatInlineText(headingText) }}
+                      />
+                    )}
+                    {level === 3 && (
+                      <h3
+                        id={id}
+                        className="text-lg font-bold tracking-tight text-foreground pt-4 scroll-mt-28"
+                        dangerouslySetInnerHTML={{ __html: formatInlineText(headingText) }}
+                      />
+                    )}
+                    {level === 4 && (
+                      <h4
+                        className="text-base font-bold tracking-tight text-brand pt-3"
+                        dangerouslySetInnerHTML={{ __html: formatInlineText(headingText) }}
+                      />
+                    )}
+
+                    {restText && (
+                      bulletLines.length > 0 ? (
+                        <ul className="space-y-2.5 pl-4 border-l-2 border-brand/40 my-3">
+                          {bulletLines.map((line, i) => (
+                            <li key={i} className="flex items-start gap-2.5 text-sm sm:text-base text-muted-foreground">
+                              <CheckCircle2 size={16} className="text-brand shrink-0 mt-1" />
+                              <span dangerouslySetInnerHTML={{ __html: formatInlineText(line.trim().replace(/^- /, "")) }} />
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div
+                          className="text-sm sm:text-base text-muted-foreground leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: formatInlineText(restText) }}
+                        />
+                      )
+                    )}
+                  </div>
                 );
               }
 

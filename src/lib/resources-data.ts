@@ -666,7 +666,7 @@ Note: Continuous loads (such as lawn sprinkler systems, cooling tower makeup wat
 
 Developed by Dr. Roy B. Hunter at the National Bureau of Standards, **Hunter's Curve** converts cumulative fixture units (WSFU) into peak probable flow demand (Q_GPM). The binomial probability equation accounts for system usage diversity:
 
-$$P(k) = \binom{n}{k} p^k (1-p)^{n-k}$$
+$$P(k) = \\binom{n}{k} p^k (1-p)^{n-k}$$
 
 IPC Chapter 6 provides standardized conversion curves for **Flushometer Valve Systems** (Curve 1) and **Flush Tank Systems** (Curve 2):
 
@@ -712,6 +712,7 @@ Where:
 Let us size the main domestic cold water supply riser and select the booster pump Total Dynamic Head (TDH) for a 10-story residential building complex:
 
 ### Fixture Count Inventory
+
 - **100 Water Closets (Flush Tank Type)**: 100 × 2.5 = 250.0 WSFU
 - **100 Lavatories (Private)**: 100 × 0.75 = 75.0 WSFU
 - **100 Shower Heads (Private)**: 100 × 1.5 = 150.0 WSFU
