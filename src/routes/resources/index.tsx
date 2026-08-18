@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/cta";
 import { Reveal } from "@/components/site/reveal";
@@ -15,6 +15,7 @@ import {
   CheckCircle2,
   FileText,
   User,
+  ArrowUp,
 } from "lucide-react";
 
 export const Route = createFileRoute("/resources/")({
@@ -57,6 +58,19 @@ const CATEGORIES = [
 function ResourcesPage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All Topics");
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const filteredArticles = useMemo(() => {
     return ARTICLES.filter((article) => {
@@ -359,6 +373,18 @@ function ResourcesPage() {
           </div>
         </Reveal>
       </main>
+
+      {/* Floating Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 grid size-11 sm:size-12 place-items-center rounded-full bg-brand text-brand-foreground border border-brand/50 shadow-2xl shadow-brand/40 hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer"
+          aria-label="Back to top"
+          title="Back to top"
+        >
+          <ArrowUp size={20} className="transition-transform duration-300 group-hover:-translate-y-1" />
+        </button>
+      )}
 
       <SiteFooter />
     </div>

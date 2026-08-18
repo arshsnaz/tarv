@@ -21,6 +21,7 @@ import {
   List,
   Copy,
   Check,
+  ArrowUp,
 } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 
@@ -170,9 +171,11 @@ function ArticleDetailPage() {
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
         const current = (window.scrollY / totalHeight) * 100;
@@ -182,6 +185,10 @@ function ArticleDetailPage() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // Extract Table of Contents headings (## or ###)
   const tocHeadings = useMemo(() => {
@@ -858,6 +865,18 @@ function ArticleDetailPage() {
             </Link>
           </div>
         </div>
+      )}
+
+      {/* Floating Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 grid size-11 sm:size-12 place-items-center rounded-full bg-brand text-brand-foreground border border-brand/50 shadow-2xl shadow-brand/40 hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer"
+          aria-label="Back to top"
+          title="Back to top"
+        >
+          <ArrowUp size={20} className="transition-transform duration-300 group-hover:-translate-y-1" />
+        </button>
       )}
 
       <SiteFooter />
