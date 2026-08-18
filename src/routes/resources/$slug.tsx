@@ -83,7 +83,7 @@ function formatLatexFormula(raw: string): string {
   return lines.join("<br />");
 }
 
-function formatInlineText(text: string): string {
+function formatInlineText(text: string, currentSlug?: string): string {
   if (!text) return "";
   let formatted = text;
 
@@ -127,17 +127,30 @@ function formatInlineText(text: string): string {
   // Restore currency dollar signs
   formatted = formatted.replace(/___CURRENCY___/g, "$");
 
-  // Add automated SEO internal cross-linking mesh
-  formatted = formatted
-    .replace(/\bASHRAE 62\.1-2022\b/g, `<a href="/resources/ashrae-cooling-load-calculation-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">ASHRAE 62.1-2022</a>`)
-    .replace(/\bASHRAE Standard 62\.1\b/g, `<a href="/resources/ashrae-cooling-load-calculation-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">ASHRAE Standard 62.1</a>`)
-    .replace(/\bNEC 2023\b/g, `<a href="/resources/nec-2023-voltage-drop-cable-sizing" class="text-brand font-semibold hover:underline border-b border-brand/40">NEC 2023</a>`)
-    .replace(/\bIPC 2024\b/g, `<a href="/resources/ipc-2024-fixture-units-water-demand-sizing" class="text-brand font-semibold hover:underline border-b border-brand/40">IPC 2024</a>`)
-    .replace(/\bSMACNA\b/g, `<a href="/resources/duct-static-pressure-loss-smacna-ashrae" class="text-brand font-semibold hover:underline border-b border-brand/40">SMACNA</a>`)
-    .replace(/\bNFPA 13\b/g, `<a href="/resources/nfpa-13-fire-protection-sprinkler-k-factor" class="text-brand font-semibold hover:underline border-b border-brand/40">NFPA 13</a>`)
-    .replace(/\bDEWA\b/g, `<a href="/resources/dubai-dewa-dcl-mep-calculation-compliance-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">DEWA</a>`)
-    .replace(/\bDCL Al Sa'fat\b/g, `<a href="/resources/dubai-dewa-dcl-mep-calculation-compliance-guide" class="text-brand font-semibold hover:underline border-b border-brand/40">DCL Al Sa'fat</a>`)
-    .replace(/\bRevit Parameter Syncing\b/g, `<a href="/resources/revit-parameter-syncing-5-pitfalls-automation" class="text-brand font-semibold hover:underline border-b border-brand/40">Revit Parameter Syncing</a>`);
+  // Internal cross-linking rules for SEO authority (avoid self-linking!)
+  const linkRules: { pattern: RegExp; target: string; replacement: string; slug?: string }[] = [
+    { pattern: /\bTARV AI (?:HVAC|MEP|Engineering)? Engine\b/g, target: "/access", replacement: "TARV AI Engine" },
+    { pattern: /\bFree Online MEP Calculator\b/gi, target: "/access", replacement: "Free Online MEP Calculator" },
+    { pattern: /\bInstant Access\b/gi, target: "/access", replacement: "Instant Access" },
+    { pattern: /\bCommercial Plans\b/gi, target: "/pricing", replacement: "Commercial Plans" },
+    { pattern: /\bPro Plan\b/gi, target: "/pricing", replacement: "Pro Plan" },
+    { pattern: /\bASHRAE 62\.1-2022\b/g, target: "/resources/ashrae-cooling-load-calculation-guide", replacement: "ASHRAE 62.1-2022", slug: "ashrae-cooling-load-calculation-guide" },
+    { pattern: /\bASHRAE Standard 62\.1\b/g, target: "/resources/ashrae-cooling-load-calculation-guide", replacement: "ASHRAE Standard 62.1", slug: "ashrae-cooling-load-calculation-guide" },
+    { pattern: /\bNEC 2023\b/g, target: "/resources/nec-2023-voltage-drop-cable-sizing", replacement: "NEC 2023", slug: "nec-2023-voltage-drop-cable-sizing" },
+    { pattern: /\bIPC 2024\b/g, target: "/resources/ipc-2024-fixture-units-water-demand-sizing", replacement: "IPC 2024", slug: "ipc-2024-fixture-units-water-demand-sizing" },
+    { pattern: /\bSMACNA\b/g, target: "/resources/duct-static-pressure-loss-smacna-ashrae", replacement: "SMACNA", slug: "duct-static-pressure-loss-smacna-ashrae" },
+    { pattern: /\bNFPA 13\b/g, target: "/resources/nfpa-13-fire-protection-sprinkler-k-factor", replacement: "NFPA 13", slug: "nfpa-13-fire-protection-sprinkler-k-factor" },
+    { pattern: /\bDEWA\b/g, target: "/resources/dubai-dewa-dcl-mep-calculation-compliance-guide", replacement: "DEWA", slug: "dubai-dewa-dcl-mep-calculation-compliance-guide" },
+    { pattern: /\bDCL Al Sa'fat\b/g, target: "/resources/dubai-dewa-dcl-mep-calculation-compliance-guide", replacement: "DCL Al Sa'fat", slug: "dubai-dewa-dcl-mep-calculation-compliance-guide" },
+    { pattern: /\bRevit Parameter Syncing\b/g, target: "/resources/revit-parameter-syncing-5-pitfalls-automation", replacement: "Revit Parameter Syncing", slug: "revit-parameter-syncing-5-pitfalls-automation" },
+  ];
+
+  linkRules.forEach(({ pattern, target, replacement, slug }) => {
+    // Prevent self-linking inside the same article!
+    if (slug && currentSlug === slug) return;
+
+    formatted = formatted.replace(pattern, `<a href="${target}" class="text-brand font-semibold hover:underline border-b border-brand/40 transition-colors">${replacement}</a>`);
+  });
 
   // Convert **bold**
   return formatted.replace(/\*\*(.*?)\*\*/g, "<strong class='text-foreground font-semibold'>$1</strong>");
@@ -654,7 +667,7 @@ function ArticleDetailPage() {
                     {nonBulletHeading && (
                       <div
                         className="font-bold text-foreground text-sm sm:text-base"
-                        dangerouslySetInnerHTML={{ __html: formatInlineText(nonBulletHeading) }}
+                        dangerouslySetInnerHTML={{ __html: formatInlineText(nonBulletHeading, article?.slug) }}
                       />
                     )}
                     <ul className="space-y-2.5 pl-4 border-l-2 border-brand/40">
@@ -663,7 +676,7 @@ function ArticleDetailPage() {
                         return (
                           <li key={i} className="flex items-start gap-2.5 text-sm sm:text-base text-muted-foreground">
                             <CheckCircle2 size={16} className="text-brand shrink-0 mt-1" />
-                            <span dangerouslySetInnerHTML={{ __html: formatInlineText(itemText) }} />
+                            <span dangerouslySetInnerHTML={{ __html: formatInlineText(itemText, article?.slug) }} />
                           </li>
                         );
                       })}
@@ -682,7 +695,7 @@ function ArticleDetailPage() {
                         <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand/10 border border-brand/30 text-brand text-xs font-bold font-mono">
                           {i + 1}
                         </span>
-                        <span className="pt-0.5" dangerouslySetInnerHTML={{ __html: formatInlineText(it) }} />
+                        <span className="pt-0.5" dangerouslySetInnerHTML={{ __html: formatInlineText(it, article?.slug) }} />
                       </li>
                     ))}
                   </ol>
@@ -694,7 +707,7 @@ function ArticleDetailPage() {
                   key={idx}
                   className="text-sm sm:text-base text-muted-foreground leading-relaxed"
                   dangerouslySetInnerHTML={{
-                    __html: formatInlineText(trimmed),
+                    __html: formatInlineText(trimmed, article?.slug),
                   }}
                 />
               );
