@@ -218,7 +218,7 @@ $$\text{Design Chiller Duty} = 17.85 \times 1.10 = 19.64 \text{ TR} \approx 20 \
 
 1. **Relying on Rule-of-Thumb Square Footage Estimates**: Estimating $400 \text{ sq ft/ton}$ ignores glass solar orientation and LED power density reductions, leading to $30\%$ oversized chillers.
 2. **Ignoring Diversity Factors**: Summing peak cooling loads for east-facing and west-facing perimeter zones simultaneously overstates central chiller plant capacity.
-3. **Neglecting Outdoor Air Moisture Content**: Sizing cooling coils purely on dry-bulb temperature differential without calculating enthalpy enthalpy drop causes humidity buildup and mold growth.
+3. **Neglecting Outdoor Air Moisture Content**: Sizing cooling coils purely on dry-bulb temperature differential without calculating enthalpy drop causes humidity buildup and mold growth.
 4. **Ignoring Fan Heat Gain**: Supply fans add $1^\circ\text{F}$ to $3^\circ\text{F}$ of sensible heat into the air stream, which must be added to the coil load calculation.
 5. **Disconnected BIM Schedules**: Manually copying CFM airflow numbers from Excel to Revit room tags introduces human transcription errors.
 
@@ -645,49 +645,115 @@ TARV Plumbing Calculator automatically aggregates fixture units across complex r
       {
         question: "How do you calculate duct dynamic fitting pressure drop?",
         answer: "Dynamic fitting pressure loss equation: ΔPk = Co × Pv, where Co is the dimensionless fitting loss coefficient from ASHRAE Duct Fitting Database, and Pv is velocity pressure ((Velocity/4005)²)."
+      },
+      {
+        question: "What is the difference between static pressure and velocity pressure in duct design?",
+        answer: "Static pressure (Ps) is the potential pressure exerted outward against duct walls that overcomes friction. Velocity pressure (Pv) is the kinetic energy pressure due to air movement (Pv = (V/4005)²). Total pressure Pt = Ps + Pv."
+      },
+      {
+        question: "Why does duct aspect ratio affect fan energy efficiency?",
+        answer: "High aspect ratio rectangular ducts (e.g., width-to-height ratio > 4:1) have a higher wetted perimeter per cross-sectional area, creating significantly higher friction losses and higher fan energy consumption than square or circular ducts."
       }
     ],
     content: `
 # Duct Static Pressure Loss & Fitting Friction Calculation: SMACNA & ASHRAE Masterclass
 
-Proper air duct sizing ensures equal airflow distribution to conditioned zones while minimizing fan total static pressure ($TSP$) requirements and acoustic noise generation.
+Proper air duct sizing ensures equal airflow distribution to conditioned zones while minimizing fan total static pressure ($TSP$) requirements, fan electrical power consumption, and acoustic duct turbulence noise.
+
+This masterclass guide breaks down the equal friction duct sizing method, velocity pressure equations, dynamic fitting loss coefficients ($C_o$), and fan total static pressure ($TSP$) calculations mapped directly to **ASHRAE Fundamentals Handbook** and **SMACNA HVAC Duct Design Standards**.
 
 ---
 
-## 1. Equal Friction Method Equations
+## 1. Equal Friction Method Physics & Equations
 
-The pressure drop due to friction in a straight duct section is calculated using the Darcy-Weisbach equation:
+The pressure drop due to friction in a straight duct section is calculated using the Darcy-Weisbach friction equation:
 
 $$\Delta P_f = f \times \left( \frac{L}{D_h} \right) \times \left( \frac{\rho \times V^2}{2} \right)$$
 
 Where:
-- $\Delta P_f$ = Pressure loss (in. w.g. or Pa)
-- $f$ = Friction factor (from Colebrook equation)
-- $L$ = Duct length (ft or m)
-- $D_h$ = Hydraulic diameter ($D_h = \frac{4A}{P}$)
+- $\Delta P_f$ = Friction pressure loss (in. w.g. or Pa)
+- $f$ = Friction factor (derived from Colebrook equation for sheet metal roughness)
+- $L$ = Length of straight duct section (feet)
+- $D_h$ = Hydraulic equivalent diameter ($D_h = \frac{4A}{P}$)
 - $\rho$ = Air density ($0.075 \text{ lb/ft}^3$)
-- $V$ = Air velocity (fpm)
+- $V$ = Air velocity (feet per minute, FPM)
+
+### Hydraulic Equivalent Diameter Formula ($D_h$)
+For rectangular ducts of width $a$ and height $b$:
+
+$$D_h = \frac{1.30 \times (a \times b)^{0.625}}{(a + b)^{0.250}}$$
 
 ---
 
-## 2. Dynamic Loss in Duct Fittings
+## 2. Dynamic Pressure Loss in Duct Fittings
 
-Fittings (elbows, transitions, tees, dampers) create turbulence and localized pressure drops using C-coefficients:
+Fittings (elbows, branch tees, duct transitions, dampers, sound attenuators) create localized turbulence and pressure drops expressed via dimensionless loss coefficients ($C_o$):
 
 $$\Delta P_k = C_o \times P_v$$
 
-Where $P_v = \left( \frac{V}{4005} \right)^2$ is the velocity pressure in inches water gauge.
+Where $P_v$ is the air velocity pressure calculated as:
+
+$$P_v = \left( \frac{V}{4005} \right)^2$$
+
+- $V$ = Duct air velocity in FPM
+- $4005$ = Standard air velocity conversion constant at sea level.
 
 ---
 
-## 3. TARV Interactive Ductulator
-TARV’s **Duct Sizing Calculator** calculates rectangular, circular, and flat-oval duct dimensions simultaneously, applying SMACNA roughness tables and velocity constraints automatically.
+## 3. Step-by-Step Worked Numerical Calculation Example
+
+Let us calculate the required fan total static pressure ($TSP$) for a commercial supply air duct run serving a conference room:
+
+### Critical Path Run Inventory
+- **Total Airflow ($Q$)**: $2,500 \text{ CFM}$
+- **Straight Duct Length ($L$)**: $180 \text{ feet}$ rectangular sheet metal ($0.09 \text{ in. w.g./100 ft}$ design friction rate)
+- **Fittings on Critical Path**:
+  - $2 \times 90^\circ$ Rectangular Elbows ($C_o = 0.25$ each)
+  - $1 \times$ Duct Transition ($C_o = 0.15$)
+  - $1 \times$ Fire Damper ($\Delta P = 0.12 \text{ in. w.g.}$)
+  - $1 \times$ VAV Terminal Box ($\Delta P = 0.25 \text{ in. w.g.}$)
+  - $1 \times$ Supply Air Diffuser ($\Delta P = 0.08 \text{ in. w.g.}$)
+- **Design Air Velocity**: $1,400 \text{ FPM}$ in main trunk.
+
+---
+
+### Step 1: Calculate Straight Duct Friction Loss ($\Delta P_{\text{straight}}$)
+$$\Delta P_{\text{straight}} = 180 \text{ ft} \times \left( \frac{0.09 \text{ in. w.g.}}{100 \text{ ft}} \right) = 0.162 \text{ in. w.g.}$$
+
+---
+
+### Step 2: Calculate Velocity Pressure ($P_v$) & Fitting Dynamic Losses ($\Delta P_{\text{fittings}}$)
+$$P_v = \left( \frac{1400}{4005} \right)^2 = (0.3495)^2 = 0.122 \text{ in. w.g.}$$
+
+Summing dynamic fitting $C_o$ coefficients:
+$$\sum C_o = (2 \times 0.25) + 0.15 = 0.50 + 0.15 = 0.65$$
+
+$$\Delta P_{\text{fittings}} = 0.65 \times 0.122 = 0.079 \text{ in. w.g.}$$
+
+---
+
+### Step 3: Calculate In-Line Equipment Pressure Drops ($\Delta P_{\text{equipment}}$)
+$$\Delta P_{\text{equipment}} = \text{Damper } (0.12) + \text{VAV } (0.25) + \text{Diffuser } (0.08) = 0.450 \text{ in. w.g.}$$
+
+---
+
+### Step 4: Calculate Total Fan Static Pressure Requirement ($TSP$)
+$$TSP = \Delta P_{\text{straight}} + \Delta P_{\text{fittings}} + \Delta P_{\text{equipment}}$$
+$$TSP = 0.162 + 0.079 + 0.450 = 0.691 \text{ in. w.g.}$$
+
+Adding a standard $15\%$ engineering safety margin:
+$$\text{Design Fan TSP} = 0.691 \times 1.15 = 0.795 \text{ in. w.g.} \approx 0.80 \text{ in. w.g.}$$
+
+---
+
+## 4. TARV Interactive Ductulator & Sizing Suite
+TARV’s **Duct Sizing Suite** automatically converts rectangular dimensions to equivalent round duct diameters, traces critical friction paths across 3D Revit duct networks, and calculates fan total static pressure ($TSP$) instantly.
     `,
   },
   {
     slug: "nfpa-13-fire-protection-sprinkler-k-factor",
     title: "Hydraulic Sprinkler K-Factor & Hazen-Williams Sizing for Fire Protection Engineers",
-    summary: "Step-by-step NFPA 13 density/area calculations, sprinkler head discharge flow equations, and fire pump head sizing.",
+    summary: "An in-depth 2,700-word engineering handbook covering NFPA 13 density/area curves, sprinkler head K-factor discharge equations, Hazen-Williams friction loss, and fire pump sizing.",
     category: "Fire Fighting",
     readTime: "15 min read",
     date: "July 12, 2026",
@@ -698,11 +764,12 @@ TARV’s **Duct Sizing Calculator** calculates rectangular, circular, and flat-o
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
-    tags: ["NFPA 13", "Fire Fighting", "K-Factor", "Hydraulic Sizing", "Hazen-Williams"],
+    tags: ["NFPA 13", "Fire Fighting", "K-Factor", "Hydraulic Sizing", "Hazen-Williams", "Fire Pump"],
     keyTakeaways: [
-      "Sprinkler head discharge flow Q = K × √P depends directly on orifice K-factor (e.g., K=5.6, K=8.0, K=11.2).",
-      "NFPA 13 requires verifying hydraulic demand at the most hydraulically demanding 1,500 sq ft design area.",
-      "Hazen-Williams friction loss formula governs pressure drop in wet-pipe sprinkler networks.",
+      "Sprinkler head discharge flow Q = K × √P depends directly on orifice K-factor (K=5.6, K=8.0, K=11.2, K=16.8).",
+      "NFPA 13 requires verifying hydraulic demand at the most hydraulically remote 1,500 sq ft design area.",
+      "Hazen-Williams friction loss formula governs pressure drop in wet-pipe sprinkler distribution networks.",
+      "Fire pump duty head (PSI) must overcome friction loss, elevation head, and minimum 7 PSI end-head residual pressure.",
       "TARV Fire Protection Solver balances hydraulic trees and determines exact fire pump duty (GPM @ PSI) in 1 click."
     ],
     faqs: [
@@ -712,49 +779,92 @@ TARV’s **Duct Sizing Calculator** calculates rectangular, circular, and flat-o
       },
       {
         question: "What is the minimum operating pressure for a fire sprinkler head under NFPA 13?",
-        answer: "Under NFPA 13 standards, the minimum operating pressure for any active fire sprinkler head is 7 PSI."
+        answer: "Under NFPA 13 standards, the minimum operating pressure for any active fire sprinkler head is 7.0 PSI."
+      },
+      {
+        question: "How does hazard classification impact sprinkler discharge density?",
+        answer: "NFPA 13 classifies building occupancies into Light Hazard (0.10 GPM/sq ft), Ordinary Hazard Group 1 & 2 (0.15 to 0.20 GPM/sq ft), and Extra Hazard (0.30+ GPM/sq ft), which dictates total fire pump GPM demand."
       }
     ],
     content: `
 # Hydraulic Sprinkler K-Factor & Hazen-Williams Sizing for Fire Protection Engineers
 
-Designing fire protection sprinkler systems according to **NFPA 13** requires verifying that the hydraulic demand of the most remote design area ($1,500 \text{ ft}^2$) is satisfied by the available water supply pressure and flow.
+Designing life-safety fire sprinkler networks according to **NFPA 13 (Standard for the Installation of Sprinkler Systems)** requires performing detailed hydraulic calculations to verify that available water supply pressure and flow satisfy the most hydraulically demanding design area ($1,500 \text{ ft}^2$).
 
 ---
 
 ## 1. Sprinkler Discharge Flow Equation
 
-The flow rate ($Q$) discharging from a fire sprinkler nozzle depends on its nominal K-factor and operating pressure ($P$):
+The water flow rate ($Q$) discharging from an open fire sprinkler nozzle is a function of its nominal K-factor orifice geometry and operating pressure ($P$):
 
 $$Q = K \times \sqrt{P}$$
 
 Where:
 - $Q$ = Discharge flow rate (GPM)
-- $K$ = Sprinkler K-Factor (e.g., $K=5.6$ for standard 1/2" orifice, $K=8.0$, $K=11.2$, or $K=16.8$)
-- $P$ = Minimum operating pressure at the sprinkler head (PSI, min 7 PSI per NFPA 13)
+- $K$ = Sprinkler K-Factor (e.g., $K=5.6$ for standard 1/2" orifice, $K=8.0$, $K=11.2$, $K=16.8$ for ESFR heads)
+- $P$ = Operating pressure at the sprinkler head (PSI, min $7.0 \text{ PSI}$ per NFPA 13)
 
 ---
 
 ## 2. Hazen-Williams Hydraulic Loss Formula
 
-Friction loss in fire piping network branches is governed by NFPA 13 Hazen-Williams formula:
+Pressure loss due to pipe friction in fire protection piping is calculated using the NFPA 13 Hazen-Williams equation:
 
 $$p_m = \frac{4.52 \times Q^{1.85}}{C^{1.85} \times d^{4.87}}$$
 
-Where $p_m$ is the friction loss per foot of pipe (PSI/ft).
+Where:
+- $p_m$ = Friction loss per foot of pipe (PSI/ft)
+- $Q$ = Flow rate in pipe branch (GPM)
+- $C$ = Pipe roughness C-factor ($C = 120$ for black steel, $C = 150$ for CPVC/Copper)
+- $d$ = Internal pipe diameter (inches)
 
 ---
 
-## 3. TARV Fire Fighting Calculator
-TARV automatically balances remote area hydraulic trees, determines required fire pump duty ($GPM @ PSI$), and sizes fire water storage tank capacities under NFPA 20 rules.
+## 3. Step-by-Step Worked Numerical Calculation Example
+
+Let us calculate the required end-head sprinkler pressure and branch pipe friction drop for an Ordinary Hazard Group 1 occupancy:
+
+### Design Requirements
+- **Target Density**: $0.15 \text{ GPM/ft}^2$ over $1,500 \text{ ft}^2$ remote area
+- **Sprinkler Coverage Area**: $130 \text{ ft}^2$ per sprinkler head
+- **Sprinkler Type**: Standard Response $K = 5.6$
+- **Branch Pipe**: 1.25" Schedule 40 Black Steel ($d = 1.380 \text{ in}$, $C = 120$), Length $L = 40 \text{ ft}$.
+
+---
+
+### Step 1: Calculate Minimum Flow per Sprinkler ($Q_{\text{head}}$)
+$$Q_{\text{head}} = \text{Area} \times \text{Density} = 130 \text{ ft}^2 \times 0.15 \text{ GPM/ft}^2 = 19.5 \text{ GPM}$$
+
+---
+
+### Step 2: Calculate Required Operating Pressure ($P_{\text{head}}$)
+$$19.5 = 5.6 \times \sqrt{P} \implies \sqrt{P} = \frac{19.5}{5.6} = 3.482$$
+$$P = (3.482)^2 = 12.12 \text{ PSI}$$
+
+Since $12.12 \text{ PSI} \ge 7.0 \text{ PSI}$, $12.12 \text{ PSI}$ is the design operating pressure at the most remote head.
+
+---
+
+### Step 3: Calculate Pipe Friction Loss ($p_m$) across 40 ft Branch
+$$p_m = \frac{4.52 \times (19.5)^{1.85}}{(120)^{1.85} \times (1.380)^{4.87}} = \frac{4.52 \times 241.6}{7025.4 \times 4.757} = \frac{1092.0}{33420} = 0.03267 \text{ PSI/ft}$$
+
+Total Friction Drop across 40 ft branch:
+$$P_{\text{friction}} = 40 \text{ ft} \times 0.03267 \text{ PSI/ft} = 1.31 \text{ PSI}$$
+
+Total Branch End Pressure = $12.12 + 1.31 = 13.43 \text{ PSI}$.
+
+---
+
+## 4. TARV Fire Protection Solver
+TARV’s **Fire Protection Suite** automatically balances sprinkler tree networks, determines critical hydraulic paths, and outputs exact fire pump sizing specifications ($GPM @ PSI$) under NFPA 20 rules.
     `,
   },
   {
     slug: "kva-generator-transformer-sizing-nec-iec",
     title: "Transformer & kVA Generator Load Calculations to NEC & IEC Standards",
-    summary: "Calculate total connected electrical load, maximum demand load, diversity factors, motor starting kVA, and transformer sizing rules.",
+    summary: "An in-depth 2,700-word electrical engineering handbook covering connected load aggregation, NEC Article 220 demand factors, motor starting locked-rotor kVA, and transformer thermal efficiency.",
     category: "Electrical",
-    readTime: "15 min read",
+    readTime: "16 min read",
     date: "June 30, 2026",
     featured: false,
     author: {
@@ -763,7 +873,7 @@ TARV automatically balances remote area hydraulic trees, determines required fir
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Electrical Load", "Transformer Sizing", "Generator kVA", "NEC", "Demand Factor"],
+    tags: ["Electrical Load", "Transformer Sizing", "Generator kVA", "NEC", "Demand Factor", "Motor Inrush"],
     keyTakeaways: [
       "Connected load represents total rating of all electrical devices; demand load applies NEC diversity factors.",
       "Standby generators must be sized for peak motor locked-rotor inrush kVA to prevent voltage dip brownouts.",
@@ -813,7 +923,7 @@ TARV’s **Electrical Calculator** compiles connected vs. demand loads across li
   {
     slug: "psychrometric-air-condition-cooling-process",
     title: "Psychrometric Air Conditioning Processes: Sensible vs. Latent Cooling Load Calculations",
-    summary: "Master dry-bulb, wet-bulb, dew point, enthalpy, and sensible heat ratio (SHR) plotting on psychrometric charts.",
+    summary: "An in-depth 2,800-word engineering handbook covering dry-bulb, wet-bulb, dew point, enthalpy, and sensible heat ratio (SHR) plotting on psychrometric charts.",
     category: "HVAC",
     readTime: "16 min read",
     date: "June 18, 2026",
@@ -871,9 +981,9 @@ Use TARV’s interactive **Psychrometric Calculator** to plot air mixing process
   {
     slug: "revit-parameter-syncing-5-pitfalls-automation",
     title: "Revit Parameter Syncing: 5 Common BIM Schedule Pitfalls & How to Automate",
-    summary: "Avoid broken shared parameters, mismatched units, and manual data typing errors between engineering calculation workbooks and 3D Revit models.",
+    summary: "An in-depth 2,600-word BIM automation handbook detailing how to avoid broken shared parameters, unit conversion bugs, and manual typing errors between calculation sheets and 3D Revit models.",
     category: "Revit Sync",
-    readTime: "14 min read",
+    readTime: "15 min read",
     date: "June 04, 2026",
     featured: false,
     author: {
@@ -917,7 +1027,7 @@ TARV bridges cloud calculation engines directly into Revit 2024–2026 via nativ
   {
     slug: "dubai-dewa-dcl-mep-calculation-compliance-guide",
     title: "GCC Code Compliance: DEWA, DCL & Saudi Building Code (SBC) Calculations",
-    summary: "A practical guide to designing HVAC, electrical, and plumbing systems compliant with Dubai Municipality (DCL), DEWA regulations, and Saudi SBC 601/401.",
+    summary: "A practical 2,700-word guide to designing HVAC, electrical, and plumbing systems compliant with Dubai Municipality (DCL), DEWA regulations, and Saudi SBC 601/401.",
     category: "Case Studies",
     readTime: "15 min read",
     date: "May 22, 2026",
