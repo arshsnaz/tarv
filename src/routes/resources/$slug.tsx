@@ -22,6 +22,7 @@ import {
   Copy,
   Check,
   ArrowUp,
+  Tag,
 } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 
@@ -785,8 +786,9 @@ function ArticleDetailPage() {
 
             {/* Article Tags */}
             <div className="glass rounded-3xl p-6 border border-border/60 bg-card/50">
-              <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
-                Article Search Tags
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+                <Tag size={14} className="text-brand" />
+                <span>Article Search Tags</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {article.tags.map((tag) => (
