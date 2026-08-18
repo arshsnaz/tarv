@@ -619,7 +619,32 @@ function ArticleDetailPage() {
               </div>
             )}
 
-            {/* Inline Calculator Conversion Callout */}
+            {/* Author / CEO Spotlight Card */}
+            <div className="my-10 glass rounded-3xl p-6 sm:p-8 border border-brand/30 bg-card/90 shadow-xl relative overflow-hidden">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                <img
+                  src={article.author.avatar}
+                  alt={article.author.name}
+                  className="size-24 sm:size-28 rounded-2xl object-cover border-2 border-brand/40 shadow-md shrink-0"
+                />
+                <div className="space-y-2 text-center sm:text-left">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-[10px] font-extrabold uppercase tracking-widest text-brand">
+                    <User size={12} />
+                    <span>AUTHOR & CEO SPOTLIGHT</span>
+                  </div>
+                  <h3 className="text-xl font-extrabold text-foreground">{article.author.name}</h3>
+                  <div className="text-xs font-extrabold text-brand">{article.author.role}</div>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    Salil Kulkarni is the CEO & Founder of TARV, building the world's most advanced AI-powered MEP calculation software and 2-way Revit BIM synchronization suite. Salil writes in-depth masterclass engineering handbooks covering ASHRAE, NEC, IPC, NFPA, and GCC authority compliance.
+                  </p>
+                  <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">ASHRAE Member</span>
+                    <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">BIM Automation Lead</span>
+                    <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">Dubai, UAE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="my-10 glass rounded-3xl p-6 sm:p-8 border border-brand/40 bg-brand/5 shadow-xl">
               <div className="flex items-start gap-4">
                 <div className="grid size-12 place-items-center rounded-2xl bg-brand text-brand-foreground shrink-0 shadow-lg">

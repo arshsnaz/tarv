@@ -104,7 +104,46 @@ function AboutPage() {
           </Reveal>
         </div>
 
-        {/* Core Values */}
+        {/* CEO & Leadership Section */}
+        <Reveal>
+          <div className="mb-24 glass rounded-[2.5rem] p-8 md:p-12 border border-brand/30 bg-brand/5 shadow-2xl relative overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-4 flex justify-center">
+                <div className="relative group">
+                  <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand to-cyan-500 blur-lg opacity-40 group-hover:opacity-75 transition duration-500" />
+                  <img
+                    src="/salil-kulkarni.jpg"
+                    alt="Salil Kulkarni - CEO & Founder, TARV"
+                    className="relative rounded-2xl w-56 h-56 md:w-64 md:h-64 object-cover border-2 border-brand/50 shadow-2xl"
+                  />
+                </div>
+              </div>
+
+              <div className="lg:col-span-8 space-y-4 text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-xs font-extrabold uppercase tracking-widest text-brand">
+                  <User size={14} />
+                  <span>FOUNDER & LEADERSHIP</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Salil Kulkarni</h2>
+                <div className="text-brand font-extrabold text-base md:text-lg">CEO & Founder, TARV</div>
+
+                <p className="text-muted-foreground leading-relaxed text-base">
+                  Salil Kulkarni is the Founder and Chief Executive Officer of TARV. With extensive expertise in MEP engineering, Building Information Modeling (BIM), and software automation, Salil established TARV to bridge the gap between complex engineering calculations and real-time 3D Revit models.
+                </p>
+
+                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                  Under his leadership, TARV has grown into an international engineering platform trusted by MEP consultancies across the GCC and globally to automate HVAC cooling loads, NEC voltage drops, IPC plumbing fixture units, and authority compliance submittals.
+                </p>
+
+                <div className="pt-2 flex flex-wrap gap-2">
+                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">ASHRAE Member</span>
+                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">BIM & AI Automation Specialist</span>
+                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">MEP Design Leader</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
         <div className="mb-20">
           <h2 className="text-3xl font-extrabold text-center mb-12">Our Engineering Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
