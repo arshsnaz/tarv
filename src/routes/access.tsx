@@ -111,15 +111,15 @@ function AccessPage() {
       <SiteNav />
 
       <main className="flex-1 py-28 md:py-36 px-4 md:px-6 relative overflow-hidden">
-        {/* Ambient background glows */}
-        <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-soft/15 blur-[150px]" />
+        {/* Subtle ambient background glow */}
+        <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/10 dark:bg-brand/15 blur-[160px]" />
 
         <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Premium Value Proposition & Trust */}
           <div className="space-y-8">
             <Reveal>
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-4 py-1.5 text-xs font-bold text-brand backdrop-blur-md">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 dark:bg-brand/20 px-4 py-1.5 text-xs font-black text-brand dark:text-cyan-300 backdrop-blur-md">
                 <Sparkles size={14} className="animate-pulse" />
                 <span>EXCLUSIVE ENTERPRISE PRIVATE BETA</span>
               </div>
@@ -129,23 +129,23 @@ function AccessPage() {
                 <span className="text-brand">MEP workflows by 10x.</span>
               </h1>
 
-              <p className="mt-6 text-base md:text-lg leading-relaxed text-muted-foreground">
+              <p className="mt-6 text-base md:text-lg leading-relaxed text-muted-foreground font-medium">
                 Get early access to TARV's AI-native engineering suite. Built for engineering consultants, contractors, and BIM managers who demand physics-grade accuracy with instant 2-way BIM parameter sync.
               </p>
             </Reveal>
 
             {/* Feature Highlights Grid */}
             <Reveal delay={100}>
-              <div className="space-y-5 border-t border-border/80 pt-8">
+              <div className="space-y-5 border-t border-border/80 dark:border-white/10 pt-8">
                 {highlights.map((h) => {
                   const Icon = h.icon;
                   return (
                     <div key={h.title} className="flex items-start gap-4">
-                      <div className="grid size-10 place-items-center rounded-xl bg-brand/10 text-brand shrink-0 mt-0.5">
+                      <div className="grid size-10 place-items-center rounded-xl bg-brand/10 dark:bg-brand/20 border border-brand/20 text-brand dark:text-cyan-300 shrink-0 mt-0.5 shadow-sm">
                         <Icon size={20} />
                       </div>
                       <div>
-                        <h4 className="font-bold text-foreground text-base">{h.title}</h4>
+                        <h4 className="font-extrabold text-foreground text-base">{h.title}</h4>
                         <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">{h.desc}</p>
                       </div>
                     </div>
@@ -156,17 +156,17 @@ function AccessPage() {
 
             {/* Trust Metrics Bar */}
             <Reveal delay={150}>
-              <div className="glass p-6 rounded-2xl border border-border flex items-center justify-between gap-4 text-center">
+              <div className="glass p-6 rounded-2xl border border-border/80 dark:border-white/10 bg-card/80 dark:bg-slate-900/80 flex items-center justify-between gap-4 text-center shadow-lg">
                 <div>
                   <div className="text-xl md:text-2xl font-extrabold text-foreground font-display">50,000+</div>
                   <div className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Calculations Run</div>
                 </div>
-                <div className="h-8 w-px bg-border" />
+                <div className="h-8 w-px bg-border/80 dark:bg-white/10" />
                 <div>
                   <div className="text-xl md:text-2xl font-extrabold text-brand font-display">99.4%</div>
                   <div className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wider mt-0.5">ASHRAE Accuracy</div>
                 </div>
-                <div className="h-8 w-px bg-border" />
+                <div className="h-8 w-px bg-border/80 dark:bg-white/10" />
                 <div>
                   <div className="text-xl md:text-2xl font-extrabold text-emerald-500 font-display">&lt; 2 sec</div>
                   <div className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Revit BIM Sync</div>
@@ -176,15 +176,15 @@ function AccessPage() {
 
             {/* Direct Contact Card */}
             <Reveal delay={200}>
-              <div className="p-6 rounded-2xl border border-border/60 bg-card/40 space-y-3">
-                <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                  <Building2 size={14} className="text-brand" /> Need Immediate Onboarding or Direct Sales?
+              <div className="p-6 rounded-2xl border border-border/80 dark:border-white/10 bg-card/80 dark:bg-slate-900/80 space-y-3 shadow-md">
+                <div className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                  <Building2 size={14} className="text-brand shrink-0" /> Need Immediate Onboarding or Direct Sales?
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-1 text-sm">
-                  <a href="mailto:admin@tarv.ai" className="flex items-center gap-2 font-mono text-brand font-bold hover:underline">
+                  <a href="mailto:admin@tarv.ai" className="flex items-center gap-2 font-mono text-brand font-extrabold hover:underline">
                     <Mail size={15} /> admin@tarv.ai
                   </a>
-                  <span className="text-xs text-muted-foreground flex items-center gap-1.5">
+                  <span className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
                     <MapPin size={13} className="text-brand shrink-0" /> API World Tower 403, Dubai, UAE
                   </span>
                 </div>
@@ -192,10 +192,10 @@ function AccessPage() {
             </Reveal>
           </div>
 
-          {/* Right Column: High-End Glass Request Form */}
+          {/* Right Column: Premium High-End Glass Request Form */}
           <Reveal delay={100}>
-            <div className="glass shadow-2xl rounded-[2.5rem] p-6 sm:p-10 border border-border relative overflow-hidden bg-card/85">
-              <div className="halo pointer-events-none absolute -top-24 right-0 size-[400px] rounded-full bg-brand-soft/20 blur-3xl" />
+            <div className="glass shadow-2xl rounded-[2.5rem] p-6 sm:p-10 border-2 border-border/80 dark:border-white/15 relative overflow-hidden bg-card/95 dark:bg-slate-900/95 backdrop-blur-2xl">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-brand to-transparent opacity-80" />
               
               <div className="relative z-10">
                 {status === "success" ? (
@@ -220,25 +220,25 @@ function AccessPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="border-b border-border pb-4 mb-2">
-                      <h3 className="text-xl font-bold text-foreground">Apply for Enterprise Beta</h3>
-                      <p className="text-xs text-muted-foreground mt-1">Fill in your firm details to receive instant access credentials.</p>
+                    <div className="border-b border-border/80 dark:border-white/10 pb-4 mb-2">
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight">Apply for Enterprise Beta</h3>
+                      <p className="text-xs text-muted-foreground mt-1 font-medium">Fill in your firm details to receive instant access credentials.</p>
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-1.5">
-                        <Label htmlFor="name" className="text-xs font-bold text-foreground">Full Name *</Label>
+                        <Label htmlFor="name" className="text-xs font-extrabold text-foreground">Full Name *</Label>
                         <Input
                           id="name"
                           required
                           placeholder="e.g. Sarah Al-Maktoum"
                           value={form.name}
                           onChange={(e) => update("name", e.target.value)}
-                          className="bg-background/80 border-border focus:border-brand"
+                          className="bg-background/90 dark:bg-slate-950/80 border-border/80 dark:border-white/15 focus:border-brand text-foreground placeholder:text-muted-foreground/70 dark:placeholder:text-slate-400"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <Label htmlFor="email" className="text-xs font-bold text-foreground">Work Email *</Label>
+                        <Label htmlFor="email" className="text-xs font-extrabold text-foreground">Work Email *</Label>
                         <Input
                           id="email"
                           type="email"
@@ -246,28 +246,28 @@ function AccessPage() {
                           placeholder="sarah@consultant.com"
                           value={form.email}
                           onChange={(e) => update("email", e.target.value)}
-                          className="bg-background/80 border-border focus:border-brand"
+                          className="bg-background/90 dark:bg-slate-950/80 border-border/80 dark:border-white/15 focus:border-brand text-foreground placeholder:text-muted-foreground/70 dark:placeholder:text-slate-400"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <Label htmlFor="company" className="text-xs font-bold text-foreground">Company / Firm Name *</Label>
+                      <Label htmlFor="company" className="text-xs font-extrabold text-foreground">Company / Firm Name *</Label>
                       <Input
                         id="company"
                         required
                         placeholder="e.g. Apex Engineering Consultants"
                         value={form.company}
                         onChange={(e) => update("company", e.target.value)}
-                        className="bg-background/80 border-border focus:border-brand"
+                        className="bg-background/90 dark:bg-slate-950/80 border-border/80 dark:border-white/15 focus:border-brand text-foreground placeholder:text-muted-foreground/70 dark:placeholder:text-slate-400"
                       />
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3">
                       <div className="space-y-1.5">
-                        <Label className="text-xs font-bold text-foreground">Country</Label>
+                        <Label className="text-xs font-extrabold text-foreground">Country</Label>
                         <Select value={form.country} onValueChange={(v) => update("country", v)}>
-                          <SelectTrigger className="bg-background/80 border-border"><SelectValue placeholder="Country" /></SelectTrigger>
+                          <SelectTrigger className="bg-background/90 dark:bg-slate-950/80 border-border/80 dark:border-white/15 text-foreground"><SelectValue placeholder="Country" /></SelectTrigger>
                           <SelectContent>
                             {countries.map((c) => (
                               <SelectItem key={c} value={c}>{c}</SelectItem>
@@ -276,9 +276,9 @@ function AccessPage() {
                         </Select>
                       </div>
                       <div className="space-y-1.5">
-                        <Label className="text-xs font-bold text-foreground">Team Size</Label>
+                        <Label className="text-xs font-extrabold text-foreground">Team Size</Label>
                         <Select value={form.companySize} onValueChange={(v) => update("companySize", v)}>
-                          <SelectTrigger className="bg-background/80 border-border"><SelectValue placeholder="Size" /></SelectTrigger>
+                          <SelectTrigger className="bg-background/90 dark:bg-slate-950/80 border-border/80 dark:border-white/15 text-foreground"><SelectValue placeholder="Size" /></SelectTrigger>
                           <SelectContent>
                             {companySizes.map((s) => (
                               <SelectItem key={s} value={s}>{s}</SelectItem>
@@ -287,9 +287,9 @@ function AccessPage() {
                         </Select>
                       </div>
                       <div className="space-y-1.5">
-                        <Label className="text-xs font-bold text-foreground">Primary Focus</Label>
+                        <Label className="text-xs font-extrabold text-foreground">Primary Focus</Label>
                         <Select value={form.system} onValueChange={(v) => update("system", v)}>
-                          <SelectTrigger className="bg-background/80 border-border"><SelectValue placeholder="Focus" /></SelectTrigger>
+                          <SelectTrigger className="bg-background/90 dark:bg-slate-950/80 border-border/80 dark:border-white/15 text-foreground"><SelectValue placeholder="Focus" /></SelectTrigger>
                           <SelectContent>
                             {systems.map((s) => (
                               <SelectItem key={s} value={s}>{s}</SelectItem>
@@ -300,14 +300,14 @@ function AccessPage() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <Label htmlFor="message" className="text-xs font-bold text-foreground">Workflow Details (Optional)</Label>
+                      <Label htmlFor="message" className="text-xs font-extrabold text-foreground">Workflow Details (Optional)</Label>
                       <Textarea
                         id="message"
                         placeholder="Tell us about your active BIM projects, Revit workflow bottlenecks, or specific calculations you wish to automate..."
                         rows={3}
                         value={form.message}
                         onChange={(e) => update("message", e.target.value)}
-                        className="bg-background/80 border-border focus:border-brand resize-none text-xs"
+                        className="bg-background/90 dark:bg-slate-950/80 border-border/80 dark:border-white/15 focus:border-brand text-foreground placeholder:text-muted-foreground/70 dark:placeholder:text-slate-400 resize-none text-xs"
                       />
                     </div>
 
@@ -317,7 +317,7 @@ function AccessPage() {
 
                     <Button 
                       type="submit" 
-                      className="w-full py-4 text-sm font-extrabold bg-primary text-primary-foreground shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-primary/30 rounded-xl" 
+                      className="w-full rounded-full py-4 text-sm font-black bg-brand text-brand-foreground shadow-xl shadow-brand/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer" 
                       disabled={status === "submitting"}
                     >
                       {status === "submitting" ? (
@@ -332,7 +332,7 @@ function AccessPage() {
                     </Button>
 
                     <div className="text-center pt-2">
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-[11px] text-muted-foreground font-medium">
                         🔒 Enterprise SLA & AES-256 Tenant Data Isolation. Zero spam.
                       </p>
                     </div>
