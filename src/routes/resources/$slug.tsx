@@ -84,7 +84,7 @@ function formatInlineText(text: string): string {
   let formatted = text;
 
   // Convert $$...$$ display formulas to clean formula reference card
-  formatted = formatted.replace(/\$\$(.*?)\$\$/g, (_, m) => {
+  formatted = formatted.replace(/\$\$([\s\S]*?)\$\$/g, (_, m) => {
     const formula = formatLatexFormula(m);
     return `<div class="my-6 rounded-2xl border border-brand/40 bg-card/95 p-6 sm:p-8 shadow-2xl text-center font-mono text-lg sm:text-2xl font-black text-foreground overflow-x-auto tracking-wider"><div class="text-[11px] font-extrabold uppercase tracking-widest text-brand mb-3 flex items-center justify-center gap-1.5">FORMULA EQUATION REFERENCE</div>${formula}</div>`;
   });
