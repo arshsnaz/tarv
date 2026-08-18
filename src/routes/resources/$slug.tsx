@@ -50,20 +50,22 @@ export const Route = createFileRoute("/resources/$slug")({
 });
 
 function formatLatexFormula(raw: string): string {
+  if (!raw) return "";
   let str = raw;
-  // Clean up tab-escaped or raw LaTeX keywords
-  str = str.replace(/\\text\{([^}]+)\}|\text\{([^}]+)\}|\t?ext\{([^}]+)\}/g, "$1$2$3");
-  str = str.replace(/\\times|\t?imes/g, " × ");
-  str = str.replace(/\\cdot|\t?cdot/g, " · ");
-  str = str.replace(/\\sqrt\{([^}]+)\}/g, "√($1)");
-  str = str.replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, "($1 / $2)");
-  str = str.replace(/\\sum/g, "Σ");
-  str = str.replace(/\\Delta/g, "Δ");
-  str = str.replace(/\\rho/g, "ρ");
-  str = str.replace(/\\le/g, "≤");
-  str = str.replace(/\\ge/g, "≥");
-  str = str.replace(/\\pi/g, "π");
-  str = str.replace(/\^?\\circ|\t?irc/g, "°");
+  // Clean up tab-escaped or raw LaTeX keywords safely using replacement function
+  str = str.replace(/\\?t?ext\{([^}]+)\}/g, (_, g1) => g1 || "");
+  str = str.replace(/\\?times|\\?imes/g, " × ");
+  str = str.replace(/\\?cdot|\\?cdot/g, " · ");
+  str = str.replace(/\\?sqrt\{([^}]+)\}/g, "√($1)");
+  str = str.replace(/\\?frac\{([^}]+)\}\{([^}]+)\}/g, "($1 / $2)");
+  str = str.replace(/\\?binom\{([^}]+)\}\{([^}]+)\}/g, "C($1, $2)");
+  str = str.replace(/\\?sum/g, "Σ");
+  str = str.replace(/\\?Delta/g, "Δ");
+  str = str.replace(/\\?rho/g, "ρ");
+  str = str.replace(/\\?le/g, "≤");
+  str = str.replace(/\\?ge/g, "≥");
+  str = str.replace(/\\?pi/g, "π");
+  str = str.replace(/\^?\\?circ/g, "°");
   str = str.replace(/_\{([^}]+)\}/g, "_$1");
   str = str.replace(/\^2/g, "²");
   str = str.replace(/\^3/g, "³");
@@ -72,14 +74,29 @@ function formatLatexFormula(raw: string): string {
 }
 
 function formatInlineText(text: string): string {
+  if (!text) return "";
   let formatted = text;
+
   // Convert $$...$$ display formulas to clean formula reference card
   formatted = formatted.replace(/\$\$(.*?)\$\$/g, (_, m) => {
     const formula = formatLatexFormula(m);
     return `<div class="my-6 rounded-2xl border border-brand/40 bg-card/95 p-6 sm:p-8 shadow-2xl text-center font-mono text-lg sm:text-2xl font-black text-foreground overflow-x-auto tracking-wider"><div class="text-[11px] font-extrabold uppercase tracking-widest text-brand mb-3 flex items-center justify-center gap-1.5">FORMULA EQUATION REFERENCE</div>${formula}</div>`;
   });
-  // Convert $...$ inline math to clean styled text (no heavy blue box)
-  formatted = formatted.replace(/\$(.*?)\$/g, (_, m) => `<span class="font-mono text-brand font-semibold">${formatLatexFormula(m)}</span>`);
+
+  // Protect currency dollar signs (e.g. $28,400, $100, $0) from being parsed as math
+  formatted = formatted.replace(/\$(\d[\d,\.]*\b)/g, "___CURRENCY___$1");
+
+  // Convert $...$ inline math to clean styled text
+  formatted = formatted.replace(/\$([^\$]+?)\$/g, (_, m) => {
+    if (/[a-zA-Z\\_\^=±×·√°≤≥]/.test(m)) {
+      return `<span class="font-mono text-brand font-semibold">${formatLatexFormula(m)}</span>`;
+    }
+    return `$${m}$`;
+  });
+
+  // Restore currency dollar signs
+  formatted = formatted.replace(/___CURRENCY___/g, "$");
+
   // Convert **bold**
   return formatted.replace(/\*\*(.*?)\*\*/g, "<strong class='text-foreground font-semibold'>$1</strong>");
 }
