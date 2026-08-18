@@ -87,10 +87,30 @@ function formatInlineText(text: string): string {
   if (!text) return "";
   let formatted = text;
 
-  // Convert $$...$$ display formulas to clean formula reference card
+  // Convert $$...$$ display formulas to clean formula reference card with Copy Button
   formatted = formatted.replace(/\$\$([\s\S]*?)\$\$/g, (_, m) => {
-    const formula = formatLatexFormula(m);
-    return `<div class="my-6 rounded-2xl border border-brand/40 bg-card/95 p-6 sm:p-8 shadow-2xl text-center font-mono text-lg sm:text-2xl font-black text-foreground overflow-x-auto tracking-wider"><div class="text-[11px] font-extrabold uppercase tracking-widest text-brand mb-3 flex items-center justify-center gap-1.5">FORMULA EQUATION REFERENCE</div>${formula}</div>`;
+    const formulaHtml = formatLatexFormula(m);
+    const plainTextFormula = formulaHtml.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").trim().replace(/"/g, "&quot;");
+
+    return `<div class="my-6 rounded-2xl border border-brand/40 bg-card/95 p-6 sm:p-8 shadow-2xl text-center relative overflow-hidden backdrop-blur-xl">
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <div class="text-[11px] font-extrabold uppercase tracking-widest text-brand flex items-center gap-2">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+          <span>FORMULA EQUATION REFERENCE</span>
+        </div>
+        <button
+          onclick="navigator.clipboard.writeText(this.getAttribute('data-formula')); this.innerHTML='<svg class=\\'w-3 h-3 text-emerald-500 inline mr-1\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><path d=\\'M20 6L9 17l-5-5\\'/></svg><span>Copied!</span>'; setTimeout(() => { this.innerHTML='<svg class=\\'w-3 h-3 inline mr-1\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><rect x=\\'9\\' y=\\'9\\' width=\\'13\\' height=\\'13\\' rx=\\'2\\'/><path d=\\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\\'/></svg><span>Copy Formula</span>'; }, 2000)"
+          data-formula="${plainTextFormula}"
+          class="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/80 px-3 py-1 text-[11px] font-bold text-muted-foreground hover:border-brand/50 hover:text-brand transition-colors backdrop-blur-md shrink-0 cursor-pointer"
+        >
+          <svg class="w-3 h-3 inline mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span>Copy Formula</span>
+        </button>
+      </div>
+      <div class="font-mono text-lg sm:text-2xl font-black text-foreground overflow-x-auto py-3 px-4 rounded-xl bg-background/50 border border-border/60 tracking-wider">
+        ${formulaHtml}
+      </div>
+    </div>`;
   });
 
   // Protect currency dollar signs (e.g. $28,400, $100, $0) from being parsed as math
@@ -590,9 +610,10 @@ function ArticleDetailPage() {
                       </div>
                       <CopyButton text={formula} label="Copy Formula" />
                     </div>
-                    <div className="font-mono text-lg sm:text-2xl font-black text-foreground overflow-x-auto py-3 px-4 rounded-xl bg-background/50 border border-border/60 tracking-wider">
-                      {formula}
-                    </div>
+                    <div
+                      className="font-mono text-lg sm:text-2xl font-black text-foreground overflow-x-auto py-3 px-4 rounded-xl bg-background/50 border border-border/60 tracking-wider"
+                      dangerouslySetInnerHTML={{ __html: formula }}
+                    />
                   </div>
                 );
               }
