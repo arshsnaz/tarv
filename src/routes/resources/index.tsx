@@ -74,6 +74,14 @@ function ResourcesPage() {
     });
   }, [search, selectedCategory]);
 
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { "All Topics": ARTICLES.length };
+    ARTICLES.forEach((article) => {
+      counts[article.category] = (counts[article.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
   const featuredArticle = ARTICLES.find((a) => a.featured) || ARTICLES[0];
 
   return (
@@ -108,32 +116,45 @@ function ResourcesPage() {
           {/* Real-time Search Bar */}
           <Reveal delay={200} className="mt-10 max-w-2xl mx-auto relative">
             <div className="relative flex items-center">
-              <Search className="absolute left-4 size-5 text-muted-foreground" />
+              <Search className="absolute left-4 size-5 text-brand shrink-0" />
               <input
                 type="text"
                 placeholder="Search articles by keyword (e.g. ASHRAE, NEC 2023, Voltage Drop, Fixture Units)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-full border border-border/80 bg-card/80 py-4 pl-12 pr-4 text-sm font-medium text-foreground placeholder:text-muted-foreground focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 backdrop-blur-xl shadow-lg transition-all"
+                className="w-full rounded-full border-2 border-brand/30 bg-card/90 dark:bg-slate-900/90 py-4 pl-12 pr-4 text-sm font-semibold text-foreground placeholder:text-muted-foreground/70 dark:placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/20 backdrop-blur-2xl shadow-xl transition-all"
               />
             </div>
           </Reveal>
 
           {/* Topic Pills */}
-          <Reveal delay={240} className="mt-8 flex flex-wrap items-center justify-center gap-2">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all duration-300 ${
-                  selectedCategory === cat
-                    ? "bg-foreground text-background dark:bg-white dark:text-black shadow-lg scale-105"
-                    : "border border-border/60 bg-card/40 text-muted-foreground hover:border-foreground/20 hover:text-foreground backdrop-blur-sm"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <Reveal delay={240} className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
+            {CATEGORIES.map((cat) => {
+              const count = categoryCounts[cat] || 0;
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`inline-flex items-center gap-2 rounded-full px-4.5 py-2.5 text-xs sm:text-sm font-extrabold transition-all duration-300 ${
+                    isSelected
+                      ? "bg-brand text-brand-foreground shadow-lg shadow-brand/25 scale-105 border border-brand"
+                      : "border border-border/80 dark:border-white/20 bg-card/80 dark:bg-slate-900/80 text-foreground/90 dark:text-slate-200 hover:border-brand/50 hover:bg-card dark:hover:bg-slate-800 backdrop-blur-md"
+                  }`}
+                >
+                  <span>{cat}</span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[11px] font-black font-mono ${
+                      isSelected
+                        ? "bg-black/20 text-white"
+                        : "bg-brand/10 dark:bg-brand/20 text-brand dark:text-cyan-300 border border-brand/20"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </Reveal>
         </div>
 

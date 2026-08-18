@@ -19,8 +19,10 @@ import {
   FileSpreadsheet,
   Download,
   List,
+  Copy,
+  Check,
 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 export const Route = createFileRoute("/resources/$slug")({
   head: ({ params }) => {
@@ -138,11 +140,48 @@ function parseContentBlocks(content: string): { type: "code" | "markdown"; raw: 
   return blocks;
 }
 
+function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    const cleaned = text.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").trim();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(cleaned);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-card/80 px-3 py-1 text-[11px] font-bold text-muted-foreground hover:border-brand/50 hover:text-brand transition-colors backdrop-blur-md shrink-0"
+      title="Copy to clipboard"
+    >
+      {copied ? <Check size={12} className="text-emerald-500" /> : <Copy size={12} />}
+      <span>{copied ? "Copied!" : label}</span>
+    </button>
+  );
+}
+
 function ArticleDetailPage() {
   const { slug } = useParams({ from: "/resources/$slug" });
   const article = ARTICLES.find((a) => a.slug === slug);
   const [copied, setCopied] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const current = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(Math.min(100, Math.max(0, current)));
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Extract Table of Contents headings (## or ###)
   const tocHeadings = useMemo(() => {
@@ -277,6 +316,11 @@ function ArticleDetailPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
+      {/* Top Reading Progress Bar */}
+      <div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand via-cyan-400 to-blue-500 z-50 transition-all duration-150 shadow-[0_0_12px_rgba(59,130,246,0.8)]"
+        style={{ width: `${scrollProgress}%` }}
+      />
       {/* Inject Google Rich Schema Scripts */}
       <script
         type="application/ld+json"
@@ -409,12 +453,13 @@ function ArticleDetailPage() {
             {parsedBlocks.map((blockItem, idx) => {
               if (blockItem.type === "code") {
                 return (
-                  <div key={idx} className="my-6 rounded-2xl border border-border/80 bg-slate-950 p-4 sm:p-6 shadow-2xl overflow-x-auto font-mono text-xs sm:text-sm text-emerald-400">
-                    {blockItem.lang && (
-                      <div className="text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground/60 mb-2 border-b border-white/10 pb-2">
-                        {blockItem.lang}
-                      </div>
-                    )}
+                  <div key={idx} className="my-6 rounded-2xl border border-border/80 bg-slate-950 p-4 sm:p-6 shadow-2xl overflow-x-auto font-mono text-xs sm:text-sm text-emerald-400 relative group">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground/60">
+                        {blockItem.lang || "CODE SNIPPET"}
+                      </span>
+                      <CopyButton text={blockItem.raw} label="Copy Code" />
+                    </div>
                     <pre className="whitespace-pre overflow-x-auto leading-relaxed">
                       <code>{blockItem.raw}</code>
                     </pre>
@@ -530,9 +575,12 @@ function ArticleDetailPage() {
                 const formula = formatLatexFormula(trimmed.replace(/\$\$/g, ""));
                 return (
                   <div key={idx} className="my-6 rounded-2xl border border-brand/40 bg-card/95 p-6 sm:p-8 shadow-2xl text-center relative overflow-hidden backdrop-blur-xl">
-                    <div className="text-[11px] font-extrabold uppercase tracking-widest text-brand mb-3 flex items-center justify-center gap-2">
-                      <Calculator size={14} />
-                      <span>FORMULA EQUATION REFERENCE</span>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <div className="text-[11px] font-extrabold uppercase tracking-widest text-brand flex items-center gap-2">
+                        <Calculator size={14} />
+                        <span>FORMULA EQUATION REFERENCE</span>
+                      </div>
+                      <CopyButton text={formula} label="Copy Formula" />
                     </div>
                     <div className="font-mono text-lg sm:text-2xl font-black text-foreground overflow-x-auto py-3 px-4 rounded-xl bg-background/50 border border-border/60 tracking-wider">
                       {formula}
