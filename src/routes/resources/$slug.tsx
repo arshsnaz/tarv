@@ -51,27 +51,28 @@ export const Route = createFileRoute("/resources/$slug")({
 
 function formatLatexFormula(raw: string): string {
   if (!raw) return "";
-  
+
   const lines = raw.split("\n").map((line) => {
     let l = line.trim();
     if (!l) return "";
-    l = l.replace(/\\text\s*\{([^}]+)\}/g, "$1");
-    l = l.replace(/\\times/g, " × ");
-    l = l.replace(/\\cdot/g, " · ");
-    l = l.replace(/\\sqrt\{([^}]+)\}/g, "√($1)");
-    l = l.replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, "($1 / $2)");
-    l = l.replace(/\\binom\{([^}]+)\}\{([^}]+)\}/g, "C($1, $2)");
-    l = l.replace(/\\sum/g, "Σ");
-    l = l.replace(/\\Delta/g, "Δ");
-    l = l.replace(/\\rho/g, "ρ");
-    l = l.replace(/\\le\b/g, "≤");
-    l = l.replace(/\\ge\b/g, "≥");
-    l = l.replace(/\\pi\b/g, "π");
-    l = l.replace(/\^?\\circ/g, "°");
-    l = l.replace(/_\{([^}]+)\}/g, "_$1");
-    l = l.replace(/\^2/g, "²");
-    l = l.replace(/\^3/g, "³");
-    l = l.replace(/\\/g, "");
+    l = l.replace(/[\t\\]+t?ext\s*\{([^}]+)\}/gi, "$1");
+    l = l.replace(/[\t\\]+t?imes/gi, " × ");
+    l = l.replace(/\\times/gi, " × ");
+    l = l.replace(/\\cdot/gi, " · ");
+    l = l.replace(/\\sqrt\{([^}]+)\}/gi, "√($1)");
+    l = l.replace(/\\frac\{([^}]+)\}\{([^}]+)\}/gi, "($1 / $2)");
+    l = l.replace(/\\binom\{([^}]+)\}\{([^}]+)\}/gi, "C($1, $2)");
+    l = l.replace(/\\sum/gi, "Σ");
+    l = l.replace(/\\Delta/gi, "Δ");
+    l = l.replace(/\\rho/gi, "ρ");
+    l = l.replace(/\\le\b/gi, "≤");
+    l = l.replace(/\\ge\b/gi, "≥");
+    l = l.replace(/\\pi\b/gi, "π");
+    l = l.replace(/\^?\\circ/gi, "°");
+    l = l.replace(/_\{([^}]+)\}/gi, "_$1");
+    l = l.replace(/\^2/gi, "²");
+    l = l.replace(/\^3/gi, "³");
+    l = l.replace(/\\/gi, "");
     return l;
   }).filter(Boolean);
 

@@ -1645,7 +1645,7 @@ $$SHR = 600,000 / (600,000 + 200,000) = 600,000 / 800,000 = 0.75$$
 
 ### Step 2: Calculate Required Supply Airflow Rate (CFM)
 
-Selecting a standard $20^\circ\text{F}$ supply air temperature differential ($T_{sa} = 75^\circ\text{F} - 20^\circ\text{F} = 55^\circ\text{F DB}$):
+Selecting a standard **20°F** supply air temperature differential ($T_{sa} = 75^\circ\text{F} - 20^\circ\text{F} = 55^\circ\text{F DB}$):
 
 $$q_{s,\text{room}} = 1.08 × CFM × (T_{\text{room}} - T_{sa})$$
 $$600,000 = 1.08 × CFM × (75 - 55) = 21.6 × CFM$$
