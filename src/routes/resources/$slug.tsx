@@ -101,6 +101,37 @@ function formatInlineText(text: string): string {
   return formatted.replace(/\*\*(.*?)\*\*/g, "<strong class='text-foreground font-semibold'>$1</strong>");
 }
 
+function parseContentBlocks(content: string): { type: "code" | "markdown"; raw: string; lang?: string }[] {
+  if (!content) return [];
+  const blocks: { type: "code" | "markdown"; raw: string; lang?: string }[] = [];
+  const codeBlockParts = content.split(/```/g);
+
+  for (let i = 0; i < codeBlockParts.length; i++) {
+    if (i % 2 === 1) {
+      // Code block content
+      const firstLineEnd = codeBlockParts[i].indexOf("\n");
+      let lang = "";
+      let code = codeBlockParts[i];
+      if (firstLineEnd !== -1) {
+        lang = codeBlockParts[i].substring(0, firstLineEnd).trim();
+        code = codeBlockParts[i].substring(firstLineEnd + 1);
+      }
+      blocks.push({ type: "code", raw: code.trim(), lang });
+    } else {
+      // Regular markdown text parts - split by double newlines \n\n
+      const paragraphs = codeBlockParts[i].split("\n\n");
+      for (const p of paragraphs) {
+        const trimmed = p.trim();
+        if (trimmed) {
+          blocks.push({ type: "markdown", raw: trimmed });
+        }
+      }
+    }
+  }
+
+  return blocks;
+}
+
 function ArticleDetailPage() {
   const { slug } = useParams({ from: "/resources/$slug" });
   const article = ARTICLES.find((a) => a.slug === slug);
@@ -119,6 +150,11 @@ function ArticleDetailPage() {
         const level = l.startsWith("### ") ? 3 : 2;
         return { text, id, level };
       });
+  }, [article]);
+
+  const parsedBlocks = useMemo(() => {
+    if (!article) return [];
+    return parseContentBlocks(article.content);
   }, [article]);
 
   if (!article) {
@@ -364,8 +400,23 @@ function ArticleDetailPage() {
           {/* Main Article Content Column */}
           <div className="lg:col-span-8 space-y-8 text-foreground/90 text-base leading-relaxed font-sans">
             {/* Render formatted markdown-like article paragraphs */}
-            {article.content.split("\n\n").map((block, idx) => {
-              const trimmed = block.trim();
+            {parsedBlocks.map((blockItem, idx) => {
+              if (blockItem.type === "code") {
+                return (
+                  <div key={idx} className="my-6 rounded-2xl border border-border/80 bg-slate-950 p-4 sm:p-6 shadow-2xl overflow-x-auto font-mono text-xs sm:text-sm text-emerald-400">
+                    {blockItem.lang && (
+                      <div className="text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground/60 mb-2 border-b border-white/10 pb-2">
+                        {blockItem.lang}
+                      </div>
+                    )}
+                    <pre className="whitespace-pre overflow-x-auto leading-relaxed">
+                      <code>{blockItem.raw}</code>
+                    </pre>
+                  </div>
+                );
+              }
+
+              const trimmed = blockItem.raw.trim();
               if (!trimmed) return null;
 
               if (trimmed === "---") {
