@@ -1797,7 +1797,7 @@ To automate parameter syncing without corrupting BIM models, engineers must unde
 
 ## 2. The 5 Critical BIM Parameter Syncing Pitfalls
 
-```
+\`\`\`
 +-----------------------------------------------------------------------------------+
 |                        THE 5 BIM PARAMETER SYNC PITFALLS                          |
 +-----------------------------------------------------------------------------------+
@@ -1807,7 +1807,7 @@ To automate parameter syncing without corrupting BIM models, engineers must unde
 | 4. Unmanaged MEP System Classifications  --> Disrupts flow propagation networks  |
 | 5. Manual Excel Bulk Import Overwrites    --> Destroys client BEP audit metadata   |
 +-----------------------------------------------------------------------------------+
-```
+\`\`\`
 
 ---
 
@@ -1852,7 +1852,7 @@ Importing spreadsheet data via generic third-party plugins that bulk-overwrite p
 
 Below is a production-grade C# Revit API snippet illustrating how to safely write engineering calculation outputs into Shared Parameters inside a database transaction:
 
-```csharp
+\`\`\`csharp
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
@@ -1901,7 +1901,7 @@ public class SyncEngineeringParametersCommand : IExternalCommand
         return Result.Succeeded;
     }
 }
-```
+\`\`\`
 
 ---
 
@@ -1910,7 +1910,7 @@ public class SyncEngineeringParametersCommand : IExternalCommand
 Let us automate the parameter synchronization pipeline for a 30-story commercial tower containing 4,500 VAV terminal units and diffusers:
 
 ### Automation Pipeline Architecture & Execution Flow
-```
+\`\`\`
 +-------------------+      +------------------------+      +-----------------------+
 |  3D Revit Model   | ---> | TARV Revit API Add-In  | ---> | TARV Cloud Solver Engine|
 | (4,500 Elements)  |      | Extract Element GUIDs  |      | Solves CFM, TR, & kVA |
@@ -1921,7 +1921,7 @@ Let us automate the parameter synchronization pipeline for a 30-story commercial
 | Updated BIM Tags  | <--- | Revit API Transaction  | <--- | Solved Parameter Data |
 | & 2D Schedules    |      | Writes Solved Data     |      | JSON Payload API      |
 +-------------------+      +------------------------+      +-----------------------+
-```
+\`\`\`
 
 ---
 
@@ -1933,7 +1933,7 @@ The TARV Revit Add-In queries the 3D model, extracting element \`UniqueId\`, spa
 ### Step 2: Cloud Calculation & Solver Execution
 TARV Cloud Engine processes psychrometric cooling loads, duct static pressure drops, and electrical demand factors, returning a verified JSON payload:
 
-```json
+\`\`\`json
 {
   "element_unique_id": "3b4f89a1-7c22-4a01-9e12-88f4019a2b5e-0004f12a",
   "calculated_parameters": {
@@ -1943,7 +1943,7 @@ TARV Cloud Engine processes psychrometric cooling loads, duct static pressure dr
     "TARV_Sound_Attenuator_NC": 32
   }
 }
-```
+\`\`\`
 
 ---
 
