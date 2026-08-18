@@ -497,18 +497,18 @@ function ArticleDetailPage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2.5">
               <button
                 onClick={() => setShowModal(true)}
-                className="inline-flex items-center gap-2 rounded-full bg-brand/10 border border-brand/30 px-4 py-2 text-xs font-bold text-brand hover:bg-brand/20 transition-colors"
+                className="inline-flex items-center gap-2 rounded-full bg-brand text-brand-foreground px-4.5 py-2.5 text-xs font-black shadow-lg shadow-brand/20 hover:scale-105 transition-all duration-300 cursor-pointer"
               >
-                <FileSpreadsheet size={14} />
+                <FileSpreadsheet size={15} />
                 <span>Get Calculation Workbook</span>
               </button>
 
               <button
                 onClick={handleShare}
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-bold text-foreground hover:bg-card backdrop-blur-md transition-colors"
+                className="inline-flex items-center gap-2 rounded-full border border-border/80 dark:border-white/20 bg-card/80 dark:bg-slate-900/80 px-4.5 py-2.5 text-xs font-bold text-foreground hover:bg-card dark:hover:bg-slate-800 backdrop-blur-md transition-all duration-300 cursor-pointer"
               >
                 <Share2 size={14} />
                 <span>{copied ? "Link Copied!" : "Share Article"}</span>
@@ -973,32 +973,37 @@ function ArticleDetailPage() {
 
       {/* Lead Capture Workbook Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="glass max-w-md w-full rounded-3xl p-6 border border-brand/40 bg-card/95 shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="glass max-w-md w-full rounded-[2rem] p-7 sm:p-8 border-2 border-brand/40 bg-card/95 dark:bg-slate-900/95 shadow-2xl space-y-6 relative overflow-hidden backdrop-blur-2xl">
             <div className="flex items-center justify-between">
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand/10 border border-brand/20 px-3 py-1 text-xs font-bold text-brand">
-                <FileSpreadsheet size={14} />
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand/10 dark:bg-brand/20 border border-brand/30 px-3.5 py-1 text-xs font-black text-brand dark:text-cyan-300 tracking-wider">
+                <FileSpreadsheet size={14} className="shrink-0" />
                 <span>EXCEL / PDF CALCULATION SHEET</span>
               </div>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-muted-foreground hover:text-foreground text-sm font-bold"
+                className="size-8 rounded-full bg-muted/80 dark:bg-white/10 text-foreground hover:bg-brand hover:text-brand-foreground grid place-items-center text-sm font-black transition-all cursor-pointer"
+                aria-label="Close Modal"
               >
                 ✕
               </button>
             </div>
 
-            <h3 className="text-xl font-bold">Download Free Calculation Workbook</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Get official engineering calculation spreadsheets pre-loaded with ASHRAE, NEC, and IPC formulas used by TARV engineers.
-            </p>
+            <div className="space-y-2">
+              <h3 className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight">
+                Download Free Calculation Workbook
+              </h3>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                Get official engineering calculation spreadsheets pre-loaded with ASHRAE, NEC, and IPC formulas used by TARV engineers.
+              </p>
+            </div>
 
             <Link
               to="/access"
               onClick={() => setShowModal(false)}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-xs font-extrabold text-primary-foreground shadow-lg hover:opacity-90"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand text-brand-foreground py-3.5 text-xs sm:text-sm font-extrabold shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer"
             >
-              <Download size={14} />
+              <Download size={16} />
               <span>Get Free Instant Access</span>
             </Link>
           </div>
