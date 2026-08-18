@@ -153,7 +153,7 @@ function ArticleDetailPage() {
           <div className="flex flex-wrap items-center justify-between gap-4 pt-4">
             <div className="flex items-center gap-3">
               <div className="size-11 rounded-full bg-brand/20 text-brand grid place-items-center font-extrabold text-sm border border-brand/30">
-                {article.author.name.substring(0, 2).toUpperCase()}
+                {article.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
               </div>
               <div>
                 <div className="text-sm font-extrabold text-foreground">{article.author.name}</div>

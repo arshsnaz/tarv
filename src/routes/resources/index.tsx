@@ -169,7 +169,7 @@ function ResourcesPage() {
                   <div className="flex items-center gap-4 pt-2">
                     <div className="flex items-center gap-2.5">
                       <div className="size-9 rounded-full bg-brand/20 text-brand grid place-items-center font-bold text-xs">
-                        MV
+                        {featuredArticle.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
                       </div>
                       <div>
                         <div className="text-xs font-bold text-foreground">{featuredArticle.author.name}</div>
