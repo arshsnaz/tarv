@@ -12,7 +12,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import "../styles.css";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { reportError } from "../lib/error-reporting";
 
 const baseUrl = import.meta.env.BASE_URL;
 const siteUrl = "https://tarvofficial.vercel.app/";
@@ -43,7 +43,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
