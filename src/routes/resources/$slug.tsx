@@ -14,8 +14,13 @@ import {
   User,
   Sparkles,
   Layers,
+  ChevronRight,
+  HelpCircle,
+  FileSpreadsheet,
+  Download,
+  List,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export const Route = createFileRoute("/resources/$slug")({
   head: ({ params }) => {
@@ -66,7 +71,7 @@ function formatLatexFormula(raw: string): string {
 
 function formatInlineText(text: string): string {
   let formatted = text.replace(/\$\$(.*?)\$\$/g, (_, m) => formatLatexFormula(m));
-  formatted = formatted.replace(/\$(.*?)\$/g, (_, m) => `<span class="font-mono text-brand font-semibold px-1 rounded bg-brand/10 border border-brand/20">${formatLatexFormula(m)}</span>`);
+  formatted = formatted.replace(/\$(.*?)\$/g, (_, m) => `<span class="font-mono text-brand font-semibold px-1 py-0.5 rounded bg-brand/10 border border-brand/20">${formatLatexFormula(m)}</span>`);
   return formatted.replace(/\*\*(.*?)\*\*/g, "<strong class='text-foreground font-semibold'>$1</strong>");
 }
 
@@ -74,6 +79,21 @@ function ArticleDetailPage() {
   const { slug } = useParams({ from: "/resources/$slug" });
   const article = ARTICLES.find((a) => a.slug === slug);
   const [copied, setCopied] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  // Extract Table of Contents headings (## or ###)
+  const tocHeadings = useMemo(() => {
+    if (!article) return [];
+    const lines = article.content.split("\n");
+    return lines
+      .filter((l) => l.startsWith("## ") || l.startsWith("### "))
+      .map((l) => {
+        const text = l.replace(/^###?\s+/, "").trim();
+        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        const level = l.startsWith("### ") ? 3 : 2;
+        return { text, id, level };
+      });
+  }, [article]);
 
   if (!article) {
     return (
@@ -111,21 +131,113 @@ function ArticleDetailPage() {
     }
   };
 
+  // Construct Google Rich JSON-LD Schemas (TechArticle + BreadcrumbList + FAQPage)
+  const techArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": article.title,
+    "description": article.summary,
+    "image": article.image,
+    "datePublished": "2026-08-14T08:00:00+00:00",
+    "dateModified": "2026-08-18T12:00:00+00:00",
+    "author": {
+      "@type": "Person",
+      "name": article.author.name,
+      "jobTitle": article.author.role,
+      "worksFor": {
+        "@type": "Organization",
+        "name": "TARV Engineering"
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TARV Engineering Software",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://tarvofficial.vercel.app/favicon.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://tarvofficial.vercel.app/resources/${article.slug}`
+    }
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://tarvofficial.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Resources",
+        "item": "https://tarvofficial.vercel.app/resources"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": article.category,
+        "item": `https://tarvofficial.vercel.app/resources?category=${encodeURIComponent(article.category)}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": article.title,
+        "item": `https://tarvofficial.vercel.app/resources/${article.slug}`
+      }
+    ]
+  };
+
+  const faqSchema = article.faqs && article.faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": article.faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.answer
+      }
+    }))
+  } : null;
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
+      {/* Inject Google Rich Schema Scripts */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+
       <SiteNav />
 
-      <main className="flex-1 pt-28 pb-24 px-4 md:px-6 max-w-5xl mx-auto w-full">
-        {/* Back Link */}
-        <div className="mb-8">
-          <Link
-            to="/resources"
-            className="inline-flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft size={14} />
-            <span>Back to All Resources</span>
-          </Link>
-        </div>
+      <main className="flex-1 pt-28 pb-24 px-4 md:px-6 max-w-6xl mx-auto w-full">
+        {/* SEO Breadcrumbs Bar */}
+        <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-muted-foreground font-medium">
+          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <ChevronRight size={12} />
+          <Link to="/resources" className="hover:text-foreground transition-colors">Resources</Link>
+          <ChevronRight size={12} />
+          <span className="text-brand font-semibold">{article.category}</span>
+          <ChevronRight size={12} />
+          <span className="text-foreground line-clamp-1 max-w-[200px] sm:max-w-none">{article.title}</span>
+        </nav>
 
         {/* Article Header */}
         <div className="space-y-6 pb-10 border-b border-border/60">
@@ -149,7 +261,7 @@ function ArticleDetailPage() {
             {article.summary}
           </p>
 
-          {/* Author Row & Share Action */}
+          {/* Author Row & Actions */}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-4">
             <div className="flex items-center gap-3">
               <div className="size-12 rounded-full overflow-hidden border border-brand/40 bg-brand/20 shrink-0 shadow-lg">
@@ -171,7 +283,15 @@ function ArticleDetailPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={() => setShowModal(true)}
+                className="inline-flex items-center gap-2 rounded-full bg-brand/10 border border-brand/30 px-4 py-2 text-xs font-bold text-brand hover:bg-brand/20 transition-colors"
+              >
+                <FileSpreadsheet size={14} />
+                <span>Get Calculation Workbook</span>
+              </button>
+
               <button
                 onClick={handleShare}
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-2 text-xs font-bold text-foreground hover:bg-card backdrop-blur-md transition-colors"
@@ -195,6 +315,24 @@ function ArticleDetailPage() {
           />
         </div>
 
+        {/* Key Takeaways Box */}
+        {article.keyTakeaways && article.keyTakeaways.length > 0 && (
+          <div className="mb-12 glass rounded-3xl p-6 sm:p-8 border border-brand/30 bg-brand/5 shadow-xl">
+            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-brand mb-4">
+              <Sparkles size={16} />
+              <span>KEY ENGINEERING TAKEAWAYS</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {article.keyTakeaways.map((takeaway, i) => (
+                <div key={i} className="flex items-start gap-3 text-xs sm:text-sm text-foreground leading-relaxed">
+                  <CheckCircle2 size={16} className="text-brand shrink-0 mt-0.5" />
+                  <span>{takeaway}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Article Body + Sticky Sidebar Container */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Main Article Content Column */}
@@ -205,23 +343,29 @@ function ArticleDetailPage() {
               if (!trimmed) return null;
 
               if (trimmed.startsWith("# ")) {
+                const text = trimmed.replace("# ", "");
+                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 return (
-                  <h1 key={idx} className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground pt-4 pb-2 border-b border-border/50">
-                    {trimmed.replace("# ", "")}
+                  <h1 id={id} key={idx} className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground pt-4 pb-2 border-b border-border/50 scroll-mt-28">
+                    {text}
                   </h1>
                 );
               }
               if (trimmed.startsWith("## ")) {
+                const text = trimmed.replace("## ", "");
+                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 return (
-                  <h2 key={idx} className="text-xl sm:text-2xl font-bold tracking-tight text-foreground pt-6 pb-2">
-                    {trimmed.replace("## ", "")}
+                  <h2 id={id} key={idx} className="text-xl sm:text-2xl font-bold tracking-tight text-foreground pt-6 pb-2 scroll-mt-28">
+                    {text}
                   </h2>
                 );
               }
               if (trimmed.startsWith("### ")) {
+                const text = trimmed.replace("### ", "");
+                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 return (
-                  <h3 key={idx} className="text-lg font-bold tracking-tight text-foreground pt-4">
-                    {trimmed.replace("### ", "")}
+                  <h3 id={id} key={idx} className="text-lg font-bold tracking-tight text-foreground pt-4 scroll-mt-28">
+                    {text}
                   </h3>
                 );
               }
@@ -268,7 +412,30 @@ function ArticleDetailPage() {
               );
             })}
 
-            {/* Inline Calculator Converter Callout */}
+            {/* FAQ Accordion Section */}
+            {article.faqs && article.faqs.length > 0 && (
+              <div className="my-14 border-t border-border/60 pt-10">
+                <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-brand mb-6">
+                  <HelpCircle size={16} />
+                  <span>FREQUENTLY ASKED ENGINEERING QUESTIONS</span>
+                </div>
+                <div className="space-y-4">
+                  {article.faqs.map((faq, i) => (
+                    <div key={i} className="glass rounded-2xl p-5 border border-border/60 bg-card/60">
+                      <h4 className="text-base font-bold text-foreground mb-2 flex items-start gap-2">
+                        <span className="text-brand font-mono font-bold">Q{i + 1}.</span>
+                        <span>{faq.question}</span>
+                      </h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed pl-6">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Inline Calculator Conversion Callout */}
             <div className="my-10 glass rounded-3xl p-6 sm:p-8 border border-brand/40 bg-brand/5 shadow-xl">
               <div className="flex items-start gap-4">
                 <div className="grid size-12 place-items-center rounded-2xl bg-brand text-brand-foreground shrink-0 shadow-lg">
@@ -297,11 +464,34 @@ function ArticleDetailPage() {
 
           {/* Sticky Sidebar Column */}
           <div className="lg:col-span-4 space-y-6 sticky top-28">
-            {/* Conversion Card Widget */}
-            <div className="glass rounded-3xl p-6 border border-border bg-card/80 shadow-xl space-y-4">
+            {/* Table of Contents Widget */}
+            {tocHeadings.length > 0 && (
+              <div className="glass rounded-3xl p-6 border border-border/80 bg-card/80 shadow-xl">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">
+                  <List size={14} className="text-brand" />
+                  <span>Table of Contents</span>
+                </div>
+                <nav className="space-y-2 text-xs font-medium">
+                  {tocHeadings.map((h, i) => (
+                    <a
+                      key={i}
+                      href={`#${h.id}`}
+                      className={`block text-muted-foreground hover:text-brand transition-colors line-clamp-1 ${
+                        h.level === 3 ? "pl-3 text-[11px]" : "font-semibold"
+                      }`}
+                    >
+                      {h.text}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            )}
+
+            {/* Conversion Widget */}
+            <div className="glass rounded-3xl p-6 border border-brand/30 bg-gradient-to-b from-card to-brand/10 shadow-xl space-y-4">
               <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-[11px] font-bold text-emerald-500">
                 <Sparkles size={13} />
-                <span>100% Verified Standards</span>
+                <span>100% Verified Code Math</span>
               </div>
               <h3 className="text-lg font-bold">Calculate in TARV Free</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -319,7 +509,7 @@ function ArticleDetailPage() {
             {/* Article Tags */}
             <div className="glass rounded-3xl p-6 border border-border/60 bg-card/50">
               <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
-                Article Tags
+                Article Search Tags
               </div>
               <div className="flex flex-wrap gap-2">
                 {article.tags.map((tag) => (
@@ -365,6 +555,40 @@ function ArticleDetailPage() {
           </div>
         )}
       </main>
+
+      {/* Lead Capture Workbook Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="glass max-w-md w-full rounded-3xl p-6 border border-brand/40 bg-card/95 shadow-2xl space-y-5">
+            <div className="flex items-center justify-between">
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand/10 border border-brand/20 px-3 py-1 text-xs font-bold text-brand">
+                <FileSpreadsheet size={14} />
+                <span>EXCEL / PDF CALCULATION SHEET</span>
+              </div>
+              <button
+                onClick={() => setShowModal(false)}
+                className="text-muted-foreground hover:text-foreground text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <h3 className="text-xl font-bold">Download Free Calculation Workbook</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Get official engineering calculation spreadsheets pre-loaded with ASHRAE, NEC, and IPC formulas used by TARV engineers.
+            </p>
+
+            <Link
+              to="/access"
+              onClick={() => setShowModal(false)}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-xs font-extrabold text-primary-foreground shadow-lg hover:opacity-90"
+            >
+              <Download size={14} />
+              <span>Get Free Instant Access</span>
+            </Link>
+          </div>
+        </div>
+      )}
 
       <SiteFooter />
     </div>

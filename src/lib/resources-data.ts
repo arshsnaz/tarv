@@ -13,6 +13,8 @@ export interface Article {
   featured?: boolean;
   image: string;
   tags: string[];
+  keyTakeaways: string[];
+  faqs: { question: string; answer: string }[];
   content: string;
 }
 
@@ -22,7 +24,7 @@ export const ARTICLES: Article[] = [
     title: "ASHRAE 62.1 & 90.1 Ventilation & Cooling Load Calculations: A Complete Engineer's Guide",
     summary: "Master sensible vs. latent cooling load calculations, fresh air intake rates, and solar heat gain coefficients mapped directly to ASHRAE handbook standards.",
     category: "HVAC",
-    readTime: "8 min read",
+    readTime: "12 min read",
     date: "August 14, 2026",
     featured: true,
     author: {
@@ -31,7 +33,27 @@ export const ARTICLES: Article[] = [
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
-    tags: ["ASHRAE 62.1", "Cooling Load", "HVAC Design", "Fresh Air CFM"],
+    tags: ["ASHRAE 62.1", "Cooling Load", "HVAC Design", "Fresh Air CFM", "Sensible Heat Ratio"],
+    keyTakeaways: [
+      "Sensible cooling load Qs accounts for temperature differential, whereas latent cooling load Ql accounts for moisture removal.",
+      "ASHRAE 62.1 Ventilation Rate Procedure (VRP) mandates calculating breathing zone outdoor airflow Vbz based on occupant density and floor area.",
+      "Over-sizing chillers causes short-cycling and humidity control failure; TARV AI solves exact hourly peak thermal loads in under 0.01 seconds.",
+      "Integrating ASHRAE calculations directly into Revit BIM parameter schedules eliminates 100% of manual data entry errors."
+    ],
+    faqs: [
+      {
+        question: "What is the difference between sensible and latent cooling loads in HVAC design?",
+        answer: "Sensible cooling load (Qs) represents the heat energy required to lower dry-bulb air temperature without changing moisture content. Latent cooling load (Ql) represents the heat energy required to remove water vapor moisture from indoor air to maintain target relative humidity."
+      },
+      {
+        question: "How does ASHRAE 62.1 calculate minimum outdoor fresh air requirements?",
+        answer: "ASHRAE 62.1 uses the Ventilation Rate Procedure (VRP): Vbz = (Rp × Pz) + (Ra × Az), where Rp is airflow per person (CFM/person), Pz is design zone population, Ra is airflow per square foot (CFM/ft²), and Az is net occupied floor area."
+      },
+      {
+        question: "Why should mechanical engineers avoid rule-of-thumb square footage cooling load estimates?",
+        answer: "Rule-of-thumb estimates ignore solar orientation, high-performance glass SHGC values, modern LED lighting power density, and peak occupancy schedules, leading to 25%–40% oversized HVAC equipment."
+      }
+    ],
     content: `
 # ASHRAE 62.1 & 90.1 Ventilation & Cooling Load Calculations: A Complete Engineer's Guide
 
@@ -82,7 +104,32 @@ Where:
 
 ---
 
-## 3. How TARV Automates ASHRAE Load Calculations
+## 3. Step-by-Step Numerical Worked Example
+
+Let us calculate the required outdoor ventilation airflow and sensible cooling load for an open-plan commercial office zone:
+- **Floor Area ($A_z$)**: $5,000 \\text{ ft}^2$
+- **Occupancy ($P_z$)**: $35 \\text{ people}$
+- **Outdoor Design Temp**: $100^\\circ\\text{F}$ Dry-Bulb
+- **Indoor Target Temp**: $75^\\circ\\text{F}$ Dry-Bulb
+- **ASHRAE 62.1 Rates**: $R_p = 5 \\text{ CFM/person}$, $R_a = 0.06 \\text{ CFM/ft}^2$
+
+### Step 1: Calculate Breathing Zone Outdoor Airflow ($V_{bz}$)
+$$V_{bz} = (5 \\times 35) + (0.06 \\times 5000) = 175 + 300 = 475 \\text{ CFM}$$
+
+### Step 2: Calculate Outdoor Air Sensible Cooling Load ($Q_{s,\\text{outdoor}}$)
+$$Q_{s,\\text{outdoor}} = 1.08 \\times 475 \\times (100 - 75) = 1.08 \\times 475 \\times 25 = 12,825 \\text{ BTU/hr} = 1.07 \\text{ Tons}$$
+
+---
+
+## 4. ASHRAE 90.1 Lighting & Envelope Compliance
+
+Under ASHRAE Standard 90.1-2022:
+- **Max Lighting Power Density (LPD)** for office space: $0.61 \\text{ W/ft}^2$.
+- **Window Solar Heat Gain Coefficient (SHGC)** max limit: $0.25$ for warm climate zones.
+
+---
+
+## 5. How TARV Automates ASHRAE Load Calculations
 
 In traditional manual workflows, engineers spend hours cross-referencing psychrometric charts, solar radiation tables, and wall U-values. 
 
@@ -98,7 +145,7 @@ With **TARV MEP Calculator**:
     title: "NEC 2023 Voltage Drop & Cable Sizing: Standard Formulas vs. AI Automation",
     summary: "A step-by-step breakdown of NEC Article 310 ampacity adjustment factors, voltage drop equations, and continuous load sizing rules for electrical engineers.",
     category: "Electrical",
-    readTime: "7 min read",
+    readTime: "11 min read",
     date: "August 11, 2026",
     featured: false,
     author: {
@@ -107,7 +154,27 @@ With **TARV MEP Calculator**:
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
-    tags: ["NEC 2023", "Voltage Drop", "Cable Sizing", "Electrical Load"],
+    tags: ["NEC 2023", "Voltage Drop", "Cable Sizing", "Electrical Load", "Ampacity Derating"],
+    keyTakeaways: [
+      "NEC Informational Note 210.19(A) recommends keeping branch circuit voltage drop below 3%, and total feeder + branch below 5%.",
+      "Ambient temperature derating (Table 310.15(B1)) and raceway bundle fill adjustment (Table 310.15(C1)) must be applied sequentially.",
+      "Motor load feeders must be sized for 125% of the largest motor full-load amperes (FLA) plus 100% of all other connected loads.",
+      "TARV Electrical Calculator auto-generates 100% NEC-compliant distribution board (DB) schedules and single-line diagrams."
+    ],
+    faqs: [
+      {
+        question: "What is the maximum allowable voltage drop under NEC 2023 guidelines?",
+        answer: "While the NEC code is mandatory for safety, Informational Notes 210.19(A) and 215.2(A) strongly recommend a maximum 3% voltage drop on branch circuits, and a total combined maximum 5% voltage drop from service equipment to the farthest outlet."
+      },
+      {
+        question: "How do you calculate 3-phase conductor voltage drop?",
+        answer: "Three-phase voltage drop equation: Vdrop = (√3 × I × L × R) / 1000, where I is load current in amperes, L is one-way feeder length in feet, and R is AC resistance per 1000 ft from NEC Chapter 9 Table 8."
+      },
+      {
+        question: "When must the 125% continuous load factor be applied to circuit breaker ratings?",
+        answer: "Under NEC Article 210.20, overcurrent protective devices (OCPD) serving continuous loads (loads operating continuously for 3 hours or more) must be sized at 125% of the continuous load current plus 100% of non-continuous load current."
+      }
+    ],
     content: `
 # NEC 2023 Voltage Drop & Cable Sizing: Standard Formulas vs. AI Automation
 
@@ -134,7 +201,28 @@ $$\\%VD = \\left( \\frac{V_{drop}}{V_{\\text{phase-to-phase}}} \\right) \\times 
 
 ---
 
-## 2. NEC Cable Ampacity Derating Factors
+## 2. Step-by-Step Worked Calculation Example
+
+Let us size a 3-phase feeder cable supplying a commercial chiller:
+- **Load Current ($I$)**: $120 \\text{ Amps continuous}$
+- **Feeder Distance ($L$)**: $250 \\text{ feet}$
+- **System Voltage ($V$)**: $480 \\text{ V, 3-Phase, 60Hz}$
+- **Selected Conductor**: 2/0 AWG Copper in PVC Conduit ($R = 0.102 \\ \\Omega / 1,000 \\text{ ft}$)
+
+### Step 1: Apply 125% Continuous Load Requirement
+$$I_{\\text{design}} = 120 \\times 1.25 = 150 \\text{ Amps}$$
+
+### Step 2: Calculate Voltage Drop ($V_{drop}$)
+$$V_{drop} = \\frac{\\sqrt{3} \\times 120 \\times 250 \\times 0.102}{1000} = \\frac{1.732 \\times 120 \\times 250 \\times 0.102}{1000} = 5.298 \\text{ Volts}$$
+
+### Step 3: Calculate Percentage Voltage Drop ($\\%VD$)
+$$\\%VD = \\left( \\frac{5.298}{480} \\right) \\times 100 = 1.10\\%$$
+
+Since $1.10\\% < 3\\%$, 2/0 AWG copper satisfies both ampacity and NEC voltage drop criteria!
+
+---
+
+## 3. NEC Cable Ampacity Derating Factors
 
 Conductor ampacity must be adjusted using NEC Table 310.15(B1) for elevated ambient temperatures and Table 310.15(C1) for more than 3 current-carrying conductors in a single raceway:
 
@@ -142,7 +230,7 @@ $$I_{\\text{allowable}} = I_{\\text{table}} \\times K_{\\text{temp}} \\times K_{
 
 ---
 
-## 3. Automating Cable Schedules with TARV
+## 4. Automating Cable Schedules with TARV
 
 Rather than manually consulting NEC resistance tables and typing values into static Excel spreadsheets, **TARV Electrical Calculator**:
 - Automatically applies NEC 2023 ampacity tables and thermal derating factors.
@@ -155,7 +243,7 @@ Rather than manually consulting NEC resistance tables and typing values into sta
     title: "Case Study — 300 Hours vs. 30 Minutes: The Power of TARV BIM Automation",
     summary: "How a leading Middle East MEP consultancy reduced complex project calculation times by 90% while achieving 100% Revit BIM parameter synchronization.",
     category: "Case Studies",
-    readTime: "6 min read",
+    readTime: "10 min read",
     date: "August 05, 2026",
     featured: false,
     author: {
@@ -164,7 +252,23 @@ Rather than manually consulting NEC resistance tables and typing values into sta
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Revit BIM", "Case Study", "Workflow Automation", "MEP Productivity"],
+    tags: ["Revit BIM", "Case Study", "Workflow Automation", "MEP Productivity", "BIM Parameter Sync"],
+    keyTakeaways: [
+      "Manual parameter entry between calculation spreadsheets and 3D BIM models accounts for up to 35% of senior engineering labor.",
+      "TARV's 2-way cloud BIM sync updates 5,000+ Revit parameters across HVAC, electrical, and plumbing elements in under 30 minutes.",
+      "Eliminating manual data transfer completely eradicated parameter mismatches during local authority review (DEWA/DCL).",
+      "Consultancy saved $28,000+ per project revision cycle while accelerating submittal approvals."
+    ],
+    faqs: [
+      {
+        question: "How does TARV connect to Autodesk Revit models?",
+        answer: "TARV connects to Revit 2024–2026 using a lightweight cloud plugin. It maps TARV calculation outputs directly to native Revit Shared Parameters without corrupting family definitions."
+      },
+      {
+        question: "Can TARV write calculation results back into Revit room tags and schedules?",
+        answer: "Yes! TARV provides 2-way bi-directional synchronization. Calculation outputs (CFM, Cooling TR, kW load, circuit numbers) push directly into Revit Room, Mechanical Equipment, and Electrical Panel schedules."
+      }
+    ],
     content: `
 # Case Study — 300 Hours vs. 30 Minutes: The Power of TARV BIM Automation
 
@@ -201,7 +305,7 @@ By deploying **TARV Engineering Suite**:
     title: "Plumbing Fixture Unit (WSFU) Sizing Mapped to IPC 2024 Standards",
     summary: "Learn how to calculate Water Supply Fixture Units (WSFU), Hunter's curve peak flow demand (GPM), and sanitary drainage pipe diameters according to IPC 2024.",
     category: "Plumbing",
-    readTime: "6 min read",
+    readTime: "10 min read",
     date: "July 28, 2026",
     featured: false,
     author: {
@@ -210,7 +314,23 @@ By deploying **TARV Engineering Suite**:
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
-    tags: ["IPC 2024", "Plumbing Sizer", "WSFU", "Water Demand"],
+    tags: ["IPC 2024", "Plumbing Sizer", "WSFU", "Water Demand", "Hazen-Williams"],
+    keyTakeaways: [
+      "Plumbing fixture units (WSFU) convert intermittent fixture usage into equivalent continuous GPM design flow.",
+      "Hunter's curve probability distribution differs significantly between flushometer valve and flush tank systems.",
+      "Water velocity in domestic supply piping must be maintained between 4 ft/s and 8 ft/s to prevent acoustic noise and erosion.",
+      "TARV Plumbing Calculator automatically sizes booster pumps, pressure tanks, and drainage stacks to IPC 2024 code."
+    ],
+    faqs: [
+      {
+        question: "What is Hunter's Curve in plumbing engineering?",
+        answer: "Hunter's Curve is a probabilistic statistical model developed by Dr. Roy B. Hunter that calculates maximum probable peak water demand (in GPM) from cumulative Water Supply Fixture Units (WSFU)."
+      },
+      {
+        question: "What is the maximum velocity allowed in copper water supply pipes?",
+        answer: "Under IPC Chapter 6 guidelines, maximum recommended water velocity in cold water copper piping is 8 ft/s, and 5 ft/s in hot water piping to prevent erosion-corrosion."
+      }
+    ],
     content: `
 # Plumbing Fixture Unit (WSFU) Sizing Mapped to IPC 2024 Standards
 
@@ -232,7 +352,25 @@ $$Q_{\\text{GPM}} = f(\\sum \\text{WSFU})$$
 
 ---
 
-## 2. Supply Pipe Friction Loss Calculation
+## 2. Step-by-Step Worked Example
+
+For a 10-story residential building branch:
+- **10 Water Closets (Flush Tank)**: $10 \\times 2.5 = 25 \\text{ WSFU}$
+- **10 Lavatories**: $10 \\times 0.75 = 7.5 \\text{ WSFU}$
+- **10 Showers**: $10 \\times 1.5 = 15 \\text{ WSFU}$
+- **Total WSFU**: $47.5 \\text{ WSFU}$
+
+Using IPC Hunter's Curve conversion for predominantly tank-type fixtures:
+$$Q_{\\text{peak}} \\approx 27 \\text{ GPM}$$
+
+Using Hazen-Williams head loss equation for 1.25" Copper Pipe ($C = 150$):
+$$\\text{Velocity} = \\frac{0.408 \\times 27}{1.25^2} = 7.05 \\text{ ft/s}$$
+
+Since $7.05 \\text{ ft/s} < 8 \\text{ ft/s}$, 1.25" pipe diameter satisfies IPC velocity limits!
+
+---
+
+## 3. Supply Pipe Friction Loss Calculation
 
 Pipe sizing must maintain velocity below **8 ft/s** to prevent erosion-corrosion and water hammer, using the Hazen-Williams head loss equation:
 
@@ -246,7 +384,7 @@ Where:
 
 ---
 
-## 3. TARV Plumbing Suite Sizing Automation
+## 4. TARV Plumbing Suite Sizing Automation
 TARV’s **Plumbing Calculator** automatically aggregates fixture counts, maps Hunter's curve probability curves for flushometer vs. flush tank fixtures, and calculates booster pump head requirements instantly.
     `,
   },
@@ -255,7 +393,7 @@ TARV’s **Plumbing Calculator** automatically aggregates fixture counts, maps H
     title: "Duct Static Pressure Loss & Friction Calculation: SMACNA & ASHRAE Handbook Methods",
     summary: "Understand equal friction, static regain methods, and dynamic fitting loss coefficients for sizing supply and return air duct networks.",
     category: "HVAC",
-    readTime: "7 min read",
+    readTime: "11 min read",
     date: "July 20, 2026",
     featured: false,
     author: {
@@ -264,7 +402,23 @@ TARV’s **Plumbing Calculator** automatically aggregates fixture counts, maps H
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Ductulator", "Static Pressure", "SMACNA", "HVAC Sizer"],
+    tags: ["Ductulator", "Static Pressure", "SMACNA", "HVAC Sizer", "Air Distribution"],
+    keyTakeaways: [
+      "Equal friction method maintains constant friction loss per unit length (e.g., 0.08 to 0.10 in. w.g. per 100 ft).",
+      "Dynamic fitting losses (elbows, transitions) contribute over 60% of overall duct static pressure loss.",
+      "Maintaining air velocity below 1,200 FPM in branch ducts prevents acoustic noise in occupied spaces.",
+      "TARV Interactive Ductulator sizes circular, rectangular, and flat-oval duct geometry simultaneously."
+    ],
+    faqs: [
+      {
+        question: "What friction rate is standard for commercial duct sizing?",
+        answer: "The industry standard equal friction rate for commercial supply air ductwork is 0.08 to 0.10 inches water gauge per 100 feet of duct length."
+      },
+      {
+        question: "How do you calculate duct dynamic fitting pressure drop?",
+        answer: "Dynamic fitting pressure loss equation: ΔPk = Co × Pv, where Co is the dimensionless fitting loss coefficient from ASHRAE Duct Fitting Database, and Pv is velocity pressure ((Velocity/4005)²)."
+      }
+    ],
     content: `
 # Duct Static Pressure Loss & Friction Calculation: SMACNA & ASHRAE Handbook Methods
 
@@ -307,7 +461,7 @@ TARV’s **Duct Sizing Calculator** calculates rectangular, circular, and flat-o
     title: "Hydraulic Sprinkler K-Factor & Hazen-Williams Sizing for Fire Protection Engineers",
     summary: "Step-by-step NFPA 13 density/area calculations, sprinkler head discharge flow equations, and fire pump head sizing.",
     category: "Fire Fighting",
-    readTime: "6 min read",
+    readTime: "10 min read",
     date: "July 12, 2026",
     featured: false,
     author: {
@@ -316,7 +470,23 @@ TARV’s **Duct Sizing Calculator** calculates rectangular, circular, and flat-o
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
-    tags: ["NFPA 13", "Fire Fighting", "K-Factor", "Hydraulic Sizing"],
+    tags: ["NFPA 13", "Fire Fighting", "K-Factor", "Hydraulic Sizing", "Hazen-Williams"],
+    keyTakeaways: [
+      "Sprinkler head discharge flow Q = K × √P depends directly on orifice K-factor (e.g., K=5.6, K=8.0, K=11.2).",
+      "NFPA 13 requires verifying hydraulic demand at the most hydraulically demanding 1,500 sq ft design area.",
+      "Hazen-Williams friction loss formula governs pressure drop in wet-pipe sprinkler networks.",
+      "TARV Fire Protection Solver balances hydraulic trees and determines exact fire pump duty (GPM @ PSI) in 1 click."
+    ],
+    faqs: [
+      {
+        question: "What is a sprinkler K-factor in fire protection engineering?",
+        answer: "A sprinkler K-factor is a discharge coefficient representing orifice flow geometry. The flow equation Q = K × √P calculates discharge flow rate (GPM) based on operating pressure (PSI)."
+      },
+      {
+        question: "What is the minimum operating pressure for a fire sprinkler head under NFPA 13?",
+        answer: "Under NFPA 13 standards, the minimum operating pressure for any active fire sprinkler head is 7 PSI."
+      }
+    ],
     content: `
 # Hydraulic Sprinkler K-Factor & Hazen-Williams Sizing for Fire Protection Engineers
 
@@ -356,7 +526,7 @@ TARV automatically balances remote area hydraulic trees, determines required fir
     title: "Transformer & kVA Generator Load Calculations to NEC & IEC Standards",
     summary: "Calculate total connected electrical load, maximum demand load, diversity factors, motor starting kVA, and transformer sizing rules.",
     category: "Electrical",
-    readTime: "7 min read",
+    readTime: "11 min read",
     date: "June 30, 2026",
     featured: false,
     author: {
@@ -365,7 +535,23 @@ TARV automatically balances remote area hydraulic trees, determines required fir
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Electrical Load", "Transformer Sizing", "Generator kVA", "NEC"],
+    tags: ["Electrical Load", "Transformer Sizing", "Generator kVA", "NEC", "Demand Factor"],
+    keyTakeaways: [
+      "Connected load represents total rating of all electrical devices; demand load applies NEC diversity factors.",
+      "Standby generators must be sized for peak motor locked-rotor inrush kVA to prevent voltage dip brownouts.",
+      "Transformers operate at peak thermal efficiency when loaded between 65% and 80% of rated nameplate kVA.",
+      "TARV Electrical Calculator auto-generates NEC Article 220 load summaries and panel schedules instantly."
+    ],
+    faqs: [
+      {
+        question: "What is the difference between connected load and demand load?",
+        answer: "Connected load is the sum of full nameplate ratings of all connected electrical equipment. Demand load is the actual peak load drawn from the system after applying NEC demand and diversity factors."
+      },
+      {
+        question: "How do you calculate 3-phase kVA?",
+        answer: "3-Phase kVA formula: kVA = (√3 × Volts × Amps) / 1000."
+      }
+    ],
     content: `
 # Transformer & kVA Generator Load Calculations to NEC & IEC Standards
 
@@ -401,7 +587,7 @@ TARV’s **Electrical Calculator** compiles connected vs. demand loads across li
     title: "Psychrometric Air Condition Processes: Sensible vs. Latent Cooling Load Calculations",
     summary: "Master dry-bulb, wet-bulb, dew point, enthalpy, and sensible heat ratio (SHR) plotting on psychrometric charts.",
     category: "HVAC",
-    readTime: "8 min read",
+    readTime: "12 min read",
     date: "June 18, 2026",
     featured: false,
     author: {
@@ -410,7 +596,19 @@ TARV’s **Electrical Calculator** compiles connected vs. demand loads across li
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
-    tags: ["Psychrometrics", "SHR", "Enthalpy", "HVAC Design"],
+    tags: ["Psychrometrics", "SHR", "Enthalpy", "HVAC Design", "Dehumidification"],
+    keyTakeaways: [
+      "Psychrometrics correlates air dry-bulb temp, wet-bulb temp, relative humidity, and enthalpy.",
+      "Sensible Heat Ratio (SHR) = Qsensible / Qtotal determines coil apparatus dew point (ADP).",
+      "Enthalpy difference (Δh) determines total cooling capacity required at AHU cooling coils.",
+      "TARV Psychrometric Solver plots air mixing processes and dehumidification curves interactively."
+    ],
+    faqs: [
+      {
+        question: "What is Sensible Heat Ratio (SHR) in air conditioning?",
+        answer: "Sensible Heat Ratio (SHR) is the ratio of sensible cooling load to total cooling load (Qs / (Qs + Ql)). It determines the slope of the space conditioning line on a psychrometric chart."
+      }
+    ],
     content: `
 # Psychrometric Air Condition Processes: Sensible vs. Latent Cooling Load Calculations
 
@@ -447,7 +645,7 @@ Use TARV’s interactive **Psychrometric Calculator** to plot air mixing process
     title: "Revit Parameter Syncing: 5 Common BIM Schedule Pitfalls & How to Automate",
     summary: "Avoid broken shared parameters, mismatched units, and manual data typing errors between engineering calculation workbooks and 3D Revit models.",
     category: "Revit Sync",
-    readTime: "6 min read",
+    readTime: "9 min read",
     date: "June 04, 2026",
     featured: false,
     author: {
@@ -457,6 +655,17 @@ Use TARV’s interactive **Psychrometric Calculator** to plot air mixing process
     },
     image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
     tags: ["Revit BIM", "BIM Automation", "Parameter Sync", "Revit Addin"],
+    keyTakeaways: [
+      "Manual parameter entry causes data discrepancies between calculation spreadsheets and Revit drawing schedules.",
+      "Shared parameter GUID mismatches cause parameter sync failures in Revit families.",
+      "TARV's 2-way cloud plugin synchronizes calculation outputs directly into Revit room tags in under 2 seconds."
+    ],
+    faqs: [
+      {
+        question: "How do shared parameters work in Revit MEP?",
+        answer: "Shared parameters are parameter definitions stored in an external text file with unique GUIDs. They allow custom parameter fields to appear in both element tags and project schedules."
+      }
+    ],
     content: `
 # Revit Parameter Syncing: 5 Common BIM Schedule Pitfalls & How to Automate
 
@@ -482,7 +691,7 @@ TARV bridges cloud calculation engines directly into Revit 2024–2026 via nativ
     title: "GCC Code Compliance: DEWA, DCL & Saudi Building Code (SBC) Calculations",
     summary: "A practical guide to designing HVAC, electrical, and plumbing systems compliant with Dubai Municipality (DCL), DEWA regulations, and Saudi SBC 601/401.",
     category: "Case Studies",
-    readTime: "7 min read",
+    readTime: "10 min read",
     date: "May 22, 2026",
     featured: false,
     author: {
@@ -491,7 +700,18 @@ TARV bridges cloud calculation engines directly into Revit 2024–2026 via nativ
       avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
-    tags: ["DEWA", "DCL Dubai", "Saudi SBC", "GCC Engineering"],
+    tags: ["DEWA", "DCL Dubai", "Saudi SBC", "GCC Engineering", "Authority Approval"],
+    keyTakeaways: [
+      "DEWA mandates minimum 0.95 power factor and extreme thermal derating for underground cable runs.",
+      "DCL Green Building Regulations specify maximum U-values for envelope thermal transmittance.",
+      "TARV includes pre-configured GCC authority templates for 1-click compliant calculation submittals."
+    ],
+    faqs: [
+      {
+        question: "What is DEWA power factor requirement in Dubai?",
+        answer: "DEWA requires commercial and industrial installations to maintain a minimum power factor of 0.95 lagging to avoid utility low power factor penalty surcharges."
+      }
+    ],
     content: `
 # GCC Code Compliance: DEWA, DCL & Saudi Building Code (SBC) Calculations
 
@@ -500,7 +720,7 @@ MEP consulting firms operating in the Middle East (UAE, Saudi Arabia, Qatar, Oma
 ---
 
 ## Key Regional Requirements:
-1. **DEWA (Dubai Electricity and Water Authority)**: Strict power factor limits ($\ge 0.95$), continuous cable derating for $50^\\circ\text{C}$ ambient soil/air temperatures.
+1. **DEWA (Dubai Electricity and Water Authority)**: Strict power factor limits ($\ge 0.95$), continuous cable derating for $50^\\circ\\text{C}$ ambient soil/air temperatures.
 2. **DCL (Dubai Central Laboratory)**: Green Building Regulation envelope thermal transmittance values ($U$-values max $0.3 \\text{ W/m}^2\\text{K}$).
 3. **Saudi Building Code (SBC 601 & 401)**: Energy conservation and electrical installation compliance rules.
 
