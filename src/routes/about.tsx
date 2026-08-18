@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/cta";
-import { Building2, Flag, Users, Workflow, Award, ShieldCheck, ArrowRight } from "lucide-react";
+import { Building2, Flag, Users, Workflow, Award, ShieldCheck, ArrowRight, User } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
 
 export const Route = createFileRoute("/about")({
