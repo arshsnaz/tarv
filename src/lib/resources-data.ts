@@ -800,8 +800,6 @@ With **TARV Plumbing Suite**:
 - Synchronize pipe sizes and flow rates directly back into **Revit 2026 BIM model tags and schedules**.
     `,
   },
-
-  },
   {
     slug: "duct-static-pressure-loss-smacna-ashrae",
     title: "Duct Static Pressure Loss & Fitting Friction Calculation: SMACNA & ASHRAE Masterclass",
