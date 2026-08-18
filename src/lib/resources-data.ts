@@ -73,6 +73,7 @@ This exhaustive guide breaks down the underlying physics, mathematical equations
 Building cooling loads are composed of external conduction heat gains, solar radiation through glass, internal heat loads (occupants, lighting, plug loads), and outdoor ventilation air loads. These loads are categorized into two primary thermodynamic components:
 
 ### A. Sensible Cooling Load (Q_s)
+
 Sensible load refers to thermal energy that directly increases room dry-bulb air temperature without changing its moisture content. It is calculated using the volumetric airflow rate and dry-bulb temperature differential:
 
 $$Q_s = 1.08 × CFM × (T_outdoor - T_indoor)$$
@@ -85,6 +86,7 @@ Where:
 - **1.08**: Air density conversion constant derived from 60 min/hr × 0.075 lb/ft³ × 0.24 BTU/lb·°F
 
 ### B. Latent Cooling Load (Q_l)
+
 Latent load accounts for moisture addition (water vapor) into the space air from human respiration, perspiration, outdoor air infiltration, and process vapor. Dehumidification requires latent heat extraction:
 
 $$Q_l = 4840 × CFM × (W_outdoor - W_indoor)$$
@@ -95,6 +97,7 @@ Where:
 - **4840**: Latent heat conversion constant derived from 60 min/hr × 0.075 lb/ft³ × 1061 BTU/lb latent heat of vaporization
 
 ### C. Total Cooling Load (Q_t)
+
 The total thermal cooling capacity required at the cooling coil is the sum of sensible and latent loads:
 
 $$Q_t = Q_s + Q_l = 4.5 × CFM × (h_outdoor - h_indoor)$$
@@ -108,6 +111,7 @@ Where **h** is the air enthalpy in BTU/lb of dry air.
 Heat gain through the building envelope enters via conductive heat transfer through opaque walls/roofs and radiation through transparent windows.
 
 ### Conduction Heat Gain Formula
+
 $$Q_conduction = U × A × CLTD$$
 
 Where:
@@ -116,6 +120,7 @@ Where:
 - **CLTD**: Cooling Load Temperature Difference (°F), adjusted for latitude, month, and wall mass.
 
 ### Solar Radiation Heat Gain Formula
+
 $$Q_solar = A_glass × SHGC × SC × CLF$$
 
 Where:
@@ -144,6 +149,7 @@ Where:
 - **A_z**: Zone Net Occupied Floor Area (ft²)
 
 ### Zone Air Distribution Efficiency (E_z)
+
 The outdoor air delivered to the primary air handler (V_ot) must account for zone air distribution effectiveness (E_z):
 
 $$V_oz = V_bz / E_z$$
@@ -168,6 +174,7 @@ Let us size the cooling coil capacity and outdoor fresh air requirement for a 10
 ---
 
 ### Step 1: Calculate Minimum Outdoor Fresh Air Ventilation (V_bz)
+
 $$V_bz = (5 × 80) + (0.06 × 10,000) = 400 + 600 = 1,000 CFM$$
 
 Since E_z = 1.0 for overhead cooling, V_oz = 1,000 CFM.
@@ -203,14 +210,17 @@ $$Q_t_outdoor = 4.5 × 1,000 CFM × (41.5 - 28.2) = 4.5 × 1,000 × 13.3 = 59,85
 ---
 
 ### Step 4: Calculate Total Chilled Water Plant Refrigeration Tonnage (TR)
+
 $$Q_total_plant = Q_space_sensible + Q_space_latent + Q_t_outdoor$$
 $$Q_total_plant = 138,358 + 16,000 + 59,850 = 214,208 BTU/hr$$
 
 Converting BTU/hr to Tons of Refrigeration (1 TR = 12,000 BTU/hr):
-$$\text{Total Cooling Capacity} = 214,208 / 12,000 = 17.85 TR$$
+
+$$Total Cooling Capacity = 214,208 / 12,000 = 17.85 TR$$
 
 Adding a standard 10% safety factor for piping heat gains:
-$$\text{Design Chiller Duty} = 17.85 × 1.10 = 19.64 TR ≈ 20 TR$$
+
+$$Design Chiller Duty = 17.85 × 1.10 = 19.64 TR ≈ 20 TR$$
 
 ---
 
@@ -308,6 +318,7 @@ $$I_design = (1.25 × I_continuous) + I_non-continuous$$
 Conductor voltage drop is caused by internal AC resistance (R) and inductive reactance (X_L) over distance.
 
 ### Three-Phase System Voltage Drop (V_drop_3ph)
+
 $$V_drop_3ph = (√3 × I × L × R) / 1000$$
 
 Where:
@@ -318,6 +329,7 @@ Where:
 - **R**: Conductor AC resistance per 1,000 ft (from NEC Chapter 9 Table 8 for DC or Table 9 for AC in steel/PVC conduit)
 
 ### Percentage Voltage Drop (%VD)
+
 $$\%VD = (V_drop / V_nominal) × 100$$
 
 Where **V_nominal** is nominal system phase-to-phase voltage (e.g., 480V, 400V, 208V).
@@ -333,8 +345,7 @@ When actual operating conditions differ, allowable ampacity (I_allowable) must b
 $$I_allowable = I_table × K_temp × K_fill$$
 
 ### A. Ambient Temperature Correction Factor (K_temp)
-From NEC Table 310.15(B1), for copper conductors rated 75°C operating in 40°C (104°F) ambient air:
-K_temp = 0.88
+From NEC Table 310.15(B1), for copper conductors rated 75°C operating in 40°C (104°F) ambient air: K_temp = 0.88.
 
 ### B. Raceway Conductor Bundle Adjustment (K_fill)
 From NEC Table 310.15(C1), when bundling multiple current-carrying conductors in a conduit:
@@ -359,6 +370,7 @@ Let us size the main feeder cable and circuit breaker for a 3-phase commercial m
 
 ### Step 1: Calculate Minimum Required Design Ampacity
 Applying the 125% continuous load factor:
+
 $$I_design = 180 Amps × 1.25 = 225 Amperes$$
 
 A 225A frame trip rating circuit breaker is selected.
@@ -377,6 +389,7 @@ $$I_derated = 285 A × 0.88 × 0.80 = 285 × 0.704 = 200.6 Amps$$
 Since 200.6A < 225A, 300 kcmil is insufficient!
 
 Trying **400 kcmil Copper** (NEC Table 310.16 base rating = 335A):
+
 $$I_derated = 335 A × 0.88 × 0.80 = 335 × 0.704 = 235.84 Amps$$
 
 Since 235.84A > 225A, 400 kcmil copper satisfies thermal ampacity rules!
@@ -384,14 +397,14 @@ Since 235.84A > 225A, 400 kcmil copper satisfies thermal ampacity rules!
 ---
 
 ### Step 3: Verify Voltage Drop Compliance for 400 kcmil Conductor
-From NEC Chapter 9 Table 9 (AC resistance for 400 kcmil copper in PVC conduit):
-R = 0.035 Ω / 1,000 ft
+From NEC Chapter 9 Table 9 (AC resistance for 400 kcmil copper in PVC conduit): R = 0.035 Ω / 1,000 ft.
 
 Calculating line voltage drop:
-$$V_drop = (√3 × 180 A × 350 ft × 0.035) / 1000$$
-$$V_drop = (1.732 × 180 × 350 × 0.035) / 1000 = 3820.7 / 1000 = 3.82 Volts$$
+
+$$V_drop = (√3 × 180 A × 350 ft × 0.035) / 1000 = 3.82 Volts$$
 
 Calculating percentage voltage drop (%VD):
+
 $$\%VD = (3.82 V / 480 V) × 100 = 0.795\%$$
 
 Since 0.795% <= 2.0% feeder limit, 400 kcmil copper conductor easily satisfies both thermal ampacity and NEC voltage drop criteria!
@@ -401,13 +414,13 @@ Since 0.795% <= 2.0% feeder limit, 400 kcmil copper conductor easily satisfies b
 ## 5. Summary Table: NEC Conductor Sizing Rules
 
 | Parameter | Code Standard | Rule / Formula |
-| :--- | :--- | :--- |
-| **Continuous Load** | NEC 210.20 | I_design = I_continuous × 1.25 |
-| **Branch Voltage Drop** | NEC 210.19(A) | Max 3.0% |
-| **Feeder Voltage Drop** | NEC 215.2(A) | Max 2.0% |
-| **Total System Drop** | NEC Informational Note | Max 5.0% combined |
-| **Temperature Derating** | NEC Table 310.15(B1) | I_allowable = I_table × K_temp |
-| **Raceway Fill Derating** | NEC Table 310.15(C1) | I_allowable = I_table × K_fill |
+| | --- | --- |
+| Continuous Load | NEC 210.20 | I_design = I_continuous × 1.25 |
+| Branch Voltage Drop | NEC 210.19(A) | Max 3.0% |
+| Feeder Voltage Drop | NEC 215.2(A) | Max 2.0% |
+| Total System Drop | NEC Informational Note | Max 5.0% combined |
+| Temperature Derating | NEC Table 310.15(B1) | I_allowable = I_table × K_temp |
+| Raceway Fill Derating | NEC Table 310.15(C1) | I_allowable = I_table × K_fill |
 
 ---
 
@@ -460,14 +473,16 @@ With **TARV Electrical Suite**:
     content: `
 # Case Study — 300 Hours vs. 30 Minutes: The Power of TARV BIM Automation
 
-## Project Background
+## 1. Project Background & Context
+
 On a high-profile 45-story commercial tower project located on Sheikh Zayed Road in Dubai, UAE, an international MEP engineering consultancy faced tight submittal deadlines for detailed HVAC cooling load calculations, electrical distribution board (DB) schedules, and fire protection sprinkler hydraulic calculations under strict Dubai Electricity and Water Authority (DEWA) and Dubai Central Laboratory (DCL) regulations.
 
 Historically, senior engineers calculated thermal loads and electrical voltage drops manually in isolated Excel workbooks and manually typed hundreds of resulting parameter values into Autodesk Revit element tags and schedule views.
 
 ---
 
-## The Core Problem & Challenges
+## 2. Core Engineering Challenges
+
 1. **Excessive Billable Time**: Over 300 engineering hours were expended during every design revision cycle simply transferring calculation numbers between Excel sheets and Revit drawings.
 2. **Human Error Risk**: Manual copy-pasting of CFM airflow and kW electrical values into Revit schedules led to parameter discrepancies between calculation reports and drawing sheets.
 3. **Repeated Re-work Cycles**: Client layout changes or architectural updates required repeating the entire manual calculation chain from scratch.
@@ -475,7 +490,8 @@ Historically, senior engineers calculated thermal loads and electrical voltage d
 
 ---
 
-## The TARV Automation Solution
+## 3. The TARV Automation Solution
+
 By deploying the **TARV Engineering Platform**:
 1. The project team connected TARV cloud solvers to their Revit 2026 3D model using the 2-way BIM plugin.
 2. Space airflow CFM, chiller plant loads, cable sizing runs, and plumbing fixture units were calculated instantly in TARV.
@@ -483,20 +499,21 @@ By deploying the **TARV Engineering Platform**:
 
 ---
 
-## Quantified Results & Impact
+## 4. Quantified Engineering Impact
 
 | Metric | Traditional Workflow | With TARV Platform | Improvement |
-| :--- | :--- | :--- | :--- |
-| **Calculation & Sync Time** | 300 Engineering Hours | 30 Minutes | **90% Reduction** |
-| **Parameter Discrepancies** | 42 Discrepancies / Rev | 0 Discrepancies | **100% Accuracy** |
-| **Authority Approval Time** | 4 Weeks | 5 Business Days | **75% Faster** |
-| **Cost Savings per Rev** | $0 | $28,400 Saved | **$28,400 Saved** |
+| | --- | --- | --- |
+| Calculation & Sync Time | 300 Engineering Hours | 30 Minutes | **90% Reduction** |
+| Parameter Discrepancies | 42 Discrepancies / Rev | 0 Discrepancies | **100% Accuracy** |
+| Authority Approval Time | 4 Weeks | 5 Business Days | **75% Faster** |
+| Cost Savings per Rev | $0 | $28,400 Saved | **$28,400 Saved** |
 
 ---
 
-## Key Lessons for MEP Engineering Leaders
-- **Automate Low-Value Data Transfer**: Senior engineers should spend time engineering solutions, not copy-pasting numbers into software tags.
-- **Bi-Directional Cloud Sync**: Establishing a single source of truth between cloud calculation engines and 3D BIM models eliminates expensive site rework.
+## 5. Key Lessons for MEP Engineering Leaders
+
+1. **Automate Low-Value Data Transfer**: Senior engineers should spend time engineering solutions, not copy-pasting numbers into software tags.
+2. **Bi-Directional Cloud Sync**: Establishing a single source of truth between cloud calculation engines and 3D BIM models eliminates expensive site rework.
     `,
   },
   {
@@ -569,6 +586,7 @@ Where:
 - **d**: Internal pipe diameter (inches)
 
 ### Water Velocity Limit Equation
+
 $$\text{Velocity } (V) = (0.408 × Q) / d²$$
 
 To prevent pipe erosion-corrosion and water hammer noise, velocity must satisfy:
@@ -592,6 +610,7 @@ Let us size the main domestic cold water supply riser for a 5-story residential 
 
 ### Step 1: Determine Peak Demand Flow (Q_peak) via Hunter's Curve
 Using IPC Table 604.3 conversion for predominantly tank-type fixtures:
+
 $$125 WSFU \implies Q_peak = 48 GPM$$
 
 ---
@@ -1011,7 +1030,8 @@ BIM coordination is only as good as the parameter data living inside elements. W
 
 ---
 
-## The 5 Common BIM Schedule Pitfalls
+## 1. The 5 Common BIM Schedule Pitfalls
+
 1. **Shared Parameter GUID Mismatches**: Custom family parameters not matching project shared parameter definitions.
 2. **Unit Conversion Bugs**: Inadvertently mixing Imperial (CFM, GPM, BTU/hr) and Metric (m³/h, L/s, kW) parameters.
 3. **Out-of-Date Mechanical Equipment Tags**: Revisions made in engineering spreadsheets failing to update Revit tags before submission.
@@ -1020,7 +1040,8 @@ BIM coordination is only as good as the parameter data living inside elements. W
 
 ---
 
-## The TARV 2-Way Sync Solution
+## 2. The TARV 2-Way Sync Solution
+
 TARV bridges cloud calculation engines directly into Revit 2024–2026 via native API calls, updating space CFM, cooling tons, and cable sizes in under 2 seconds.
     `,
   },
@@ -1057,14 +1078,16 @@ MEP consulting firms operating in the Middle East (UAE, Saudi Arabia, Qatar, Oma
 
 ---
 
-## Key Regional Requirements:
+## 1. Key Regional Authority Requirements
+
 1. **DEWA (Dubai Electricity and Water Authority)**: Strict power factor limits (>= 0.95), continuous cable derating for 50°C ambient soil/air temperatures.
 2. **DCL (Dubai Central Laboratory)**: Green Building Regulation envelope thermal transmittance values (U-values max 0.3 W/m²K).
 3. **Saudi Building Code (SBC 601 & 401)**: Energy conservation and electrical installation compliance rules.
 
 ---
 
-## How TARV Pre-Configures Regional Codes
+## 2. How TARV Pre-Configures Regional Codes
+
 TARV includes pre-set calculation templates tailored for GCC local authorities, allowing engineers to generate authority-ready calculation submittals with 1 click.
     `,
   },

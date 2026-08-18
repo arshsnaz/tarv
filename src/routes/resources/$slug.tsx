@@ -391,6 +391,52 @@ function ArticleDetailPage() {
                   />
                 );
               }
+              if (trimmed.startsWith("#### ")) {
+                const text = trimmed.replace("#### ", "");
+                return (
+                  <h4
+                    key={idx}
+                    className="text-base font-bold tracking-tight text-brand pt-3"
+                    dangerouslySetInnerHTML={{ __html: formatInlineText(text) }}
+                  />
+                );
+              }
+
+              // Markdown Tables
+              if (trimmed.includes("|") && trimmed.includes("\n")) {
+                const lines = trimmed.split("\n").filter((l) => l.trim().startsWith("|"));
+                if (lines.length >= 2) {
+                  const headers = lines[0].split("|").filter((c) => c.trim().length > 0).map((c) => c.trim());
+                  const dataRows = lines.slice(lines[1].includes("---") ? 2 : 1);
+                  return (
+                    <div key={idx} className="my-6 overflow-x-auto rounded-2xl border border-border/80 bg-card/80 p-1 shadow-lg">
+                      <table className="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                          <tr className="border-b border-border/60 bg-muted/50">
+                            {headers.map((h, i) => (
+                              <th key={i} className="p-3.5 font-extrabold text-foreground uppercase tracking-wider text-[11px] text-brand">
+                                {h}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border/40">
+                          {dataRows.map((row, rIdx) => {
+                            const cells = row.split("|").filter((c) => c.trim().length > 0).map((c) => c.trim());
+                            return (
+                              <tr key={rIdx} className="hover:bg-muted/30 transition-colors">
+                                {cells.map((cell, cIdx) => (
+                                  <td key={cIdx} className="p-3.5 text-muted-foreground font-medium" dangerouslySetInnerHTML={{ __html: formatInlineText(cell) }} />
+                                ))}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  );
+                }
+              }
 
               // Formula Callout Card (standalone block)
               if (trimmed.startsWith("$$") && trimmed.endsWith("$$")) {
@@ -420,6 +466,23 @@ function ArticleDetailPage() {
                       </li>
                     ))}
                   </ul>
+                );
+              }
+
+              // Numbered List Item
+              if (/^\d+\.\s/.test(trimmed)) {
+                const items = trimmed.split(/\n(?=\d+\.\s)/).map((item) => item.replace(/^\d+\.\s*/, ""));
+                return (
+                  <ol key={idx} className="space-y-3 my-4 pl-2">
+                    {items.map((it, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm sm:text-base text-muted-foreground">
+                        <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand/10 border border-brand/30 text-brand text-xs font-bold font-mono">
+                          {i + 1}
+                        </span>
+                        <span className="pt-0.5" dangerouslySetInnerHTML={{ __html: formatInlineText(it) }} />
+                      </li>
+                    ))}
+                  </ol>
                 );
               }
 
