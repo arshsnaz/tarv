@@ -141,6 +141,7 @@ const footerCols = [
       { label: "AI Solver", to: "/#ai" },
       { label: "Calculators", to: "/#calculators" },
       { label: "Pricing & Plans", to: "/pricing" },
+      { label: "Resources & Guides", to: "/resources" },
     ],
   },
   {
@@ -148,6 +149,7 @@ const footerCols = [
     links: [
       { label: "About Us", to: "/about" },
       { label: "Pricing", to: "/pricing" },
+      { label: "Resources Hub", to: "/resources" },
       { label: "Knowledge Base & FAQ", to: "/#company" },
       { label: "Careers", to: "/careers" },
       { label: "Contact Us", to: "/contact" },

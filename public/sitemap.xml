@@ -16,6 +16,72 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://tarvofficial.vercel.app/resources</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/ashrae-cooling-load-calculation-guide</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/nec-2023-voltage-drop-cable-sizing</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/300-hours-vs-30-minutes-power-of-tarv</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/ipc-2024-fixture-units-water-demand-sizing</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/duct-static-pressure-loss-smacna-ashrae</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/nfpa-13-fire-protection-sprinkler-k-factor</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/kva-generator-transformer-sizing-nec-iec</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/psychrometric-air-condition-cooling-process</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/revit-parameter-syncing-5-pitfalls-automation</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tarvofficial.vercel.app/resources/dubai-dewa-dcl-mep-calculation-compliance-guide</loc>
+    <lastmod>2026-08-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tarvofficial.vercel.app/access</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>weekly</changefreq>

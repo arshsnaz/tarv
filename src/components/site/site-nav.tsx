@@ -8,6 +8,7 @@ const links = [
   { href: "#platform", label: "Platform" },
   { href: "#hvac", label: "HVAC" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/resources", label: "Resources" },
   { href: "#ai", label: "AI" },
   { href: "#company", label: "Company" },
 ];
