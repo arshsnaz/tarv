@@ -129,20 +129,53 @@ function formatInlineText(text: string, currentSlug?: string): string {
 
   // Internal cross-linking rules for SEO authority (avoid self-linking!)
   const linkRules: { pattern: RegExp; target: string; replacement: string; slug?: string }[] = [
-    { pattern: /\bTARV AI (?:HVAC|MEP|Engineering)? Engine\b/g, target: "/access", replacement: "TARV AI Engine" },
+    // Platform Core Links (Access & Pricing)
+    { pattern: /\bTARV AI (?:HVAC|MEP|Engineering)? Engine\b/gi, target: "/access", replacement: "TARV AI Engine" },
     { pattern: /\bFree Online MEP Calculator\b/gi, target: "/access", replacement: "Free Online MEP Calculator" },
     { pattern: /\bInstant Access\b/gi, target: "/access", replacement: "Instant Access" },
     { pattern: /\bCommercial Plans\b/gi, target: "/pricing", replacement: "Commercial Plans" },
     { pattern: /\bPro Plan\b/gi, target: "/pricing", replacement: "Pro Plan" },
+
+    // Article 1: ASHRAE Cooling Load
     { pattern: /\bASHRAE 62\.1-2022\b/g, target: "/resources/ashrae-cooling-load-calculation-guide", replacement: "ASHRAE 62.1-2022", slug: "ashrae-cooling-load-calculation-guide" },
     { pattern: /\bASHRAE Standard 62\.1\b/g, target: "/resources/ashrae-cooling-load-calculation-guide", replacement: "ASHRAE Standard 62.1", slug: "ashrae-cooling-load-calculation-guide" },
+
+    // Article 2: NEC Voltage Drop
     { pattern: /\bNEC 2023\b/g, target: "/resources/nec-2023-voltage-drop-cable-sizing", replacement: "NEC 2023", slug: "nec-2023-voltage-drop-cable-sizing" },
+    { pattern: /\bVoltage Drop\b/gi, target: "/resources/nec-2023-voltage-drop-cable-sizing", replacement: "Voltage Drop", slug: "nec-2023-voltage-drop-cable-sizing" },
+
+    // Article 3: IPC Water Fixture Units
     { pattern: /\bIPC 2024\b/g, target: "/resources/ipc-2024-fixture-units-water-demand-sizing", replacement: "IPC 2024", slug: "ipc-2024-fixture-units-water-demand-sizing" },
+    { pattern: /\bHunter's Curve\b/gi, target: "/resources/ipc-2024-fixture-units-water-demand-sizing", replacement: "Hunter's Curve", slug: "ipc-2024-fixture-units-water-demand-sizing" },
+
+    // Article 4: SMACNA Duct Static Pressure
     { pattern: /\bSMACNA\b/g, target: "/resources/duct-static-pressure-loss-smacna-ashrae", replacement: "SMACNA", slug: "duct-static-pressure-loss-smacna-ashrae" },
+    { pattern: /\bDuct Static Pressure\b/gi, target: "/resources/duct-static-pressure-loss-smacna-ashrae", replacement: "Duct Static Pressure", slug: "duct-static-pressure-loss-smacna-ashrae" },
+
+    // Article 5: NFPA 13 Fire Sprinkler
     { pattern: /\bNFPA 13\b/g, target: "/resources/nfpa-13-fire-protection-sprinkler-k-factor", replacement: "NFPA 13", slug: "nfpa-13-fire-protection-sprinkler-k-factor" },
+    { pattern: /\bSprinkler K-Factor\b/gi, target: "/resources/nfpa-13-fire-protection-sprinkler-k-factor", replacement: "Sprinkler K-Factor", slug: "nfpa-13-fire-protection-sprinkler-k-factor" },
+
+    // Article 6: Psychrometric Processes
+    { pattern: /\bPsychrometric\b/gi, target: "/resources/psychrometric-air-condition-cooling-process", replacement: "Psychrometric", slug: "psychrometric-air-condition-cooling-process" },
+    { pattern: /\bSensible Heat Ratio\b/gi, target: "/resources/psychrometric-air-condition-cooling-process", replacement: "Sensible Heat Ratio", slug: "psychrometric-air-condition-cooling-process" },
+
+    // Article 7: GCC & DEWA Code Compliance
     { pattern: /\bDEWA\b/g, target: "/resources/dubai-dewa-dcl-mep-calculation-compliance-guide", replacement: "DEWA", slug: "dubai-dewa-dcl-mep-calculation-compliance-guide" },
     { pattern: /\bDCL Al Sa'fat\b/g, target: "/resources/dubai-dewa-dcl-mep-calculation-compliance-guide", replacement: "DCL Al Sa'fat", slug: "dubai-dewa-dcl-mep-calculation-compliance-guide" },
-    { pattern: /\bRevit Parameter Syncing\b/g, target: "/resources/revit-parameter-syncing-5-pitfalls-automation", replacement: "Revit Parameter Syncing", slug: "revit-parameter-syncing-5-pitfalls-automation" },
+    { pattern: /\bSaudi Building Code\b/gi, target: "/resources/dubai-dewa-dcl-mep-calculation-compliance-guide", replacement: "Saudi Building Code", slug: "dubai-dewa-dcl-mep-calculation-compliance-guide" },
+
+    // Article 8: Revit Parameter Syncing
+    { pattern: /\bRevit Parameter Syncing\b/gi, target: "/resources/revit-parameter-syncing-5-pitfalls-automation", replacement: "Revit Parameter Syncing", slug: "revit-parameter-syncing-5-pitfalls-automation" },
+    { pattern: /\bBIM Schedule Pitfalls\b/gi, target: "/resources/revit-parameter-syncing-5-pitfalls-automation", replacement: "BIM Schedule Pitfalls", slug: "revit-parameter-syncing-5-pitfalls-automation" },
+
+    // Article 9: Hospital Isolation Rooms ASHRAE 170
+    { pattern: /\bASHRAE 170\b/g, target: "/resources/hospital-isolation-room-hvac-ashrae-170", replacement: "ASHRAE 170", slug: "hospital-isolation-room-hvac-ashrae-170" },
+    { pattern: /\bHospital Isolation Room\b/gi, target: "/resources/hospital-isolation-room-hvac-ashrae-170", replacement: "Hospital Isolation Room", slug: "hospital-isolation-room-hvac-ashrae-170" },
+
+    // Article 10: Data Center Cooling ASHRAE TC 9.9
+    { pattern: /\bASHRAE TC 9\.9\b/g, target: "/resources/data-center-cooling-ashrae-tc99-pue", replacement: "ASHRAE TC 9.9", slug: "data-center-cooling-ashrae-tc99-pue" },
+    { pattern: /\bData Center Cooling\b/gi, target: "/resources/data-center-cooling-ashrae-tc99-pue", replacement: "Data Center Cooling", slug: "data-center-cooling-ashrae-tc99-pue" },
   ];
 
   linkRules.forEach(({ pattern, target, replacement, slug }) => {
