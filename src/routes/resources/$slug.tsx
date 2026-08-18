@@ -658,25 +658,25 @@ function ArticleDetailPage() {
                 </div>
               </div>
             </div>
-            <div className="my-10 glass rounded-3xl p-6 sm:p-8 border border-brand/40 bg-brand/5 shadow-xl">
-              <div className="flex items-start gap-4">
-                <div className="grid size-12 place-items-center rounded-2xl bg-brand text-brand-foreground shrink-0 shadow-lg">
-                  <Calculator size={24} />
+            <div className="my-10 glass rounded-3xl p-5 sm:p-8 border border-brand/40 bg-brand/5 shadow-xl relative overflow-hidden">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
+                <div className="grid size-12 sm:size-14 place-items-center rounded-2xl bg-brand text-brand-foreground shrink-0 shadow-lg">
+                  <Calculator className="size-6 sm:size-7" />
                 </div>
-                <div className="space-y-2">
-                  <h4 className="text-lg font-bold text-foreground">
+                <div className="space-y-3 w-full">
+                  <h4 className="text-base sm:text-xl font-extrabold text-foreground">
                     Try the Live TARV {article.category} Calculator
                   </h4>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-2xl">
                     Calculate your engineering project thermal loads, cable drop runs, and plumbing sizing in 0.01 seconds mapped directly to official code rules.
                   </p>
-                  <div className="pt-2">
+                  <div className="pt-2 flex justify-center sm:justify-start">
                     <Link
                       to="/access"
-                      className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-extrabold text-primary-foreground shadow-md hover:opacity-90 transition-opacity"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-xs sm:text-sm font-extrabold text-primary-foreground shadow-md hover:opacity-90 transition-all w-full sm:w-auto"
                     >
                       <span>Open Free Online Calculator</span>
-                      <ArrowRight size={14} />
+                      <ArrowRight size={16} />
                     </Link>
                   </div>
                 </div>
