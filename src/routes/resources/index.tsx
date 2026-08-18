@@ -168,8 +168,18 @@ function ResourcesPage() {
 
                   <div className="flex items-center gap-4 pt-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="size-9 rounded-full bg-brand/20 text-brand grid place-items-center font-bold text-xs">
-                        {featuredArticle.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
+                      <div className="size-10 rounded-full overflow-hidden border border-brand/30 bg-brand/20 shrink-0 shadow-md">
+                        {featuredArticle.author.avatar ? (
+                          <img
+                            src={featuredArticle.author.avatar}
+                            alt={featuredArticle.author.name}
+                            className="size-full object-cover"
+                          />
+                        ) : (
+                          <div className="size-full grid place-items-center font-bold text-xs text-brand">
+                            {featuredArticle.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <div className="text-xs font-bold text-foreground">{featuredArticle.author.name}</div>

@@ -28,7 +28,7 @@ export const ARTICLES: Article[] = [
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
     tags: ["ASHRAE 62.1", "Cooling Load", "HVAC Design", "Fresh Air CFM"],
@@ -104,7 +104,7 @@ With **TARV MEP Calculator**:
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
     tags: ["NEC 2023", "Voltage Drop", "Cable Sizing", "Electrical Load"],
@@ -161,7 +161,7 @@ Rather than manually consulting NEC resistance tables and typing values into sta
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
     tags: ["Revit BIM", "Case Study", "Workflow Automation", "MEP Productivity"],
@@ -207,7 +207,7 @@ By deploying **TARV Engineering Suite**:
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
     tags: ["IPC 2024", "Plumbing Sizer", "WSFU", "Water Demand"],
@@ -261,7 +261,7 @@ TARV’s **Plumbing Calculator** automatically aggregates fixture counts, maps H
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80",
     tags: ["Ductulator", "Static Pressure", "SMACNA", "HVAC Sizer"],
@@ -313,7 +313,7 @@ TARV’s **Duct Sizing Calculator** calculates rectangular, circular, and flat-o
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
     tags: ["NFPA 13", "Fire Fighting", "K-Factor", "Hydraulic Sizing"],
@@ -362,7 +362,7 @@ TARV automatically balances remote area hydraulic trees, determines required fir
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
     tags: ["Electrical Load", "Transformer Sizing", "Generator kVA", "NEC"],
@@ -407,7 +407,7 @@ TARV’s **Electrical Calculator** compiles connected vs. demand loads across li
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
     tags: ["Psychrometrics", "SHR", "Enthalpy", "HVAC Design"],
@@ -453,7 +453,7 @@ Use TARV’s interactive **Psychrometric Calculator** to plot air mixing process
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
     tags: ["Revit BIM", "BIM Automation", "Parameter Sync", "Revit Addin"],
@@ -488,7 +488,7 @@ TARV bridges cloud calculation engines directly into Revit 2024–2026 via nativ
     author: {
       name: "Salil Kulkarni",
       role: "CEO & Founder, TARV",
-      avatar: "/favicon.png",
+      avatar: "/salil-kulkarni.jpg",
     },
     image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
     tags: ["DEWA", "DCL Dubai", "Saudi SBC", "GCC Engineering"],

@@ -152,8 +152,18 @@ function ArticleDetailPage() {
           {/* Author Row & Share Action */}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-4">
             <div className="flex items-center gap-3">
-              <div className="size-11 rounded-full bg-brand/20 text-brand grid place-items-center font-extrabold text-sm border border-brand/30">
-                {article.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
+              <div className="size-12 rounded-full overflow-hidden border border-brand/40 bg-brand/20 shrink-0 shadow-lg">
+                {article.author.avatar ? (
+                  <img
+                    src={article.author.avatar}
+                    alt={article.author.name}
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  <div className="size-full grid place-items-center font-extrabold text-sm text-brand">
+                    {article.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
+                  </div>
+                )}
               </div>
               <div>
                 <div className="text-sm font-extrabold text-foreground">{article.author.name}</div>
