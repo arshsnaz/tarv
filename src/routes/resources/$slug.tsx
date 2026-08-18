@@ -179,8 +179,9 @@ function formatInlineText(text: string, currentSlug?: string): string {
   ];
 
   linkRules.forEach(({ pattern, target, replacement, slug }) => {
-    // Prevent self-linking inside the same article!
+    // Absolutely NEVER link to the current article!
     if (slug && currentSlug === slug) return;
+    if (currentSlug && (target === `/resources/${currentSlug}` || target.endsWith(`/${currentSlug}`))) return;
 
     formatted = formatted.replace(pattern, `<a href="${target}" class="text-brand font-semibold hover:underline border-b border-brand/40 transition-colors">${replacement}</a>`);
   });
@@ -539,7 +540,7 @@ function ArticleDetailPage() {
               {article.keyTakeaways.map((takeaway, i) => (
                 <div key={i} className="flex items-start gap-3 text-xs sm:text-sm text-foreground leading-relaxed">
                   <CheckCircle2 size={16} className="text-brand shrink-0 mt-0.5" />
-                  <span>{takeaway}</span>
+                  <span dangerouslySetInnerHTML={{ __html: formatInlineText(takeaway, article?.slug) }} />
                 </div>
               ))}
             </div>
