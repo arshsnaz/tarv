@@ -622,24 +622,37 @@ function ArticleDetailPage() {
             {/* Author / CEO Spotlight Card */}
             <div className="my-10 glass rounded-3xl p-6 sm:p-8 border border-brand/30 bg-card/90 shadow-xl relative overflow-hidden">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                <img
-                  src={article.author.avatar}
-                  alt={article.author.name}
-                  className="size-24 sm:size-28 rounded-2xl object-cover border-2 border-brand/40 shadow-md shrink-0"
-                />
+                <div className="flex flex-col items-center gap-3 shrink-0">
+                  <img
+                    src={article.author.avatar}
+                    alt={article.author.name}
+                    className="size-24 sm:size-28 rounded-2xl object-cover border-2 border-brand/40 shadow-md"
+                  />
+                  <a
+                    href="https://www.linkedin.com/in/salil-kulkarni-76421919b/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0A66C2] text-white text-[11px] font-extrabold shadow-md hover:bg-[#004182] transition-all"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                    </svg>
+                    <span>LinkedIn Profile</span>
+                  </a>
+                </div>
                 <div className="space-y-2 text-center sm:text-left">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-[10px] font-extrabold uppercase tracking-widest text-brand">
                     <User size={12} />
                     <span>AUTHOR & CEO SPOTLIGHT</span>
                   </div>
                   <h3 className="text-xl font-extrabold text-foreground">{article.author.name}</h3>
-                  <div className="text-xs font-extrabold text-brand">{article.author.role}</div>
+                  <div className="text-xs font-extrabold text-brand">{article.author.role} | R&D Manager, Consistent Engineering Consultants</div>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    Salil Kulkarni is the CEO & Founder of TARV, building the world's most advanced AI-powered MEP calculation software and 2-way Revit BIM synchronization suite. Salil writes in-depth masterclass engineering handbooks covering ASHRAE, NEC, IPC, NFPA, and GCC authority compliance.
+                    Salil Kulkarni holds a B.S. in Mechanical Engineering from <strong>Purdue University</strong> and serves as the R&D Manager at Consistent Engineering Consultants in Dubai, UAE. Combining mechanical design physics, robotics, and Python AI, Salil founded TARV to pioneer 2-way BIM parameter automation.
                   </p>
                   <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                    <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">ASHRAE Member</span>
-                    <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">BIM Automation Lead</span>
+                    <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">Purdue Mechanical Engineering</span>
+                    <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">Consistent Engineering Consultants</span>
                     <span className="px-2.5 py-0.5 rounded-md bg-muted text-[10px] font-bold text-foreground">Dubai, UAE</span>
                   </div>
                 </div>

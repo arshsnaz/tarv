@@ -108,7 +108,7 @@ function AboutPage() {
         <Reveal>
           <div className="mb-24 glass rounded-[2.5rem] p-8 md:p-12 border border-brand/30 bg-brand/5 shadow-2xl relative overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-4 flex justify-center">
+              <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
                 <div className="relative group">
                   <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand to-cyan-500 blur-lg opacity-40 group-hover:opacity-75 transition duration-500" />
                   <img
@@ -117,6 +117,17 @@ function AboutPage() {
                     className="relative rounded-2xl w-56 h-56 md:w-64 md:h-64 object-cover border-2 border-brand/50 shadow-2xl"
                   />
                 </div>
+                <a
+                  href="https://www.linkedin.com/in/salil-kulkarni-76421919b/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0A66C2] text-white text-xs font-extrabold shadow-lg hover:bg-[#004182] transition-all"
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                  </svg>
+                  <span>Connect on LinkedIn</span>
+                </a>
               </div>
 
               <div className="lg:col-span-8 space-y-4 text-left">
@@ -125,20 +136,21 @@ function AboutPage() {
                   <span>FOUNDER & LEADERSHIP</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Salil Kulkarni</h2>
-                <div className="text-brand font-extrabold text-base md:text-lg">CEO & Founder, TARV</div>
+                <div className="text-brand font-extrabold text-base md:text-lg">CEO & Founder, TARV | R&D Manager, Consistent Engineering Consultants</div>
 
                 <p className="text-muted-foreground leading-relaxed text-base">
-                  Salil Kulkarni is the Founder and Chief Executive Officer of TARV. With extensive expertise in MEP engineering, Building Information Modeling (BIM), and software automation, Salil established TARV to bridge the gap between complex engineering calculations and real-time 3D Revit models.
+                  Salil Kulkarni holds a <strong>B.S. in Mechanical Engineering from Purdue University</strong> (ASME, Autonomous Robotics Club) and serves as the <strong>R&D Manager at Consistent Engineering Consultants</strong> in Dubai, UAE.
                 </p>
 
                 <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                  Under his leadership, TARV has grown into an international engineering platform trusted by MEP consultancies across the GCC and globally to automate HVAC cooling loads, NEC voltage drops, IPC plumbing fixture units, and authority compliance submittals.
+                  Combining a rich background in mechanical engineering design, robotics, and Python AI/Data Science, Salil founded TARV to pioneer physics-driven MEP software automation. Under his leadership, TARV bridges the gap between ASHRAE/NEC engineering physics and 2-way 3D Revit BIM model synchronization.
                 </p>
 
                 <div className="pt-2 flex flex-wrap gap-2">
-                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">ASHRAE Member</span>
-                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">BIM & AI Automation Specialist</span>
-                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">MEP Design Leader</span>
+                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">Purdue Mechanical Engineering</span>
+                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">R&D Manager @ Consistent Engineering</span>
+                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">Python AI & Data Science</span>
+                  <span className="px-3 py-1 rounded-full bg-card border border-border text-xs font-bold text-foreground">Revit BIM Automation</span>
                 </div>
               </div>
             </div>
