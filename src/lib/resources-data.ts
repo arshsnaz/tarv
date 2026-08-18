@@ -1148,6 +1148,7 @@ Where:
 Let us size the most hydraulically remote branch line and calculate the fire pump duty head requirement for an Ordinary Hazard Group 1 (OH1) commercial building:
 
 ### Design Requirements & Inputs
+
 - **Occupancy Hazard**: Ordinary Hazard Group 1 (OH1)
 - **Design Discharge Density**: $0.15 \text{ GPM/ft}^2$ over $1,500 \text{ ft}^2$ remote area
 - **Coverage Area per Sprinkler ($A_s$)**: $130 \text{ ft}^2$ per sprinkler head

@@ -51,26 +51,31 @@ export const Route = createFileRoute("/resources/$slug")({
 
 function formatLatexFormula(raw: string): string {
   if (!raw) return "";
-  let str = raw;
-  // Clean up tab-escaped or raw LaTeX keywords safely using replacement function
-  str = str.replace(/\\?t?ext\{([^}]+)\}/g, (_, g1) => g1 || "");
-  str = str.replace(/\\?times|\\?imes/g, " × ");
-  str = str.replace(/\\?cdot|\\?cdot/g, " · ");
-  str = str.replace(/\\?sqrt\{([^}]+)\}/g, "√($1)");
-  str = str.replace(/\\?frac\{([^}]+)\}\{([^}]+)\}/g, "($1 / $2)");
-  str = str.replace(/\\?binom\{([^}]+)\}\{([^}]+)\}/g, "C($1, $2)");
-  str = str.replace(/\\?sum/g, "Σ");
-  str = str.replace(/\\?Delta/g, "Δ");
-  str = str.replace(/\\?rho/g, "ρ");
-  str = str.replace(/\\?le/g, "≤");
-  str = str.replace(/\\?ge/g, "≥");
-  str = str.replace(/\\?pi/g, "π");
-  str = str.replace(/\^?\\?circ/g, "°");
-  str = str.replace(/_\{([^}]+)\}/g, "_$1");
-  str = str.replace(/\^2/g, "²");
-  str = str.replace(/\^3/g, "³");
-  str = str.replace(/\\/g, "");
-  return str.replace(/\s+/g, " ").trim();
+  
+  const lines = raw.split("\n").map((line) => {
+    let l = line.trim();
+    if (!l) return "";
+    l = l.replace(/\\text\s*\{([^}]+)\}/g, "$1");
+    l = l.replace(/\\times/g, " × ");
+    l = l.replace(/\\cdot/g, " · ");
+    l = l.replace(/\\sqrt\{([^}]+)\}/g, "√($1)");
+    l = l.replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, "($1 / $2)");
+    l = l.replace(/\\binom\{([^}]+)\}\{([^}]+)\}/g, "C($1, $2)");
+    l = l.replace(/\\sum/g, "Σ");
+    l = l.replace(/\\Delta/g, "Δ");
+    l = l.replace(/\\rho/g, "ρ");
+    l = l.replace(/\\le\b/g, "≤");
+    l = l.replace(/\\ge\b/g, "≥");
+    l = l.replace(/\\pi\b/g, "π");
+    l = l.replace(/\^?\\circ/g, "°");
+    l = l.replace(/_\{([^}]+)\}/g, "_$1");
+    l = l.replace(/\^2/g, "²");
+    l = l.replace(/\^3/g, "³");
+    l = l.replace(/\\/g, "");
+    return l;
+  }).filter(Boolean);
+
+  return lines.join("<br />");
 }
 
 function formatInlineText(text: string): string {
