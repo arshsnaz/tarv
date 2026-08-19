@@ -9,7 +9,7 @@ import { Reveal } from "./reveal";
  */
 const PX_PER_SECOND = 240;
 const HERO_VIDEO_START_TIME = 0;
-const heroVideoSrc = `${import.meta.env.BASE_URL}kling_20260819_VIDEO_can_you_co_3877_0.mp4`;
+const heroVideoSrc = `${import.meta.env.BASE_URL}ref1.mp4`;
 const logoSrc = `${import.meta.env.BASE_URL}favicon.png`;
 
 export function HomeHero() {
