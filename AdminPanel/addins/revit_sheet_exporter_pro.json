@@ -1,0 +1,22 @@
+{
+  "id": "addin_revit_exporter",
+  "name": "Revit Exporter Suite",
+  "slug": "revit-exporter-suite",
+  "description": "Complete multi-format CAD & BIM sheet exporter for Autodesk Revit 2022-2026.",
+  "category": "Revit Add-in",
+  "targetApplication": "Autodesk Revit",
+  "version": "v3.1.0",
+  "developer": "Consistent Solutions",
+  "iconBgColor": "bg-blue-600",
+  "status": "active",
+  "plans": [
+    {
+      "id": "plan_revit_pro",
+      "name": "Pro",
+      "price": "$299/yr",
+      "maxActivations": 5,
+      "offlineGraceDays": 14,
+      "features": ["DWGExport", "PDFExport", "BatchExport", "NamingTemplates"]
+    }
+  ]
+}

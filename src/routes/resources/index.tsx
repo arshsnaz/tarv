@@ -16,7 +16,15 @@ import {
   FileText,
   User,
   ArrowUp,
+  Download,
+  Flame,
+  Zap,
+  Wind,
+  Droplets,
+  ShieldCheck,
+  FileSpreadsheet
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/resources/")({
   head: () => ({
@@ -54,6 +62,30 @@ const CATEGORIES = [
   "Revit Sync",
   "Case Studies",
 ] as const;
+
+const FREE_DOWNLOADS = [
+  {
+    title: "ASHRAE 62.1 Ventilation & Cooling Sizing Cheatsheet",
+    desc: "Quick reference table for outdoor airflow rates, occupancy density, and CFM formulas.",
+    file: "/downloads/ashrae_62_1_cheatsheet.pdf",
+    icon: Flame,
+    color: "text-cyan-500 bg-cyan-500/10"
+  },
+  {
+    title: "NEC 2023 Feeder Voltage Drop & Cable Sizing Guide",
+    desc: "3-phase & single-phase voltage drop equations, impedance tables, and ambient derating factors.",
+    file: "/downloads/nec_2023_voltage_drop_guide.pdf",
+    icon: Zap,
+    color: "text-amber-500 bg-amber-500/10"
+  },
+  {
+    title: "IPC Hunter Curve Fixture Unit GPM Hydraulic Matrix",
+    desc: "Convert WSFU & DFU counts directly to peak GPM water demand and pipe diameter sizing.",
+    file: "/downloads/ipc_hunter_curve_matrix.pdf",
+    icon: Droplets,
+    color: "text-blue-500 bg-blue-500/10"
+  }
+];
 
 function ResourcesPage() {
   const [search, setSearch] = useState("");
@@ -99,50 +131,50 @@ function ResourcesPage() {
   const featuredArticle = ARTICLES.find((a) => a.featured) || ARTICLES[0];
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans overflow-x-hidden">
       <SiteNav />
 
-      <main className="flex-1 pt-28 pb-24 px-4 md:px-6 max-w-7xl mx-auto w-full">
+      <main className="flex-1 pt-32 pb-24 px-4 md:px-6 max-w-7xl mx-auto w-full space-y-16">
         {/* Hero Section */}
-        <div className="text-center max-w-4xl mx-auto pt-6 pb-12">
+        <div className="text-center max-w-4xl mx-auto space-y-6">
           <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-4 py-1.5 text-xs font-bold text-brand backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-extrabold uppercase tracking-wider shadow-xs">
               <BookOpen size={14} />
               <span>TARV ENGINEERING KNOWLEDGE HUB</span>
             </div>
           </Reveal>
 
           <Reveal delay={80}>
-            <h1 className="text-balance mt-6 font-display text-4xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-tight">
               Engineering Formulas, <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-slate-900 via-blue-600 to-blue-500 bg-clip-text text-transparent dark:from-white dark:via-blue-400 dark:to-blue-500">
-                Standards & Revit Automation.
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                Codes & BIM Automation Guides
               </span>
             </h1>
           </Reveal>
 
           <Reveal delay={140}>
-            <p className="mt-6 text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Deeply technical guides, ASHRAE / NEC / IPC reference equations, and real-world case studies for mechanical, electrical, plumbing, and BIM engineers.
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              Deep technical articles, ASHRAE / NEC / IPC reference equations, and Autodesk Revit BIM automation tutorials authored by senior MEP engineering leaders.
             </p>
           </Reveal>
 
-          {/* Real-time Search Bar */}
-          <Reveal delay={200} className="mt-10 max-w-2xl mx-auto relative">
+          {/* Real-time Search Input */}
+          <Reveal delay={200} className="pt-2 max-w-2xl mx-auto">
             <div className="relative flex items-center">
-              <Search className="absolute left-4 size-5 text-brand shrink-0" />
+              <Search className="absolute left-4 size-5 text-cyan-500 shrink-0" />
               <input
                 type="text"
-                placeholder="Search articles by keyword (e.g. ASHRAE, NEC 2023, Voltage Drop, Fixture Units)..."
+                placeholder="Search by topic (e.g. ASHRAE 62.1, NEC 2023, Voltage Drop, Fixture Units)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-full border-2 border-brand/30 bg-card/90 dark:bg-slate-900/90 py-4 pl-12 pr-4 text-sm font-semibold text-foreground placeholder:text-muted-foreground/70 dark:placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/20 backdrop-blur-2xl shadow-xl transition-all"
+                className="w-full rounded-2xl border border-border bg-card py-4 pl-12 pr-4 text-xs font-semibold text-foreground placeholder:text-muted-foreground focus:border-cyan-500 focus:outline-none shadow-xl transition-all"
               />
             </div>
           </Reveal>
 
           {/* Topic Pills */}
-          <Reveal delay={240} className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
+          <Reveal delay={240} className="pt-2 flex flex-wrap items-center justify-center gap-2">
             {CATEGORIES.map((cat) => {
               const count = categoryCounts[cat] || 0;
               const isSelected = selectedCategory === cat;
@@ -150,18 +182,18 @@ function ResourcesPage() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`inline-flex items-center gap-2 rounded-full px-4.5 py-2.5 text-xs sm:text-sm font-extrabold transition-all duration-300 ${
+                  className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-extrabold transition-all duration-200 cursor-pointer ${
                     isSelected
-                      ? "bg-brand text-brand-foreground shadow-lg shadow-brand/25 scale-105 border border-brand"
-                      : "border border-border/80 dark:border-white/20 bg-card/80 dark:bg-slate-900/80 text-foreground/90 dark:text-slate-200 hover:border-brand/50 hover:bg-card dark:hover:bg-slate-800 backdrop-blur-md"
+                      ? "bg-cyan-500 text-slate-950 shadow-md"
+                      : "border border-border bg-card text-muted-foreground hover:text-foreground hover:border-cyan-500/40"
                   }`}
                 >
                   <span>{cat}</span>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[11px] font-black font-mono ${
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-mono font-black ${
                       isSelected
-                        ? "bg-black/20 text-white"
-                        : "bg-brand/10 dark:bg-brand/20 text-brand dark:text-cyan-300 border border-brand/20"
+                        ? "bg-slate-950/20 text-slate-950"
+                        : "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400"
                     }`}
                   >
                     {count}
@@ -172,65 +204,55 @@ function ResourcesPage() {
           </Reveal>
         </div>
 
-        {/* Featured Article Spotlight (shown if no active search filter) */}
+        {/* Featured Article Spotlight Card (shown when not searching) */}
         {!search && selectedCategory === "All Topics" && featuredArticle && (
-          <Reveal delay={280} className="mb-16">
+          <Reveal delay={280}>
             <Link
               to={`/resources/${featuredArticle.slug}`}
-              className="group relative block overflow-hidden rounded-[2.5rem] border border-brand/30 bg-card/80 dark:bg-slate-900/80 shadow-2xl transition-all duration-500 hover:border-brand/60 hover:shadow-brand/20 cursor-pointer"
+              className="group relative block overflow-hidden rounded-3xl border border-cyan-500/30 bg-card shadow-2xl transition-all duration-500 hover:border-cyan-500/60 cursor-pointer"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-10">
                 <div className="lg:col-span-7 space-y-6">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-full bg-brand text-brand-foreground px-3.5 py-1 text-xs font-black uppercase tracking-wider shadow-sm">
+                    <span className="rounded-md bg-cyan-500 text-slate-950 px-3 py-1 text-[10px] font-black uppercase tracking-wider shadow-xs">
                       FEATURED GUIDE
                     </span>
-                    <span className="rounded-full border border-border/80 dark:border-white/10 bg-card/90 dark:bg-slate-800/90 px-3 py-1 text-xs font-bold text-foreground/80">
+                    <span className="rounded-md border border-border bg-muted px-2.5 py-0.5 text-[11px] font-bold text-muted-foreground">
                       {featuredArticle.category}
                     </span>
                     <span className="text-xs text-muted-foreground flex items-center gap-1 font-medium">
-                      <Clock size={13} className="text-brand" />
+                      <Clock size={13} className="text-cyan-500" />
                       {featuredArticle.readTime}
                     </span>
                   </div>
 
-                  <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground group-hover:text-brand transition-colors leading-tight">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground group-hover:text-cyan-500 transition-colors leading-tight">
                     {featuredArticle.title}
                   </h2>
 
-                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                  <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
                     {featuredArticle.summary}
                   </p>
 
-                  <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                  <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-border/60">
                     <div className="flex items-center gap-2.5">
-                      <div className="size-10 rounded-full overflow-hidden border border-brand/40 bg-brand/20 shrink-0 shadow-md">
-                        {featuredArticle.author.avatar ? (
-                          <img
-                            src={featuredArticle.author.avatar}
-                            alt={featuredArticle.author.name}
-                            className="size-full object-cover"
-                          />
-                        ) : (
-                          <div className="size-full grid place-items-center font-bold text-xs text-brand">
-                            {featuredArticle.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
-                          </div>
-                        )}
+                      <div className="size-9 rounded-xl overflow-hidden border border-cyan-500/40 bg-cyan-500/10 shrink-0 grid place-items-center font-bold text-xs text-cyan-500">
+                        {featuredArticle.author.name.split(" ").map((n) => n[0]).join("").toUpperCase()}
                       </div>
                       <div>
                         <div className="text-xs font-bold text-foreground">{featuredArticle.author.name}</div>
-                        <div className="text-[11px] text-muted-foreground">{featuredArticle.author.role}</div>
+                        <div className="text-[10px] text-muted-foreground">{featuredArticle.author.role}</div>
                       </div>
                     </div>
 
-                    <span className="inline-flex items-center gap-2 rounded-full bg-brand text-brand-foreground px-5 py-2.5 text-xs sm:text-sm font-extrabold shadow-md group-hover:scale-105 transition-all duration-300">
+                    <span className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 text-slate-950 px-4 py-2 text-xs font-extrabold shadow-sm group-hover:bg-cyan-400 transition-all">
                       <span>Read Full Guide</span>
-                      <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+                      <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
                   </div>
                 </div>
 
-                <div className="lg:col-span-5 relative overflow-hidden rounded-2xl aspect-[4/3] bg-zinc-900 border border-white/10">
+                <div className="lg:col-span-5 relative overflow-hidden rounded-2xl aspect-[4/3] bg-muted border border-border">
                   <img
                     src={featuredArticle.image}
                     alt={featuredArticle.title}
@@ -246,92 +268,116 @@ function ResourcesPage() {
           </Reveal>
         )}
 
+        {/* Free Engineering Cheatsheet PDF Downloads Card */}
+        <Reveal delay={300}>
+          <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 space-y-6 shadow-xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs font-extrabold uppercase">
+                  <Download size={13} />
+                  <span>Free Technical Reference Cheatsheets</span>
+                </div>
+                <h2 className="text-xl font-extrabold text-foreground">Download Official MEP Sizing Formula PDFs</h2>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {FREE_DOWNLOADS.map((item, idx) => {
+                const IconComponent = item.icon;
+                return (
+                  <div key={idx} className="p-5 rounded-2xl border border-border bg-muted/20 space-y-4 hover:border-cyan-500/40 transition-all">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold ${item.color}`}>
+                      <IconComponent size={18} />
+                    </div>
+                    <div>
+                      <h3 className="font-extrabold text-foreground text-xs leading-snug">{item.title}</h3>
+                      <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{item.desc}</p>
+                    </div>
+                    <a
+                      href={item.file}
+                      download
+                      className="inline-flex items-center gap-1.5 text-xs font-extrabold text-cyan-600 dark:text-cyan-400 hover:underline pt-1"
+                    >
+                      <Download size={13} />
+                      <span>Download PDF Cheatsheet</span>
+                    </a>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Reveal>
+
         {/* Article Grid */}
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold tracking-tight">
-              {selectedCategory === "All Topics" ? "All Engineering Articles" : `${selectedCategory} Guides`}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-extrabold text-foreground flex items-center gap-2">
+              <FileText size={18} className="text-cyan-500" />
+              <span>Technical Guides & Case Studies ({filteredArticles.length})</span>
             </h2>
-            <span className="text-xs font-semibold text-muted-foreground font-mono">
-              Showing {filteredArticles.length} results
-            </span>
           </div>
 
           {filteredArticles.length === 0 ? (
-            <div className="text-center py-20 glass rounded-3xl border border-border">
-              <FileText size={40} className="mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-bold">No matching articles found</h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                Try searching for a different keyword like "ASHRAE", "NEC", "Voltage Drop", or "Revit".
+            <div className="p-12 text-center rounded-3xl border border-border bg-card space-y-3">
+              <BookOpen size={36} className="mx-auto text-muted-foreground/40" />
+              <h3 className="text-base font-bold text-foreground">No Guides Match Your Search Query</h3>
+              <p className="text-xs text-muted-foreground max-w-md mx-auto">
+                Try searching for broader keywords such as "ASHRAE", "Voltage Drop", "Revit", or "Hunter Curve".
               </p>
-              <button
-                onClick={() => {
-                  setSearch("");
-                  setSelectedCategory("All Topics");
-                }}
-                className="mt-6 rounded-full border border-border bg-card px-5 py-2 text-xs font-bold text-foreground"
-              >
-                Clear Filters
-              </button>
+              <Button onClick={() => setSearch("")} className="bg-cyan-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-xl">
+                Clear Search Filter
+              </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredArticles.map((article, idx) => (
-                <Reveal key={article.slug} delay={100 + (idx % 3) * 80}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredArticles.map((article) => (
+                <Reveal key={article.slug}>
                   <Link
                     to={`/resources/${article.slug}`}
-                    className="glass group flex flex-col justify-between rounded-3xl p-6 border border-border/80 dark:border-white/10 bg-card/80 dark:bg-slate-900/80 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/60 hover:shadow-2xl h-full block cursor-pointer"
+                    className="group flex flex-col justify-between h-full rounded-3xl border border-border bg-card p-6 hover:border-cyan-500/50 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
                   >
-                    <div>
+                    <div className="space-y-4">
                       {/* Image Thumbnail */}
-                      <div className="relative overflow-hidden rounded-2xl aspect-[16/9] mb-5 bg-zinc-900 border border-white/10">
+                      <div className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-muted border border-border">
                         <img
                           src={article.image}
                           alt={article.title}
                           onError={(e) => {
-                            e.currentTarget.src = "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80";
+                            e.currentTarget.src = "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80";
                           }}
-                          className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="size-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
-                        <div className="absolute top-3 left-3">
-                          <span className="rounded-full bg-background/90 dark:bg-slate-900/90 backdrop-blur-md border border-border/80 dark:border-white/20 px-3 py-1 text-[10px] font-black text-foreground uppercase tracking-wider shadow-md">
-                            {article.category}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-[11px] text-muted-foreground font-semibold mb-3">
-                        <Clock size={12} className="text-brand" />
-                        <span>{article.readTime}</span>
-                        <span>•</span>
-                        <span>{article.date}</span>
-                      </div>
-
-                      <h3 className="text-lg font-extrabold tracking-tight line-clamp-2 text-foreground group-hover:text-brand transition-colors mb-3">
-                        {article.title}
-                      </h3>
-
-                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-6">
-                        {article.summary}
-                      </p>
-                    </div>
-
-                    {/* Footer / Tags & Action Button */}
-                    <div className="border-t border-border/60 dark:border-white/10 pt-4 mt-auto">
-                      <div className="flex flex-wrap gap-1.5 mb-5">
-                        {article.tags.slice(0, 3).map((t) => (
-                          <span key={t} className="rounded-md bg-muted/60 dark:bg-white/5 border border-border/40 dark:border-white/10 px-2 py-0.5 text-[10px] font-mono text-muted-foreground">
-                            #{t}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="pt-1 flex items-center justify-between">
-                        <span className="inline-flex items-center gap-2 rounded-full bg-brand text-brand-foreground px-4.5 py-2 text-xs font-black shadow-md group-hover:scale-105 transition-all duration-300">
-                          <span>Read Full Guide</span>
-                          <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                        <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-slate-950/80 text-white border border-white/20 backdrop-blur-md">
+                          {article.category}
                         </span>
                       </div>
+
+                      {/* Content */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-[11px] text-muted-foreground font-medium">
+                          <Clock size={12} className="text-cyan-500" />
+                          <span>{article.readTime}</span>
+                          <span>•</span>
+                          <span>{article.date}</span>
+                        </div>
+
+                        <h3 className="text-base font-extrabold text-foreground group-hover:text-cyan-500 transition-colors leading-snug line-clamp-2">
+                          {article.title}
+                        </h3>
+
+                        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                          {article.summary}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Author & CTA Footer */}
+                    <div className="pt-4 mt-4 border-t border-border flex items-center justify-between text-xs">
+                      <span className="font-bold text-foreground text-[11px]">{article.author.name}</span>
+                      <span className="text-cyan-600 dark:text-cyan-400 font-extrabold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                        <span>Read</span>
+                        <ArrowRight size={12} />
+                      </span>
                     </div>
                   </Link>
                 </Reveal>
@@ -339,50 +385,17 @@ function ResourcesPage() {
             </div>
           )}
         </div>
-
-        {/* High Converting Bottom CTA Banner */}
-        <Reveal delay={350} className="mt-28">
-          <div className="glass rounded-[2.5rem] p-8 sm:p-12 border border-brand/30 bg-gradient-to-r from-card via-card to-brand/10 shadow-2xl relative overflow-hidden">
-            <div className="max-w-3xl space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full bg-brand/20 border border-brand/30 px-3.5 py-1 text-xs font-bold text-brand">
-                <Sparkles size={14} />
-                <span>MEP CALCULATION AUTOMATION</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                Stop Calculating by Hand. Run Physics Loads Instantly in TARV.
-              </h2>
-              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                Join thousands of MEP consultants, BIM leads, and contractors saving 300+ engineering hours per project with 100% ASHRAE & NEC compliance.
-              </p>
-              <div className="pt-4 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/access"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-extrabold text-primary-foreground shadow-xl transition-transform hover:scale-105"
-                >
-                  <span>Start 14-Day Free Pro Trial</span>
-                  <ArrowRight size={16} />
-                </Link>
-                <Link
-                  to="/pricing"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3.5 text-sm font-bold text-foreground backdrop-blur-md hover:bg-card"
-                >
-                  <span>View Commercial Plans</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </Reveal>
       </main>
 
-      {/* Floating Back to Top Button */}
+      {/* Floating Back-to-Top Button */}
       {showBackToTop && (
         <button
+          type="button"
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 grid size-11 sm:size-12 place-items-center rounded-full bg-brand text-brand-foreground border border-brand/50 shadow-2xl shadow-brand/40 hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer"
-          aria-label="Back to top"
-          title="Back to top"
+          className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-cyan-500 text-slate-950 shadow-2xl hover:bg-cyan-400 transition-all duration-300 cursor-pointer"
+          title="Back to Top"
         >
-          <ArrowUp size={20} className="transition-transform duration-300 group-hover:-translate-y-1" />
+          <ArrowUp size={18} />
         </button>
       )}
 

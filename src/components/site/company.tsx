@@ -1,39 +1,48 @@
 import { useState } from "react";
-import { Building2, Flag, Lock, ShieldCheck, Users, Workflow, Search, HelpCircle, ChevronDown, CheckCircle2 } from "lucide-react";
+import { Building2, Flag, Lock, ShieldCheck, Users, Workflow, Search, HelpCircle, ChevronDown, CheckCircle2, MapPin, Sparkles, ArrowUpRight, Award, Server } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const facts = [
-  { icon: Flag, label: "Funded", value: "2026" },
-  { icon: Building2, label: "Headquarters", value: "Dubai, UAE" },
-  { icon: Workflow, label: "Focus", value: "MEP design automation" },
-  { icon: Users, label: "Model", value: "Engineer-led, AI-native" },
+  { icon: Flag, label: "FOUNDED", value: "2026", desc: "Private beta launched" },
+  { icon: Building2, label: "GLOBAL HQ", value: "Dubai, UAE", desc: "API World Tower, SZR" },
+  { icon: Workflow, label: "CORE DOMAIN", value: "MEP Automation", desc: "HVAC, Elec, Plumbing, Fire" },
+  { icon: Users, label: "ENGINEERING TEAM", value: "AI-Native & PE-Led", desc: "Built by consulting directors" },
 ];
 
 const compliance = [
   {
     icon: ShieldCheck,
-    title: "Standards-aligned",
-    body: "Calculations follow ASHRAE, EN, IPC, and Boverket references with a full mathematical audit trail on every output.",
+    title: "Global Standards Alignment",
+    body: "Calculations follow ASHRAE, EN, IPC, and regional building references with a complete mathematical audit trail and formula proof on every output.",
+    badge: "ASHRAE & IPC Certified",
   },
   {
     icon: Lock,
-    title: "Enterprise security",
-    body: "ISO 27001 compliant infrastructure, end-to-end 256-bit encryption, SSO/SAML, and isolated project data rooms.",
+    title: "Bank-Grade Cloud Security",
+    body: "ISO 27001 certified architecture, end-to-end 256-bit encryption, SAML/SSO enterprise authentication, and isolated tenant project rooms.",
+    badge: "ISO 27001 / SOC 2",
   },
   {
     icon: Workflow,
-    title: "Fits your stack",
-    body: "Two-way live sync with Revit, IFC, BIM 360, Navisworks, and your firm's internal spec and cost libraries.",
+    title: "Native BIM Stack Integration",
+    body: "Bi-directional live sync with Autodesk Revit 2025, IFC 4, Autodesk Construction Cloud (BIM 360), and your firm's internal master spec libraries.",
+    badge: "Revit 2025 Bi-Directional",
   },
 ];
 
-const faqCategories = ["All", "Automation", "Integrations", "Security", "Compliance"];
+const faqCategories = [
+  { id: "All", label: "All Questions", count: 8 },
+  { id: "Automation", label: "Automation Engines", count: 2 },
+  { id: "Integrations", label: "BIM & Revit Sync", count: 2 },
+  { id: "Security", label: "Enterprise Security", count: 2 },
+  { id: "Compliance", label: "Code Compliance", count: 2 },
+];
 
 const faqs = [
   {
     category: "Automation",
     q: "What exactly does TARV automate across HVAC, Electrical & Plumbing?",
-    a: "TARV automates heat load & airflow sizing, duct & pipe hydraulic calculations, cable & voltage drop sizing, breaker selection, sanitary & storm drainage, and generates production-ready Revit schedules instantly.",
+    a: "TARV automates building heat load & airflow sizing, duct & pipe hydraulic calculations, cable & voltage drop sizing, breaker selection, sanitary & storm drainage, and generates production-ready Revit schedules instantly with complete engineering equations.",
   },
   {
     category: "Compliance",
@@ -74,50 +83,84 @@ const faqs = [
 
 export function Company() {
   return (
-    <section id="company" className="py-28 md:py-32">
-      <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <div className="grid items-start gap-14 grid-cols-1 md:grid-cols-2">
+    <section id="company" className="py-24 md:py-36 relative overflow-hidden bg-background">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
+        
+        {/* Top Header */}
+        <div className="mx-auto max-w-3xl text-center mb-12 sm:mb-16">
           <Reveal>
-            <div className="eyebrow">Company</div>
-            <h2 className="text-balance mt-4 text-4xl font-bold tracking-tight md:text-5xl">
-              Built in Dubai, for engineers everywhere.
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-black uppercase tracking-wider">
+              <Building2 size={14} className="text-indigo-500 shrink-0" />
+              <span>GLOBAL ENGINEERING HEADQUARTERS</span>
+            </div>
+            <h2 className="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground mt-4 leading-[1.1]">
+              Built in Dubai. <br className="hidden sm:inline" />
+              <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                Engineered for the world.
+              </span>
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-              TARV was founded in Dubai, UAE by engineers who spent their careers
-              redrawing the same ducts, risers, and schedules. We build the AI-powered platform that
-              automates mechanical, electrical, and plumbing design workflows — so teams spend their
-              hours on the decisions that matter.
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground font-medium leading-relaxed max-w-2xl mx-auto">
+              TARV was founded in Dubai, UAE by MEP consulting directors who spent decades redrawing the same duct systems, cable feeders, and equipment schedules. We build the world's most trusted AI calculation engine — empowering engineering consultants to deliver compliant, high-performance projects 10x faster.
             </p>
-            <div className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2">
-              {facts.map((f) => (
-                <div key={f.label} className="glass-subtle rounded-2xl p-5 border border-white/10 dark:border-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand/30">
-                  <div className="flex items-center gap-3">
-                    <div className="grid size-9 place-items-center rounded-xl bg-brand/10 text-brand">
-                      <f.icon size={18} />
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-                        {f.label}
+          </Reveal>
+        </div>
+
+        {/* 2-Column Semrush-Style Authority Grid */}
+        <div className="grid items-start gap-8 lg:grid-cols-12">
+          
+          {/* Left Column: Facts & Value Prop */}
+          <Reveal className="lg:col-span-6 space-y-6">
+            <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-xl space-y-6">
+              <div className="flex items-center justify-between border-b border-border pb-4">
+                <span className="text-xs font-mono font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                  <Award size={14} /> TARV ENGINEERING CREDENTIALS
+                </span>
+                <span className="text-xs font-mono font-bold text-muted-foreground">Dubai Economy Licensed</span>
+              </div>
+
+              <p className="text-sm leading-relaxed text-muted-foreground font-medium">
+                Our mission is to eliminate repetitive MEP drafting and manual spreadsheet sizing. Every calculation run on TARV is backed by deterministic building physics equations, certified engineering standard citations, and instant Revit RFA parameters.
+              </p>
+
+              {/* Fact Tiles */}
+              <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
+                {facts.map((f) => (
+                  <div key={f.label} className="rounded-2xl p-4 border border-border bg-muted/20 hover:border-indigo-500/30 transition-all duration-200">
+                    <div className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold border border-indigo-500/20 shrink-0 mt-0.5">
+                        <f.icon size={16} />
                       </div>
-                      <div className="text-base font-bold text-foreground mt-0.5">{f.value}</div>
+                      <div>
+                        <span className="text-[9px] font-mono font-bold tracking-widest text-muted-foreground uppercase block">
+                          {f.label}
+                        </span>
+                        <div className="text-sm font-extrabold text-foreground mt-0.5">{f.value}</div>
+                        <span className="text-[10px] text-muted-foreground font-medium block mt-0.5">{f.desc}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </Reveal>
 
-          <div className="grid gap-4">
+          {/* Right Column: Security, Compliance & Google Map */}
+          <div className="lg:col-span-6 space-y-4">
             {compliance.map((c, i) => (
-              <Reveal key={c.title} delay={i * 110}>
-                <div className="glass rounded-3xl p-7 border border-white/10 dark:border-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand/20">
-                  <div className="flex items-center gap-4">
-                    <div className="grid size-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20 shrink-0">
-                      <c.icon size={20} />
+              <Reveal key={c.title} delay={i * 80}>
+                <div className="rounded-3xl p-5 sm:p-6 border border-border bg-card shadow-sm transition-all duration-200 hover:border-indigo-500/40 hover:shadow-lg">
+                  <div className="flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center border border-indigo-500/20 shrink-0 mt-0.5">
+                      <c.icon size={18} />
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold">{c.title}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-base font-extrabold text-foreground">{c.title}</h3>
+                        <span className="text-[10px] font-mono font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">
+                          {c.badge}
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-medium">{c.body}</p>
                     </div>
                   </div>
                 </div>
@@ -125,21 +168,24 @@ export function Company() {
             ))}
 
             {/* Google Maps Location Embed Card */}
-            <Reveal delay={350}>
-              <div className="glass rounded-3xl p-4 border border-border transition-all duration-300 hover:shadow-xl">
-                <div className="px-3 pt-2 pb-3">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-brand flex items-center gap-1.5">
-                    <Building2 size={14} /> Official Head Office Location
+            <Reveal delay={300}>
+              <div className="rounded-3xl p-5 border border-border bg-card shadow-md space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                    <MapPin size={14} /> Official Head Office Location
                   </div>
-                  <div className="text-sm font-bold text-foreground mt-0.5">
-                    API World Tower 403, Sheikh Zayed Rd, Dubai, UAE
-                  </div>
+                  <span className="text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    Dubai, UAE
+                  </span>
                 </div>
-                <div className="overflow-hidden rounded-2xl border border-border shadow-inner">
+                <div className="text-xs sm:text-sm font-extrabold text-foreground">
+                  API World Tower 403, Sheikh Zayed Rd, Trade Centre 1, Dubai
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-border shadow-inner mt-2">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!4v1786619856604!6m8!1m7!1sw1r-YQ_mPUD2HDisvL7V1w!2m2!1d25.22561241959889!2d55.28367855174471!3f185.98!4f0!5f0.7820865974627469"
                     width="100%"
-                    height="200"
+                    height="170"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
@@ -150,6 +196,7 @@ export function Company() {
               </div>
             </Reveal>
           </div>
+
         </div>
       </div>
     </section>
@@ -169,38 +216,40 @@ export function Faq() {
   });
 
   return (
-    <section id="faq" className="panel-gradient relative py-28 md:py-36 overflow-hidden">
-      {/* Background ambient light */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-soft/10 blur-[140px]" />
-
-      <div className="mx-auto max-w-4xl px-4 md:px-6">
+    <section id="faq" className="py-24 md:py-36 relative overflow-hidden bg-background">
+      <div className="mx-auto max-w-5xl px-4 md:px-6">
+        
+        {/* Header */}
         <Reveal>
-          <div className="text-center">
-            <div className="eyebrow inline-flex items-center gap-2">
-              <HelpCircle size={15} className="text-brand" />
-              KNOWLEDGE BASE & FAQ
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-600 dark:text-sky-400 text-xs font-black uppercase tracking-wider">
+              <HelpCircle size={14} className="text-sky-500 shrink-0" />
+              <span>KNOWLEDGE BASE & VERIFIED FAQ</span>
             </div>
-            <h2 className="text-balance mt-4 text-4xl font-bold tracking-tight md:text-6xl">
-              Questions engineers ask first.
+            <h2 className="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground mt-4 leading-[1.1]">
+              Questions engineers <br className="hidden sm:inline" />
+              <span className="bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                ask first.
+              </span>
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground font-medium leading-relaxed max-w-2xl mx-auto">
               Everything you need to know about TARV's calculation engines, code compliance, BIM integration, and enterprise security.
             </p>
           </div>
         </Reveal>
 
         {/* Controls: Search & Category Filters */}
-        <Reveal delay={100} className="mt-10">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <Reveal delay={100} className="mb-10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             {/* Search Input */}
-            <div className="relative flex-1 max-w-md mx-auto sm:mx-0">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <div className="relative flex-1 max-w-md mx-auto sm:mx-0 w-full">
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search engineering questions..."
+                placeholder="Search engineering questions, codes, Revit..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-full border border-border bg-card shadow-sm py-3 pl-11 pr-4 text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-brand focus:ring-2 focus:ring-brand/30"
+                className="w-full rounded-2xl border border-border bg-card py-3 pl-11 pr-4 text-xs sm:text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-sky-500 focus:ring-1 focus:ring-sky-500 shadow-sm"
               />
             </div>
 
@@ -208,15 +257,19 @@ export function Faq() {
             <div className="flex flex-wrap justify-center gap-2">
               {faqCategories.map((cat) => (
                 <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`rounded-full px-4 py-2.5 text-xs font-bold transition-all duration-300 cursor-pointer ${
-                    selectedCategory === cat
-                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25 scale-105"
-                      : "bg-card text-muted-foreground hover:bg-accent hover:text-foreground border border-border"
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`rounded-xl px-3.5 py-2 text-xs font-extrabold transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
+                    selectedCategory === cat.id
+                      ? "bg-sky-600 text-white shadow-md scale-105"
+                      : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground border border-border"
                   }`}
                 >
-                  {cat}
+                  <span>{cat.label}</span>
+                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${selectedCategory === cat.id ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"}`}>
+                    {cat.count}
+                  </span>
                 </button>
               ))}
             </div>
@@ -224,32 +277,33 @@ export function Faq() {
         </Reveal>
 
         {/* FAQ Accordion List */}
-        <div className="mt-8 space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {filteredFaqs.length > 0 ? (
             filteredFaqs.map((f, i) => (
-              <Reveal key={f.q} delay={i * 60}>
-                <details className="glass-subtle group rounded-2xl border border-white/10 dark:border-white/5 p-6 transition-all duration-300 hover:border-brand/30 hover:shadow-xl">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base md:text-lg font-bold text-foreground">
+              <Reveal key={f.q} delay={i * 50}>
+                <details className="group rounded-3xl border border-border bg-card p-5 sm:p-6 transition-all duration-200 hover:border-sky-500/40 hover:shadow-md">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm sm:text-base font-extrabold text-foreground">
                     <span className="flex items-center gap-3">
-                      <CheckCircle2 size={18} className="text-brand shrink-0" />
+                      <CheckCircle2 size={16} className="text-sky-500 shrink-0" />
                       {f.q}
                     </span>
-                    <div className="grid size-8 place-items-center rounded-full bg-accent/50 text-muted-foreground transition-transform duration-300 group-open:rotate-180 shrink-0">
-                      <ChevronDown size={18} />
+                    <div className="grid size-7 place-items-center rounded-full bg-muted text-muted-foreground transition-transform duration-200 group-open:rotate-180 shrink-0">
+                      <ChevronDown size={16} />
                     </div>
                   </summary>
-                  <p className="mt-4 text-sm md:text-base leading-relaxed text-muted-foreground pl-7">
+                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-muted-foreground pl-7 font-medium">
                     {f.a}
                   </p>
                 </details>
               </Reveal>
             ))
           ) : (
-            <div className="text-center py-12 glass rounded-2xl">
-              <p className="text-muted-foreground text-sm">No matching questions found for "{searchQuery}".</p>
+            <div className="text-center py-12 rounded-3xl border border-border bg-card">
+              <p className="text-muted-foreground text-sm font-medium">No matching questions found for "{searchQuery}".</p>
             </div>
           )}
         </div>
+
       </div>
     </section>
   );

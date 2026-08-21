@@ -417,10 +417,13 @@ function ArticleDetailPage() {
   } : null;
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans overflow-x-hidden relative">
+      {/* Background Ambient Glow */}
+      <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 dark:bg-cyan-500/15 blur-[160px]" />
+
       {/* Top Reading Progress Bar */}
       <div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand via-cyan-400 to-blue-500 z-50 transition-all duration-150 shadow-[0_0_12px_rgba(59,130,246,0.8)]"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 z-50 transition-all duration-150 shadow-[0_0_12px_rgba(6,182,212,0.8)]"
         style={{ width: `${scrollProgress}%` }}
       />
       {/* Inject Google Rich Schema Scripts */}
@@ -441,14 +444,14 @@ function ArticleDetailPage() {
 
       <SiteNav />
 
-      <main className="flex-1 pt-28 pb-24 px-4 md:px-6 max-w-6xl mx-auto w-full">
+      <main className="flex-1 pt-32 pb-24 px-4 md:px-6 max-w-6xl mx-auto w-full">
         {/* SEO Breadcrumbs Bar */}
         <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-xs text-muted-foreground font-medium">
-          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <Link to="/" className="hover:text-cyan-500 transition-colors">Home</Link>
           <ChevronRight size={12} />
-          <Link to="/resources" className="hover:text-foreground transition-colors">Resources</Link>
+          <Link to="/resources" className="hover:text-cyan-500 transition-colors">Resources</Link>
           <ChevronRight size={12} />
-          <span className="text-brand font-semibold">{article.category}</span>
+          <span className="text-cyan-500 font-semibold">{article.category}</span>
           <ChevronRight size={12} />
           <span className="text-foreground line-clamp-1 max-w-[200px] sm:max-w-none">{article.title}</span>
         </nav>
@@ -456,22 +459,22 @@ function ArticleDetailPage() {
         {/* Article Header */}
         <div className="space-y-6 pb-10 border-b border-border/60">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-brand/20 border border-brand/30 text-brand px-3 py-1 text-xs font-extrabold uppercase tracking-wider">
+            <span className="rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 px-3 py-1 text-xs font-extrabold uppercase tracking-wider">
               {article.category}
             </span>
             <span className="text-xs text-muted-foreground flex items-center gap-1 font-medium">
-              <Clock size={13} />
+              <Clock size={13} className="text-cyan-500" />
               {article.readTime}
             </span>
             <span className="text-xs text-muted-foreground font-medium">•</span>
             <span className="text-xs text-muted-foreground font-medium">{article.date}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-foreground leading-tight">
             {article.title}
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+          <p className="text-base sm:text-xl text-muted-foreground leading-relaxed font-medium">
             {article.summary}
           </p>
 

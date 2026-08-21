@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { SiteNav } from "@/components/site/site-nav";
 import { SiteFooter } from "@/components/site/cta";
 import { Reveal } from "@/components/site/reveal";
@@ -22,7 +22,16 @@ import {
   Layers,
   FileSpreadsheet,
   CheckCircle2,
-  HelpCircle as QuestionIcon
+  HelpCircle as QuestionIcon,
+  Flame,
+  Wind,
+  Droplets,
+  Cpu,
+  BadgeCheck,
+  TrendingUp,
+  Percent,
+  Clock,
+  ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -149,7 +158,7 @@ const MATRIX = [
     category: "Security & Enterprise Governance",
     items: [
       { name: "Data Security Standards", pro: "TLS 1.3 / AES-256", team: "TLS 1.3 / AES-256", ent: "Dedicated Isolated Tenant" },
-      { name: "SAML SSO / Okta / Azure AD", pro: "—", proNote: "", team: "Optional", ent: "Included" },
+      { name: "SAML SSO / Okta / Azure AD", pro: "—", team: "Optional", ent: "Included" },
       { name: "Guaranteed SLA Uptime", pro: "99.5%", team: "99.9%", ent: "99.99% Guaranteed SLA" },
       { name: "Technical Support Tier", pro: "Email (< 24hr)", team: "Priority Phone & Chat (< 4hr)", ent: "1-on-1 Dedicated Account Mgr" },
     ],
@@ -183,10 +192,12 @@ function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
   const [currency, setCurrency] = useState<CurrencyKey>("USD");
 
-  // Interactive ROI Calculator State
+  // Interactive ROI Savings Calculator State
   const [teamSize, setTeamSize] = useState<number>(5);
-  const [hourlyRate, setHourlyRate] = useState<number>(65); // $65/hr average engineer billing rate
-  const [hoursPerWeek, setHoursPerWeek] = useState<number>(12); // 12 hours spent on manual MEP math per week
+  const [hourlyRate, setHourlyRate] = useState<number>(65); // $65/hr average engineer rate
+  const [hoursPerWeek, setHoursPerWeek] = useState<number>(12); // 12 hours spent on manual MEP math
+
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const curr = CURRENCIES[currency];
 
@@ -198,8 +209,7 @@ function PricingPage() {
     return `${curr.symbol}${converted}`;
   };
 
-  // ROI Math Calculation
-  // TARV reduces calculation time by ~85%
+  // ROI Calculations
   const hoursSavedPerWeek = Math.round(hoursPerWeek * 0.85 * teamSize);
   const monthlySavingsDollars = Math.round(hoursSavedPerWeek * 4.33 * hourlyRate);
   const annualSavingsDollars = Math.round(monthlySavingsDollars * 12);
@@ -207,50 +217,50 @@ function PricingPage() {
   const netAnnualRoi = Math.max(0, annualSavingsDollars - estimatedCostMonthly * 12);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
       <SiteNav />
 
-      <main className="pt-28 pb-24 px-4 md:px-6 max-w-7xl mx-auto">
+      <main className="pt-32 pb-24 px-4 md:px-6 max-w-7xl mx-auto space-y-20">
         {/* Page Hero Header */}
-        <div className="text-center max-w-4xl mx-auto pt-6 pb-12">
+        <div className="text-center max-w-4xl mx-auto space-y-6">
           <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-4 py-1.5 text-xs font-bold text-brand backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-extrabold uppercase tracking-wider shadow-xs">
               <Sparkles size={14} />
               <span>Transparent Enterprise Licensing</span>
             </div>
           </Reveal>
 
           <Reveal delay={80}>
-            <h1 className="text-balance mt-6 font-display text-4xl font-extrabold tracking-tight sm:text-6xl md:text-7xl">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight leading-tight">
               Predictable Pricing for <br className="hidden sm:inline" />
-              <span className="bg-gradient-to-r from-slate-900 via-blue-600 to-blue-500 bg-clip-text text-transparent dark:from-white dark:via-blue-400 dark:to-blue-500">
+              <span className="bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
                 Global MEP Engineering Teams.
               </span>
             </h1>
           </Reveal>
 
           <Reveal delay={140}>
-            <p className="mt-6 text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
               Equip your engineers with the world's most accurate AI MEP calculation software. 
               Zero hidden fees, transparent seats, and guaranteed ASHRAE/NEC compliance.
             </p>
           </Reveal>
 
-          {/* Currency Switcher & Billing Interval Toggle */}
-          <Reveal delay={200} className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+          {/* Currency Selector & Annual Billing Toggle */}
+          <Reveal delay={200} className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-8">
             {/* Currency Selector */}
-            <div className="flex items-center gap-2 rounded-full border border-border bg-card/60 p-1 backdrop-blur-md">
+            <div className="flex items-center gap-1.5 rounded-2xl border border-border bg-card/80 p-1.5 shadow-md">
               <span className="px-3 text-xs font-bold text-muted-foreground flex items-center gap-1">
-                <Globe size={13} />
+                <Globe size={13} className="text-cyan-500" />
                 Currency:
               </span>
               {(Object.keys(CURRENCIES) as CurrencyKey[]).map((k) => (
                 <button
                   key={k}
                   onClick={() => setCurrency(k)}
-                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all ${
+                  className={`px-3 py-1.5 text-xs font-extrabold rounded-xl transition-all cursor-pointer ${
                     currency === k
-                      ? "bg-primary text-primary-foreground shadow-md"
+                      ? "bg-cyan-500 text-slate-950 shadow-sm"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -259,332 +269,288 @@ function PricingPage() {
               ))}
             </div>
 
-            {/* Billing Toggle (Monthly / Annual) */}
-            <div className="flex items-center gap-3 rounded-full border border-border bg-card/60 p-1.5 backdrop-blur-md">
+            {/* Annual / Monthly Toggle */}
+            <div className="flex items-center gap-3">
+              <span className={`text-xs font-bold ${!isAnnual ? "text-foreground" : "text-muted-foreground"}`}>
+                Monthly
+              </span>
               <button
-                onClick={() => setIsAnnual(false)}
-                className={`rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all ${
-                  !isAnnual
-                    ? "bg-foreground text-background dark:bg-white dark:text-black shadow-md"
-                    : "text-muted-foreground hover:text-foreground"
+                type="button"
+                onClick={() => setIsAnnual(!isAnnual)}
+                className={`relative w-14 h-7 rounded-full p-1 transition-colors duration-300 cursor-pointer ${
+                  isAnnual ? "bg-cyan-500" : "bg-muted"
                 }`}
               >
-                Monthly Billing
+                <div
+                  className={`w-5 h-5 rounded-full bg-slate-950 shadow-md transition-transform duration-300 ${
+                    isAnnual ? "translate-x-7" : "translate-x-0"
+                  }`}
+                />
               </button>
-              <button
-                onClick={() => setIsAnnual(true)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all ${
-                  isAnnual
-                    ? "bg-foreground text-background dark:bg-white dark:text-black shadow-md"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <span>Annual Billing</span>
-                <span className="rounded-full bg-emerald-500/20 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-black text-emerald-500">
-                  SAVE 20%
+              <div className="flex items-center gap-1.5">
+                <span className={`text-xs font-bold ${isAnnual ? "text-foreground" : "text-muted-foreground"}`}>
+                  Annual Billing
                 </span>
-              </button>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 text-[10px] font-extrabold uppercase">
+                  Save 20%
+                </span>
+              </div>
             </div>
           </Reveal>
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3 lg:gap-8 items-stretch">
-          {PLANS.map((plan, index) => {
-            const rawPrice = isAnnual ? plan.annualPrice : plan.monthlyPrice;
-            const priceDisplay = formatPrice(rawPrice);
-
-            return (
-              <Reveal key={plan.id} delay={100 + index * 100} className="flex">
+        <Reveal delay={240}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            {PLANS.map((plan) => {
+              const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
+              return (
                 <div
-                  className={`glass relative flex w-full flex-col justify-between rounded-[2.25rem] p-7 sm:p-9 transition-all duration-500 border ${
+                  key={plan.id}
+                  className={`relative rounded-3xl p-7 flex flex-col justify-between transition-all duration-300 ${
                     plan.featured
-                      ? "border-brand/50 bg-card/95 shadow-2xl shadow-brand/15 ring-2 ring-brand/30 hover:-translate-y-2"
-                      : "border-border/60 bg-card/60 hover:-translate-y-1 hover:border-foreground/20"
+                      ? "border-2 border-cyan-500 bg-card shadow-2xl scale-102"
+                      : "border border-border bg-card shadow-lg hover:border-cyan-500/40"
                   }`}
                 >
-                  {/* Card Header & Badge */}
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className={`rounded-full px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider ${
-                        plan.featured
-                          ? "bg-brand text-brand-foreground shadow-lg shadow-brand/25"
-                          : "bg-muted text-muted-foreground border border-border"
-                      }`}>
-                        {plan.badge}
-                      </span>
-                      {isAnnual && (
-                        <span className="text-[11px] font-semibold text-emerald-500">
-                          2 Months Free Included
+                  {plan.featured && (
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-cyan-500 text-slate-950 text-[10px] font-black uppercase tracking-wider shadow-md flex items-center gap-1">
+                      <Sparkles size={12} />
+                      <span>{plan.badge}</span>
+                    </div>
+                  )}
+
+                  <div className="space-y-6">
+                    <div>
+                      {!plan.featured && (
+                        <span className="text-[10px] font-extrabold text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 rounded-md border border-cyan-500/20 uppercase tracking-wider">
+                          {plan.badge}
                         </span>
                       )}
+                      <h3 className="text-2xl font-black text-foreground mt-2">{plan.name}</h3>
+                      <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{plan.desc}</p>
                     </div>
 
-                    <h3 className="text-2xl font-bold tracking-tight">{plan.name}</h3>
-                    <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed min-h-[44px]">
-                      {plan.desc}
-                    </p>
-
-                    {/* Price Tag */}
-                    <div className="mt-6 border-y border-border/60 py-6">
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-display text-4xl sm:text-5xl font-black tracking-tight text-foreground">
-                          {priceDisplay}
-                        </span>
-                        <span className="text-sm font-semibold text-muted-foreground">
-                          / user / month
-                        </span>
-                      </div>
-                      <div className="mt-1.5 text-xs text-muted-foreground font-medium">
-                        {isAnnual ? "Billed annually" : "Billed monthly"} — Cancel anytime
-                      </div>
+                    {/* Price Header */}
+                    <div className="p-4 rounded-2xl bg-muted/40 border border-border/60 flex items-baseline gap-1">
+                      <span className="text-4xl font-black text-foreground font-mono">
+                        {formatPrice(price)}
+                      </span>
+                      <span className="text-xs text-muted-foreground font-bold">/ engineer / month</span>
                     </div>
 
-                    {/* Feature List */}
-                    <div className="mt-6 space-y-3.5">
-                      <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                        Included Features:
-                      </div>
-                      {plan.features.map((feat, i) => (
-                        <div key={i} className="flex items-start gap-3 text-xs sm:text-sm">
-                          <div className={`mt-0.5 grid size-5 shrink-0 place-items-center rounded-full ${
-                            plan.featured ? "bg-brand text-brand-foreground" : "bg-emerald-500/15 text-emerald-500"
-                          }`}>
-                            <Check size={12} strokeWidth={3} />
-                          </div>
-                          <span className={i === 0 && plan.id !== "pro" ? "font-semibold text-foreground" : "text-muted-foreground"}>
-                            {feat}
-                          </span>
+                    {/* Feature Checkmarks */}
+                    <div className="space-y-3 pt-2">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground block">
+                        Included Features & Limits:
+                      </span>
+                      {plan.features.map((feat, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5 text-xs text-foreground/90 font-medium">
+                          <CheckCircle2 size={15} className="text-cyan-500 shrink-0 mt-0.5" />
+                          <span>{feat}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Card CTA Action */}
-                  <div className="mt-10 pt-4">
-                    <Link
-                      to={plan.btnLink}
-                      className={`inline-flex w-full items-center justify-center gap-2 rounded-full py-4 text-sm font-extrabold transition-all duration-300 ${
+                  <div className="pt-8">
+                    <a
+                      href={plan.btnLink}
+                      className={`w-full py-3.5 px-4 rounded-xl font-extrabold text-xs shadow-md transition-all flex items-center justify-center gap-2 ${
                         plan.featured
-                          ? "bg-primary text-primary-foreground shadow-xl hover:opacity-90 hover:scale-[1.02]"
-                          : "bg-foreground text-background dark:bg-white dark:text-black hover:opacity-90"
+                          ? "bg-cyan-500 hover:bg-cyan-400 text-slate-950"
+                          : "bg-slate-950 hover:bg-slate-900 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-950"
                       }`}
                     >
                       <span>{plan.btnText}</span>
-                      <ArrowRight size={16} />
-                    </Link>
+                      <ArrowRight size={14} />
+                    </a>
                   </div>
                 </div>
-              </Reveal>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        </Reveal>
 
-        {/* Interactive ROI Savings Calculator Component */}
-        <Reveal delay={250} className="mt-24">
-          <div className="glass shadow-glass rounded-[2.5rem] p-6 sm:p-10 border border-brand/20 bg-card/80">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              {/* Left Column: Sliders & Form */}
-              <div className="lg:col-span-7 space-y-8">
-                <div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1 text-xs font-extrabold text-emerald-500 mb-3">
-                    <Calculator size={14} />
-                    <span>Firm Savings & ROI Calculator</span>
-                  </div>
-                  <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-                    Calculate Your Team's Time & Financial Return
-                  </h2>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Estimate how much billable engineering time and project revenue TARV saves your consulting firm.
-                  </p>
+        {/* Interactive ROI Engineering Calculator */}
+        <Reveal delay={280}>
+          <div className="rounded-3xl border border-cyan-500/30 bg-card p-8 sm:p-10 shadow-2xl space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs font-extrabold uppercase">
+                  <TrendingUp size={14} />
+                  <span>Interactive Firm ROI Savings Calculator</span>
                 </div>
-
-                {/* Slider 1: Team Size */}
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center text-sm font-semibold">
-                    <span>Number of MEP Engineers on Team:</span>
-                    <span className="font-mono text-base font-extrabold text-brand bg-brand/10 border border-brand/20 px-3 py-1 rounded-xl">
-                      {teamSize} Engineers
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="50"
-                    value={teamSize}
-                    onChange={(e) => setTeamSize(parseInt(e.target.value))}
-                    className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
-
-                {/* Slider 2: Average Billing Rate */}
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center text-sm font-semibold">
-                    <span>Average Billing Rate ($ / hour):</span>
-                    <span className="font-mono text-base font-extrabold text-brand bg-brand/10 border border-brand/20 px-3 py-1 rounded-xl">
-                      ${hourlyRate} / hr
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="30"
-                    max="200"
-                    step="5"
-                    value={hourlyRate}
-                    onChange={(e) => setHourlyRate(parseInt(e.target.value))}
-                    className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
-
-                {/* Slider 3: Manual Sizing Hours / Week */}
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center text-sm font-semibold">
-                    <span>Hours Spent Manual Sizing / Engineer / Week:</span>
-                    <span className="font-mono text-base font-extrabold text-brand bg-brand/10 border border-brand/20 px-3 py-1 rounded-xl">
-                      {hoursPerWeek} hrs / week
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="4"
-                    max="25"
-                    value={hoursPerWeek}
-                    onChange={(e) => setHoursPerWeek(parseInt(e.target.value))}
-                    className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
+                  Calculate Your Firm's Expected Annual Time & Dollar Savings
+                </h2>
+                <p className="text-xs text-muted-foreground max-w-xl">
+                  Adjust your team parameters to calculate hours saved on manual calculations and net firm return on investment.
+                </p>
               </div>
 
-              {/* Right Column: ROI Output Box */}
-              <div className="lg:col-span-5">
-                <div className="rounded-3xl bg-zinc-950 p-6 sm:p-8 border border-white/10 text-white shadow-2xl flex flex-col justify-between space-y-6">
-                  <div className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                    Estimated Firm Productivity Return
-                  </div>
+              <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-center shrink-0">
+                <span className="text-[10px] font-extrabold text-muted-foreground uppercase tracking-widest block">Estimated Net Annual ROI</span>
+                <span className="text-3xl font-black text-cyan-600 dark:text-cyan-400 font-mono">
+                  +${netAnnualRoi.toLocaleString()} USD
+                </span>
+              </div>
+            </div>
 
-                  <div className="space-y-4">
-                    <div>
-                      <div className="text-xs text-zinc-400">Billable Hours Saved / Month</div>
-                      <div className="font-display text-3xl sm:text-4xl font-extrabold text-emerald-400">
-                        {Math.round(hoursSavedPerWeek * 4.33)} hrs / mo
-                      </div>
-                    </div>
-
-                    <div className="border-t border-white/10 pt-4">
-                      <div className="text-xs text-zinc-400">Estimated Annual Revenue Gain</div>
-                      <div className="font-display text-3xl sm:text-5xl font-black text-white">
-                        ${annualSavingsDollars.toLocaleString()} <span className="text-xs font-medium text-zinc-400">/ yr</span>
-                      </div>
-                    </div>
-
-                    <div className="border-t border-white/10 pt-4 flex items-center justify-between text-xs text-zinc-300">
-                      <span>Estimated Net ROI:</span>
-                      <span className="font-bold text-emerald-400 font-mono text-sm">
-                        +{Math.round((annualSavingsDollars / Math.max(1, estimatedCostMonthly * 12)) * 100)}% ROI
-                      </span>
-                    </div>
-                  </div>
-
-                  <Link
-                    to="/access"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3.5 text-xs sm:text-sm font-extrabold text-zinc-950 transition hover:bg-emerald-400 shadow-xl"
-                  >
-                    <span>Claim Your Team's Productivity ROI</span>
-                    <ArrowRight size={16} />
-                  </Link>
+            {/* Slider Controls Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4 border-t border-border">
+              {/* Slider 1: Team Size */}
+              <div className="space-y-3 p-5 rounded-2xl bg-muted/30 border border-border">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-muted-foreground">Engineering Team Size:</span>
+                  <span className="text-foreground font-mono text-base">{teamSize} Engineers</span>
                 </div>
+                <input
+                  type="range"
+                  min={1}
+                  max={50}
+                  value={teamSize}
+                  onChange={(e) => setTeamSize(Number(e.target.value))}
+                  className="w-full accent-cyan-500 cursor-pointer"
+                />
+              </div>
+
+              {/* Slider 2: Hourly Rate */}
+              <div className="space-y-3 p-5 rounded-2xl bg-muted/30 border border-border">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-muted-foreground">Avg Engineer Hourly Rate:</span>
+                  <span className="text-foreground font-mono text-base">${hourlyRate}/hr</span>
+                </div>
+                <input
+                  type="range"
+                  min={30}
+                  max={150}
+                  step={5}
+                  value={hourlyRate}
+                  onChange={(e) => setHourlyRate(Number(e.target.value))}
+                  className="w-full accent-cyan-500 cursor-pointer"
+                />
+              </div>
+
+              {/* Slider 3: Hours Spent */}
+              <div className="space-y-3 p-5 rounded-2xl bg-muted/30 border border-border">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-muted-foreground">Manual Math Hours / Week:</span>
+                  <span className="text-foreground font-mono text-base">{hoursPerWeek} hrs / week</span>
+                </div>
+                <input
+                  type="range"
+                  min={4}
+                  max={30}
+                  value={hoursPerWeek}
+                  onChange={(e) => setHoursPerWeek(Number(e.target.value))}
+                  className="w-full accent-cyan-500 cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* Results Counter Strip */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+              <div className="p-4 rounded-2xl bg-card border border-border space-y-1">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase">Hours Saved / Week</span>
+                <div className="text-xl font-extrabold text-foreground font-mono">{hoursSavedPerWeek} Hours</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-card border border-border space-y-1">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase">Monthly Billable Savings</span>
+                <div className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">${monthlySavingsDollars.toLocaleString()}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-card border border-border space-y-1">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase">Annual Productivity Value</span>
+                <div className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">${annualSavingsDollars.toLocaleString()}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-card border border-border space-y-1">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase">Efficiency Gain</span>
+                <div className="text-xl font-extrabold text-cyan-500 font-mono">85% Faster Sizing</div>
               </div>
             </div>
           </div>
         </Reveal>
 
-        {/* Detailed Side-by-Side Feature Matrix */}
-        <Reveal delay={300} className="mt-28">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-              Detailed Feature Comparison Matrix
-            </h2>
-            <p className="mt-3 text-muted-foreground text-sm sm:text-base">
-              Compare capabilities, BIM connectivity, security governance, and code compliance standards across plans.
-            </p>
-          </div>
+        {/* Detailed Feature Comparison Matrix Section */}
+        <Reveal delay={320}>
+          <div className="space-y-6">
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+                Detailed Feature Comparison Matrix
+              </h2>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                Compare capabilities, BIM connectivity, security governance, and code compliance standards across plans.
+              </p>
+            </div>
 
-          <div className="overflow-x-auto rounded-3xl border border-border bg-card/60 backdrop-blur-xl shadow-xl">
-            <table className="w-full text-left text-xs sm:text-sm border-collapse min-w-[700px]">
-              <thead>
-                <tr className="border-b border-border/80 bg-muted/40">
-                  <th className="p-5 font-bold text-foreground w-2/5">Capabilities & Standards</th>
-                  <th className="p-5 font-bold text-foreground text-center">Professional</th>
-                  <th className="p-5 font-bold text-brand text-center bg-brand/5">Engineering Team</th>
-                  <th className="p-5 font-bold text-foreground text-center">Enterprise</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/60">
-                {MATRIX.map((cat, ci) => (
-                  <>
-                    <tr key={`cat-${ci}`} className="bg-muted/20">
-                      <td colSpan={4} className="px-5 py-3 font-extrabold text-xs uppercase tracking-wider text-muted-foreground">
-                        {cat.category}
-                      </td>
+            <div className="rounded-3xl border border-border bg-card overflow-hidden shadow-xl">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-muted/60 border-b border-border text-muted-foreground font-bold uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="py-4 px-6 w-2/5 font-extrabold text-foreground">Feature / Capability</th>
+                      <th className="py-4 px-6">Professional</th>
+                      <th className="py-4 px-6 text-cyan-600 dark:text-cyan-400 font-black">Engineering Team</th>
+                      <th className="py-4 px-6">Enterprise Firm</th>
                     </tr>
-                    {cat.items.map((row, ri) => (
-                      <tr key={`row-${ri}`} className="hover:bg-accent/30 transition-colors">
-                        <td className="p-5 font-medium text-foreground">{row.name}</td>
-                        <td className="p-5 text-center text-muted-foreground">{row.pro}</td>
-                        <td className="p-5 text-center font-bold text-brand bg-brand/5">{row.team}</td>
-                        <td className="p-5 text-center text-foreground font-semibold">{row.ent}</td>
-                      </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {MATRIX.map((group, gIdx) => (
+                      <Fragment key={gIdx}>
+                        <tr className="bg-muted/40 border-t border-border">
+                          <td colSpan={4} className="py-3 px-6 font-black text-xs uppercase tracking-wider text-cyan-600 dark:text-cyan-400 bg-muted/60">
+                            {group.category}
+                          </td>
+                        </tr>
+                        {group.items.map((row, rIdx) => (
+                          <tr key={rIdx} className="hover:bg-muted/20 transition-colors">
+                            <td className="py-3.5 px-6 font-semibold text-foreground">{row.name}</td>
+                            <td className="py-3.5 px-6 text-muted-foreground">{row.pro}</td>
+                            <td className="py-3.5 px-6 font-bold text-foreground">{row.team}</td>
+                            <td className="py-3.5 px-6 text-cyan-600 dark:text-cyan-400 font-bold">{row.ent}</td>
+                          </tr>
+                        ))}
+                      </Fragment>
                     ))}
-                  </>
-                ))}
-              </tbody>
-            </table>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </Reveal>
 
-        {/* Global Compliance & Trust Badges Section */}
-        <Reveal delay={350} className="mt-28 text-center">
-          <div className="eyebrow">GLOBAL CODE INTEGRITY</div>
-          <h2 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight">
-            Compliant with Every Global Building Authority
-          </h2>
-          <p className="mt-3 max-w-2xl mx-auto text-sm text-muted-foreground leading-relaxed">
-            Whether your firm designs high-rises in Dubai, commercial complexes in London, or industrial plants in Texas, TARV calculation engines are built to strict international codes.
-          </p>
+        {/* Enterprise FAQs */}
+        <Reveal delay={360}>
+          <div className="max-w-3xl mx-auto space-y-6">
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-extrabold text-foreground">Frequently Asked Questions</h2>
+              <p className="text-xs text-muted-foreground">Answers to common pricing, licensing, and billing questions.</p>
+            </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-4xl mx-auto">
-            {["ASHRAE 62.1 & 90.1 (US)", "NEC 2023 / NFPA (US)", "IPC & UPC Plumbing Code", "IEC 60364 (Europe)", "DEWA & DCL (Dubai, UAE)", "Saudi Building Code (SBC)", "CIBSE Guides (UK)", "AS/NZS 3000 (Australia)"].map((code) => (
-              <div key={code} className="inline-flex items-center gap-2 rounded-2xl border border-border bg-card/80 px-4 py-2.5 text-xs font-bold text-foreground shadow-sm">
-                <CheckCircle2 size={15} className="text-emerald-500" />
-                <span>{code}</span>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-
-        {/* Frequently Asked Questions */}
-        <Reveal delay={400} className="mt-28 max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-              Frequently Asked Licensing Questions
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Everything you need to know about TARV pricing, enterprise procurement, and team billing.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {FAQS.map((faq, idx) => (
-              <div key={idx} className="glass rounded-2xl p-6 border border-border bg-card/50">
-                <h3 className="text-base sm:text-lg font-bold flex items-center gap-2.5">
-                  <QuestionIcon size={18} className="text-brand shrink-0" />
-                  <span>{faq.q}</span>
-                </h3>
-                <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed pl-7">
-                  {faq.a}
-                </p>
-              </div>
-            ))}
+            <div className="space-y-3">
+              {FAQS.map((faq, idx) => (
+                <div key={idx} className="rounded-2xl border border-border bg-card overflow-hidden transition-all">
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                    className="w-full p-4 sm:p-5 text-left flex items-center justify-between text-xs sm:text-sm font-bold text-foreground hover:bg-muted/30 cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <ChevronRight
+                      size={16}
+                      className={`text-muted-foreground transition-transform duration-200 ${
+                        openFaq === idx ? "rotate-90 text-cyan-500" : ""
+                      }`}
+                    />
+                  </button>
+                  {openFaq === idx && (
+                    <div className="px-5 pb-5 pt-1 text-xs text-muted-foreground leading-relaxed border-t border-border/50 whitespace-pre-line">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </Reveal>
       </main>

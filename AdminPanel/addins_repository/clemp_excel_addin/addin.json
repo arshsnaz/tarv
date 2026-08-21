@@ -1,0 +1,24 @@
+{
+  "id": "addin_clemp_excel",
+  "name": "Team Productivity Report Excel Add-in (ClEmpAddIn)",
+  "slug": "clemp-excel-addin",
+  "description": "Automated Employee Productivity Reporting & Live Data Orchestrator for Microsoft Excel.",
+  "category": "Excel Add-in",
+  "targetApplication": "Microsoft Excel",
+  "version": "v1.0.0",
+  "developer": "Consistent Solutions",
+  "iconBgColor": "bg-emerald-600",
+  "status": "active",
+  "assemblyName": "ClEmpAddIn.dll",
+  "manifestName": "ClEmpAddIn.vsto",
+  "releasePackage": "setup.exe",
+  "plans": [
+    {
+      "id": "plan_clemp_pro",
+      "name": "Pro",
+      "priceYearly": 199,
+      "maxActivationsPerLicense": 5,
+      "features": ["TeamProductivityReport", "LiveOrchestrator", "ExcelDataSync"]
+    }
+  ]
+}

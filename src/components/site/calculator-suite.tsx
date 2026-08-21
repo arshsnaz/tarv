@@ -1,195 +1,318 @@
 import { useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Calculator, ShieldCheck, Sparkles, ChevronLeft, ChevronRight, Plus, ExternalLink, Sliders, Activity, Zap, Flame, Droplets, Wind } from "lucide-react";
 import { Reveal } from "./reveal";
+import { LiveCalculatorModal } from "./live-calculator-modal";
 
-const calculatorData = [
+interface DisciplineCard {
+  id: string;
+  tag: string;
+  title: string;
+  desc: string;
+  icon: any;
+  accentColor: string;
+  tagClass: string;
+  badges: string[];
+  calculators: string[];
+  metric1: { label: string; value: string };
+  metric2: { label: string; value: string };
+  chartType: "line" | "bar" | "gauge";
+  countText: string;
+}
+
+const solutionCards: DisciplineCard[] = [
   {
     id: "hvac",
-    label: "HVAC",
-    dotColor: "bg-blue-500",
-    activeClass: "border-blue-500 bg-blue-500/10 text-blue-500",
-    tag: "HVAC CALCULATOR",
-    tagColor: "text-blue-500 bg-blue-500/10",
-    badges: ["ASHRAE 62.1", "ASHRAE 90.1", "SMACNA", "NFPA 92"],
-    title: "Load, airflow & duct sizing calculators.",
-    desc: "Preliminary and detailed cooling load, ventilation, ductulator, pressurization and smoke control — every HVAC design calculator in one place.",
+    tag: "HVAC & THERMAL ENGINE",
+    title: "Instant Building Heat Loads & Psychrometric Balancing",
+    desc: "Calculate sensible, latent, and fresh air loads with finite heat balance algorithms. Automated duct friction loss & coil sizing.",
+    icon: Wind,
+    accentColor: "from-cyan-500 to-blue-600",
+    tagClass: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/30",
+    badges: ["ASHRAE 62.1", "ASHRAE 90.1", "SMACNA 2021", "NFPA 92"],
     calculators: [
       "Preliminary cooling load", "Heating load calculator", "Ventilation calculator", "Fresh air cooling load",
       "Duct sizer / ductulator", "Diffuser selector", "Condensate drain sizing", "Psychrometric calculator",
       "Refrigerant pipe sizing", "CHW pipe sizer", "CHW pump head calculator", "Lobby pressurisation",
       "Staircase pressurization", "Smoke extract fan sizing", "Basement smoke calculator", "HVAC design sanity check"
     ],
-    countText: "16 HVAC calculators - updated for the current ASHRAE handbook cycle",
-    btnText: "Open HVAC calculators"
+    metric1: { label: "Design Cooling Peak", value: "184.2 Tons" },
+    metric2: { label: "ASHRAE 62.1 Airflow", value: "92,450 CFM" },
+    chartType: "line",
+    countText: "16 HVAC Calculators Available",
   },
   {
     id: "electrical",
-    label: "Electrical",
-    dotColor: "bg-yellow-500",
-    activeClass: "border-yellow-500 bg-yellow-500/10 text-yellow-500",
-    tag: "ELECTRICAL CALCULATOR",
-    tagColor: "text-yellow-500 bg-yellow-500/10",
-    badges: ["NEC", "IEC 60364", "IS 732"],
-    title: "Electrical load & sizing calculators.",
-    desc: "Cable, busbar, transformer, generator and short-circuit calculations built to NEC and IEC reference tables — plus a DB schedule builder for full load summaries.",
+    tag: "ELECTRICAL INFRASTRUCTURE",
+    title: "Feeder Voltage Drops, Transformers & Short Circuits",
+    desc: "Size low and medium voltage copper/aluminum cables, busbars, and transformers to NEC 2023 and IEC 60364 tables with real-time short circuit telemetry.",
+    icon: Zap,
+    accentColor: "from-amber-500 to-orange-600",
+    tagClass: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30",
+    badges: ["NEC 2023", "IEC 60364", "IEEE C57", "IS 732"],
     calculators: [
       "Cable sizing calculator", "Cable voltage drop", "Busbar sizing calculator", "Busbar voltage drop",
       "Transformer sizing", "Generator sizing (kVA)", "UPS sizing calculator", "Central battery sizing",
       "Circuit breaker sizing", "Short circuit calculator", "Cable tray sizing", "Capacitor bank sizing",
       "Lux level calculator", "Lighting power density (LPD)", "Electrical load summary", "DB schedule builder"
     ],
-    countText: "16 electrical calculators - NEC & IEC reference tables built in",
-    btnText: "Open electrical calculators"
+    metric1: { label: "Max Voltage Drop", value: "1.42% (Pass)" },
+    metric2: { label: "Fault Level Rating", value: "50 kA / 1s" },
+    chartType: "bar",
+    countText: "16 Electrical Calculators Available",
   },
   {
     id: "fire",
-    label: "Fire Fighting",
-    dotColor: "bg-red-500",
-    activeClass: "border-red-500 bg-red-500/10 text-red-500",
-    tag: "FIRE PROTECTION CALCULATOR",
-    tagColor: "text-red-500 bg-red-500/10",
-    badges: ["NFPA 13", "NFPA 20", "NFPA 2001"],
-    title: "Fire fighting & hydraulic calculators.",
-    desc: "Sprinkler K-factor and density, Hazen-Williams friction loss, clean-agent quantity, and fire pump and tank sizing — mapped to NFPA hydraulic design.",
+    tag: "FIRE SUPPRESSION & HYDRAULICS",
+    title: "NFPA 13 Sprinklers, Clean Agents & Fire Pump Duty",
+    desc: "Calculate sprinkler hydraulic density, Hazen-Williams friction loss curves, FM-200 / Novec clean agent cylinder mass, and NFPA 20 fire pump pressure head.",
+    icon: Flame,
+    accentColor: "from-rose-500 to-red-600",
+    tagClass: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30",
+    badges: ["NFPA 13", "NFPA 20", "NFPA 2001", "NFPA 14"],
     calculators: [
       "Sprinkler K-factor", "Sprinkler density & flow", "Hazen-Williams calculator", "FM-200 quantity calculator",
       "Fire water demand", "Fire pump duty (NFPA 20)", "Fire tank capacity", "Tank duration calculator"
     ],
-    countText: "8 fire fighting calculators - NFPA hydraulic reference built in",
-    btnText: "Open fire fighting calculators"
+    metric1: { label: "Sprinkler Flow Rate", value: "1,000 GPM" },
+    metric2: { label: "Residual Pressure", value: "140 PSI" },
+    chartType: "gauge",
+    countText: "8 Fire Protection Calculators Available",
   },
   {
     id: "plumbing",
-    label: "Plumbing",
-    dotColor: "bg-emerald-500",
-    activeClass: "border-emerald-500 bg-emerald-500/10 text-emerald-500",
-    tag: "PLUMBING CALCULATOR",
-    tagColor: "text-emerald-500 bg-emerald-500/10",
-    badges: ["IPC", "UPC", "EN 806"],
-    title: "Plumbing & drainage sizing calculators.",
-    desc: "Water demand, fixture and loading units, storm and sanitary drainage, and pump sizing — the full plumbing design calculator set, referenced to IPC fixture tables.",
+    tag: "PLUMBING & PUBLIC HEALTH",
+    title: "IPC Water Demand, Booster Pumps & Storm Drainage",
+    desc: "Full public health engineering suite covering Hunter Curve fixture units, domestic booster sets, sewer drainage slopes, and 100-year storm rainwater retention tanks.",
+    icon: Droplets,
+    accentColor: "from-emerald-500 to-teal-600",
+    tagClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30",
+    badges: ["IPC 2024", "UPC", "BS EN 806", "ASPE Data Book"],
     calculators: [
       "Water demand calculator", "Fixture unit calculator", "Loading unit calculator", "Water supply pipe sizer",
       "Drainage pipe sizing", "Discharge unit sizing", "Storm water sizing", "Booster pump sizing",
       "Sump pump sizing", "Sewage pump sizing", "Pressure vessel sizing", "Gas storage capacity",
       "Water tank sizing"
     ],
-    countText: "13 plumbing calculators - IPC fixture & loading tables built in",
-    btnText: "Open plumbing calculators"
-  }
+    metric1: { label: "Peak Fixture Units", value: "480 WSFU" },
+    metric2: { label: "Booster Duty Head", value: "180 ft Dynamic" },
+    chartType: "line",
+    countText: "13 Plumbing Calculators Available",
+  },
 ];
 
 export function CalculatorSuite() {
-  const [activeTab, setActiveTab] = useState(calculatorData[0]?.id || "hvac");
-  const data = calculatorData.find((d) => d.id === activeTab)!;
+  const [selectedDiscipline, setSelectedDiscipline] = useState<string>("hvac");
+  const [expandedCard, setExpandedCard] = useState<string | null>("hvac");
+  const [isLiveModalOpen, setIsLiveModalOpen] = useState(false);
+  const [activeCalcName, setActiveCalcName] = useState("Preliminary Cooling Load");
+
+  const activeCard = solutionCards.find((c) => c.id === selectedDiscipline) || solutionCards[0];
 
   return (
-    <section id="calculators" className="py-28 md:py-32">
-      <div className="mx-auto max-w-4xl px-4 md:px-6 text-center">
-        <Reveal>
-          <div className="eyebrow">The calculator suite</div>
-          <h2 className="text-balance mt-4 text-4xl font-bold tracking-tight md:text-6xl">
-            Every MEP calculator. One unified platform.
-          </h2>
-          <p className="mt-6 text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">
-            TARV is an AI-powered MEP calculator suite covering HVAC, electrical, fire fighting and plumbing — the same sizing and load calculations engineers run by hand, now instant, standards-referenced, and connected to your drawings.
-          </p>
-        </Reveal>
-      </div>
-
-      <Reveal delay={100} className="mx-auto mt-12 max-w-6xl px-4 md:px-6">
-        {/* Tabs - Centered Multi-Row Flex Wrap Pills on Mobile */}
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 max-w-4xl mx-auto w-full px-2">
-          {calculatorData.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center justify-center gap-2 rounded-full border px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm font-semibold transition-all duration-300 hover:shadow-lg whitespace-nowrap ${
-                activeTab === tab.id
-                  ? "border-foreground bg-foreground text-background dark:border-white dark:bg-white dark:text-black shadow-xl scale-105"
-                  : "border-border/60 bg-card/60 text-muted-foreground backdrop-blur-sm hover:border-foreground/20 hover:text-foreground"
-              }`}
-            >
-              <span className={`size-2 sm:size-2.5 rounded-full shrink-0 ${tab.dotColor} shadow-[0_0_8px_currentColor]`} />
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Calculator Window */}
-        <div className="glass shadow-glass rounded-3xl p-6 md:p-10 transition-all duration-500">
-          <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10">
-            <div className="max-w-2xl text-left">
-              <div className={`inline-flex rounded-md px-2 py-1 text-xs font-bold tracking-wider uppercase mb-6 ${data.tagColor}`}>
-                {data.tag}
+    <section id="calculators" className="py-24 md:py-36 relative overflow-hidden bg-background">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
+        
+        {/* Top Header Bar (Semrush Screenshot 4 Style) */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+          <Reveal>
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-teal-500/30 bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-black uppercase tracking-wider">
+                <Calculator size={14} className="text-teal-500 shrink-0" />
+                <span>SOLUTIONS (4 DISCIPLINES, 53+ ENGINES) — SIZED INSTANTLY. CODE REFERENCED.</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">{data.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{data.desc}</p>
-            </div>
-            <div className="flex flex-wrap gap-2 md:justify-end shrink-0">
-              {data.badges.map((badge) => (
-                <span key={badge} className="rounded-md border border-border bg-card/50 px-2.5 py-1 text-xs font-mono text-muted-foreground">
-                  {badge}
+              <h2 className="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+                Every MEP calculator. <br className="hidden sm:inline" />
+                <span className="bg-gradient-to-r from-teal-500 via-emerald-400 to-cyan-500 bg-clip-text text-transparent">
+                  One unified engine.
                 </span>
-              ))}
+              </h2>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-10 border-t border-border/50 pt-10">
-            {data.calculators.map((calc, i) => (
+          {/* Quick Discipline Switchers */}
+          <div className="flex items-center gap-2">
+            {solutionCards.map((c) => (
               <button
-                key={i}
-                className="group relative flex items-center justify-between rounded-2xl border border-border/50 bg-card/30 p-4 text-sm font-medium backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/30 hover:bg-card/80 hover:shadow-xl"
+                key={c.id}
+                type="button"
+                onClick={() => {
+                  setSelectedDiscipline(c.id);
+                  setExpandedCard(c.id);
+                }}
+                className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all duration-200 cursor-pointer ${
+                  selectedDiscipline === c.id
+                    ? "bg-foreground text-background shadow-md scale-105"
+                    : "bg-muted/50 border border-border text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
               >
-                <span className="text-left text-muted-foreground group-hover:text-foreground transition-colors font-semibold pr-4">{calc}</span>
-                <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-border/50 bg-background/50 transition-all duration-300 group-hover:border-brand group-hover:bg-brand group-hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.4)]">
-                  <ArrowRight size={14} className="text-muted-foreground transition-all duration-300 group-hover:-rotate-45 group-hover:text-zinc-950" />
-                </div>
+                {c.tag.split(" ")[0]}
               </button>
             ))}
           </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-border pt-6">
-            <div className="text-xs text-muted-foreground uppercase tracking-wider">{data.countText}</div>
-            <button className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium transition-all duration-300 hover:-translate-y-1 hover:bg-foreground hover:text-background hover:shadow-xl">
-              {data.btnText} <ArrowRight size={14} />
-            </button>
-          </div>
         </div>
 
-        {/* Comparison Section */}
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          <div className="rounded-3xl border border-border bg-card p-8 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <h4 className="font-semibold mb-6 text-muted-foreground text-left">Spreadsheets & generic MEP calculator tools</h4>
-            <ul className="space-y-4 text-sm text-muted-foreground text-left">
+        {/* Semrush-Style Multi-Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {solutionCards.map((card) => {
+            const isSelected = selectedDiscipline === card.id;
+
+            return (
+              <Reveal key={card.id}>
+                <div
+                  onClick={() => setSelectedDiscipline(card.id)}
+                  className={`h-full rounded-3xl p-6 border transition-all duration-300 flex flex-col justify-between cursor-pointer space-y-6 ${
+                    isSelected
+                      ? "border-teal-500/60 bg-card shadow-2xl ring-2 ring-teal-500/20 -translate-y-1"
+                      : "border-border bg-card/60 hover:bg-card hover:border-teal-500/30 hover:shadow-lg"
+                  }`}
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border ${card.tagClass}`}>
+                        {card.tag}
+                      </span>
+                      <div className={`grid size-7 place-items-center rounded-full border border-border bg-muted/40 transition-colors ${isSelected ? "bg-teal-500 text-slate-950 border-teal-500" : "text-muted-foreground"}`}>
+                        <Plus size={14} />
+                      </div>
+                    </div>
+
+                    <h3 className="text-lg font-extrabold text-foreground tracking-tight leading-snug">
+                      {card.title}
+                    </h3>
+
+                    <p className="text-xs text-muted-foreground font-medium leading-relaxed">
+                      {card.desc}
+                    </p>
+                  </div>
+
+                  {/* Embedded Miniature Engineering Chart / Telemetry Widget (Semrush Style) */}
+                  <div className="rounded-2xl border border-border bg-slate-950 p-4 text-white space-y-3 shadow-inner">
+                    <div className="flex items-center justify-between text-[10px] font-mono font-bold text-slate-400 uppercase">
+                      <span>{card.metric1.label}</span>
+                      <span className="text-teal-400">{card.metric1.value}</span>
+                    </div>
+
+                    {/* Chart Visualization Simulation */}
+                    <div className="h-12 w-full bg-slate-900 rounded-lg p-2 flex items-end gap-1.5 overflow-hidden">
+                      <div className="h-4 w-1/6 bg-teal-500/40 rounded-sm" />
+                      <div className="h-7 w-1/6 bg-teal-500/60 rounded-sm" />
+                      <div className="h-10 w-1/6 bg-teal-500 rounded-sm" />
+                      <div className="h-8 w-1/6 bg-cyan-500 rounded-sm" />
+                      <div className="h-11 w-1/6 bg-cyan-400 rounded-sm" />
+                      <div className="h-9 w-1/6 bg-emerald-400 rounded-sm" />
+                    </div>
+
+                    <div className="flex items-center justify-between text-[10px] font-mono font-bold text-slate-400 uppercase">
+                      <span>{card.metric2.label}</span>
+                      <span className="text-cyan-400">{card.metric2.value}</span>
+                    </div>
+                  </div>
+
+                  {/* Badges Footer */}
+                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-border">
+                    {card.badges.slice(0, 3).map((b) => (
+                      <span key={b} className="rounded-md bg-muted px-2 py-0.5 text-[9px] font-mono font-bold text-muted-foreground">
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+
+        {/* Selected Discipline Full Interactive Calculator Drawer */}
+        <Reveal delay={200} className="mt-12">
+          <div className="rounded-3xl border border-border bg-card p-6 sm:p-10 shadow-2xl space-y-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-border pb-6">
+              <div>
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 block">
+                  ACTIVE SUITE MODULE
+                </span>
+                <h3 className="text-2xl font-extrabold text-foreground mt-1">
+                  {activeCard.title}
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono font-bold text-muted-foreground bg-muted px-3 py-1.5 rounded-full border border-border">
+                  {activeCard.countText}
+                </span>
+              </div>
+            </div>
+
+            {/* Calculator Tiles Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {activeCard.calculators.map((calc, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => {
+                    setActiveCalcName(calc);
+                    setIsLiveModalOpen(true);
+                  }}
+                  className="group flex items-center justify-between p-4 rounded-2xl border border-border bg-muted/20 hover:bg-card hover:border-teal-500/40 hover:shadow-md transition-all duration-200 text-left cursor-pointer"
+                >
+                  <span className="text-xs sm:text-sm font-bold text-muted-foreground group-hover:text-foreground pr-3">
+                    {calc}
+                  </span>
+                  <div className="size-6 rounded-full bg-muted flex items-center justify-center shrink-0 group-hover:bg-teal-500 group-hover:text-slate-950 transition-colors">
+                    <ArrowRight size={12} className="group-hover:-rotate-45 transition-transform" />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Live Interactive Solver Modal */}
+        <LiveCalculatorModal
+          isOpen={isLiveModalOpen}
+          onClose={() => setIsLiveModalOpen(false)}
+          calculatorName={activeCalcName}
+          discipline={selectedDiscipline as any}
+        />
+
+        {/* Side-by-Side Comparison (Semrush Style) */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 space-y-4">
+            <h4 className="font-extrabold text-sm uppercase tracking-wider text-muted-foreground">Spreadsheets & Generic Tools</h4>
+            <ul className="space-y-3 text-xs sm:text-sm text-muted-foreground font-medium">
               <li className="flex items-start gap-3">
-                <span className="opacity-50">—</span> One calculator at a time, no shared model
+                <span className="opacity-40 font-mono font-bold">—</span> One calculator at a time with zero shared building physics model
               </li>
               <li className="flex items-start gap-3">
-                <span className="opacity-50">—</span> Manual re-entry into drawings and schedules
+                <span className="opacity-40 font-mono font-bold">—</span> Manual re-entry of calculations into drawings and schedules
               </li>
               <li className="flex items-start gap-3">
-                <span className="opacity-50">—</span> No standards audit trail
+                <span className="opacity-40 font-mono font-bold">—</span> No automated standards audit trail or ASHRAE compliance proof
               </li>
             </ul>
           </div>
 
-          <div className="rounded-3xl bg-foreground text-background dark:bg-zinc-900 dark:text-zinc-100 p-8 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-2xl text-left">
-            <h4 className="font-bold mb-6 font-display tracking-tight">TARV</h4>
-            <ul className="space-y-4 text-sm font-medium">
+          <div className="rounded-3xl bg-slate-950 text-white p-6 sm:p-8 border border-slate-800 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between">
+              <h4 className="font-extrabold text-sm uppercase tracking-wider text-teal-400">TARV Unified Platform</h4>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">
+                AI-Native Engine
+              </span>
+            </div>
+            <ul className="space-y-3 text-xs sm:text-sm text-slate-200 font-medium">
               <li className="flex items-start gap-3">
-                <Check size={16} className="mt-0.5 shrink-0" /> Every HVAC, electrical, fire and plumbing calculator, one model
+                <Check size={16} className="mt-0.5 shrink-0 text-teal-400 font-bold" /> Every HVAC, electrical, fire and plumbing calculator in one shared model
               </li>
               <li className="flex items-start gap-3">
-                <Check size={16} className="mt-0.5 shrink-0" /> Results flow straight into drawings, schedules and Revit
+                <Check size={16} className="mt-0.5 shrink-0 text-teal-400 font-bold" /> Results flow straight into drawings, schedules, and live Revit models
               </li>
               <li className="flex items-start gap-3">
-                <Check size={16} className="mt-0.5 shrink-0" /> Every output ships with its standard reference and math
+                <Check size={16} className="mt-0.5 shrink-0 text-teal-400 font-bold" /> Every output ships with its exact standard reference, math proof, and code citation
               </li>
             </ul>
           </div>
         </div>
-      </Reveal>
+
+      </div>
     </section>
   );
 }

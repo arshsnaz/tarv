@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccessRouteImport } from './routes/access'
+import { Route as AddinsRouteImport } from './routes/addins'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DpaRouteImport } from './routes/dpa'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SecurityRouteImport } from './routes/security'
@@ -37,6 +39,11 @@ const AccessRoute = AccessRouteImport.update({
   path: '/access',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AddinsRoute = AddinsRouteImport.update({
+  id: '/addins',
+  path: '/addins',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareersRoute = CareersRouteImport.update({
   id: '/careers',
   path: '/careers',
@@ -50,6 +57,11 @@ const ContactRoute = ContactRouteImport.update({
 const DpaRoute = DpaRouteImport.update({
   id: '/dpa',
   path: '/dpa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -87,9 +99,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/access': typeof AccessRoute
+  '/addins': typeof AddinsRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dpa': typeof DpaRoute
+  '/portal': typeof PortalRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/security': typeof SecurityRoute
@@ -101,9 +115,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/access': typeof AccessRoute
+  '/addins': typeof AddinsRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dpa': typeof DpaRoute
+  '/portal': typeof PortalRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/security': typeof SecurityRoute
@@ -116,9 +132,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/access': typeof AccessRoute
+  '/addins': typeof AddinsRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/dpa': typeof DpaRoute
+  '/portal': typeof PortalRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/security': typeof SecurityRoute
@@ -132,9 +150,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/access'
+    | '/addins'
     | '/careers'
     | '/contact'
     | '/dpa'
+    | '/portal'
     | '/pricing'
     | '/privacy'
     | '/security'
@@ -146,9 +166,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/access'
+    | '/addins'
     | '/careers'
     | '/contact'
     | '/dpa'
+    | '/portal'
     | '/pricing'
     | '/privacy'
     | '/security'
@@ -160,9 +182,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/access'
+    | '/addins'
     | '/careers'
     | '/contact'
     | '/dpa'
+    | '/portal'
     | '/pricing'
     | '/privacy'
     | '/security'
@@ -175,9 +199,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AccessRoute: typeof AccessRoute
+  AddinsRoute: typeof AddinsRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   DpaRoute: typeof DpaRoute
+  PortalRoute: typeof PortalRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   SecurityRoute: typeof SecurityRoute
@@ -209,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/addins': {
+      id: '/addins'
+      path: '/addins'
+      fullPath: '/addins'
+      preLoaderRoute: typeof AddinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/careers': {
       id: '/careers'
       path: '/careers'
@@ -228,6 +261,13 @@ declare module '@tanstack/react-router' {
       path: '/dpa'
       fullPath: '/dpa'
       preLoaderRoute: typeof DpaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -279,9 +319,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AccessRoute: AccessRoute,
+  AddinsRoute: AddinsRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   DpaRoute: DpaRoute,
+  PortalRoute: PortalRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   SecurityRoute: SecurityRoute,

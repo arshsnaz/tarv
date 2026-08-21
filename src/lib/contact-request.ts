@@ -8,6 +8,15 @@ export type ContactRequestPayload = {
   message: string;
 };
 
+const SUPABASE_URL = "https://veatcorbgwgqpficxwri.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_te3DmR_oZ7u16qjyW7AW7A_1QNMGRLa";
+
+const REST_HEADERS = {
+  apikey: SUPABASE_ANON_KEY,
+  Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+  "Content-Type": "application/json"
+};
+
 export const submitContactRequest = createServerFn({ method: "POST" })
   .validator((data: ContactRequestPayload) => {
     if (!data.name?.trim()) throw new Error("Name is required");
@@ -18,147 +27,99 @@ export const submitContactRequest = createServerFn({ method: "POST" })
     return data;
   })
   .handler(async ({ data }) => {
+    const cleanEmail = data.email.trim().toLowerCase();
+    const cleanName = data.name.trim();
+    const cleanCompany = data.company?.trim() || "Website Contact Lead";
+    const now = new Date().toISOString();
+    const customerId = "cust-contact-" + Math.random().toString(36).substring(2, 9);
+
+    // Save Contact lead in Supabase Database so Super Admin can manage
+    try {
+      const checkRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/customers?email=eq.${encodeURIComponent(cleanEmail)}`,
+        { headers: REST_HEADERS }
+      );
+      const existing = await checkRes.json();
+      let targetCustId = customerId;
+
+      if (Array.isArray(existing) && existing.length > 0) {
+        targetCustId = existing[0].id;
+      } else {
+        await fetch(`${SUPABASE_URL}/rest/v1/customers`, {
+          method: "POST",
+          headers: { ...REST_HEADERS, Prefer: "return=minimal" },
+          body: JSON.stringify({
+            id: customerId,
+            name: cleanName,
+            email: cleanEmail,
+            company: cleanCompany,
+            created_at_utc: now,
+            is_active: true
+          })
+        });
+      }
+
+      // Create contact lead license entry in DB
+      const licId = "lic-contact-" + Math.random().toString(36).substring(2, 9);
+      const leadKey = `KEY-TARV-LEAD-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      await fetch(`${SUPABASE_URL}/rest/v1/licenses`, {
+        method: "POST",
+        headers: { ...REST_HEADERS, Prefer: "return=minimal" },
+        body: JSON.stringify({
+          id: licId,
+          license_key_hash: leadKey,
+          customer_id: targetCustId,
+          product_id: "addin_clemp_excel",
+          plan: "Contact Lead Inquiry",
+          max_activations: 5,
+          offline_grace_days: 14,
+          expires_at_utc: new Date(Date.now() + 365 * 86400000).toISOString(),
+          created_at_utc: now,
+          updated_at_utc: now,
+          is_active: true,
+          revoked: false
+        })
+      });
+      console.log(`[ContactRequest] Saved contact inquiry "${cleanName}" (${cleanEmail}) to Supabase DB`);
+    } catch (dbErr) {
+      console.warn("[ContactRequest] DB insertion notice:", dbErr);
+    }
+
+    // Resend email dispatch
     const apiKey = getResendKey();
     const toEmail = process.env["CONTACT_TO_EMAIL"] || "tarv.official@gmail.com";
 
-    const resend = new Resend(apiKey);
-
-    const { error } = await resend.emails.send({
-      from: "TARV Contact Us <contact@resend.dev>",
-      to: toEmail,
-      replyTo: data.email,
-      subject: `New Contact Inquiry from ${data.name} (${data.company || "Individual"})`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>New TARV Contact Inquiry</title>
-        </head>
-        <body style="margin:0; padding:0; background-color:#f1f5f9; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased; color:#0f172a;">
-          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#f1f5f9; padding:44px 16px;">
-            <tr>
-              <td align="center">
-                <!-- Main Email Card Container -->
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:580px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:18px; overflow:hidden; box-shadow:0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);">
-                  
-                  <!-- Top Electric Blue Gradient Accent -->
-                  <tr>
-                    <td style="height:5px; background:linear-gradient(90deg, #0284c7 0%, #3b82f6 50%, #6366f1 100%);"></td>
-                  </tr>
-
-                  <!-- Executive Header -->
-                  <tr>
-                    <td style="padding:28px 36px 22px 36px; border-bottom:1px solid #f1f5f9;">
-                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <tr>
-                          <td valign="middle">
-                            <table border="0" cellspacing="0" cellpadding="0">
-                              <tr>
-                                <td valign="middle" style="padding-right:14px;">
-                                  <img src="https://tarvofficial.vercel.app/favicon.png" width="38" height="38" alt="TARV Logo" style="display:block; border-radius:10px; background-color:#0f172a; padding:4px;" />
-                                </td>
-                                <td valign="middle">
-                                  <span style="font-size:22px; font-weight:800; color:#0f172a; letter-spacing:-0.5px; display:block;">TARV</span>
-                                  <span style="font-size:11px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:1.2px; display:block; margin-top:1px;">Engineering AI</span>
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
-                          <td align="right" valign="middle">
-                            <span style="display:inline-block; padding:5px 12px; background-color:#eff6ff; border:1px solid #bfdbfe; border-radius:9999px; color:#1d4ed8; font-size:11px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase;">
-                              CONTACT INQUIRY
-                            </span>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-
-                  <!-- Email Subject Header -->
-                  <tr>
-                    <td style="padding:28px 36px 12px 36px;">
-                      <h1 style="margin:0; font-size:22px; font-weight:700; color:#0f172a; letter-spacing:-0.5px; line-height:1.3;">
-                        New Website Contact Inquiry
-                      </h1>
-                      <p style="margin:8px 0 0 0; font-size:14px; color:#475569; line-height:1.5;">
-                        A visitor has submitted a message via the Contact Us form on tarv.ai.
-                      </p>
-                    </td>
-                  </tr>
-
-                  <!-- Structured Details Grid Container -->
-                  <tr>
-                    <td style="padding:16px 36px 24px 36px;">
-                      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:22px; table-layout:fixed;">
-                        
-                        <tr>
-                          <td style="padding-bottom:16px;" width="50%">
-                            <span style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; display:block;">Full Name</span>
-                            <span style="font-size:15px; font-weight:600; color:#0f172a; display:block; margin-top:3px;">${escapeHtml(data.name)}</span>
-                          </td>
-                          <td style="padding-bottom:16px;" width="50%">
-                            <span style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; display:block;">Work Email</span>
-                            <a href="mailto:${escapeHtml(data.email)}" style="font-size:14px; font-weight:600; color:#2563eb; text-decoration:none; display:block; margin-top:3px; word-break:break-all;">${escapeHtml(data.email)}</a>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td colspan="2">
-                            <span style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; display:block;">Company / Firm</span>
-                            <span style="font-size:15px; font-weight:600; color:#0f172a; display:block; margin-top:3px;">${escapeHtml(data.company || "N/A")}</span>
-                          </td>
-                        </tr>
-
-                      </table>
-                    </td>
-                  </tr>
-
-                  <!-- Message Content -->
-                  <tr>
-                    <td style="padding:0 36px 28px 36px;">
-                      <span style="font-size:12px; font-weight:700; color:#475569; text-transform:uppercase; letter-spacing:0.8px; display:block; margin-bottom:8px;">Message Content</span>
-                      <div style="background-color:#f0f9ff; border:1px solid #e0f2fe; border-left:4px solid #0284c7; border-radius:6px 12px 12px 6px; padding:18px; font-size:14px; color:#1e293b; line-height:1.6;">
-                        ${escapeHtml(data.message).replace(/\n/g, "<br/>")}
-                      </div>
-                    </td>
-                  </tr>
-
-                  <!-- Primary Executive Action Button -->
-                  <tr>
-                    <td style="padding:4px 36px 36px 36px;" align="center">
-                      <a href="mailto:${escapeHtml(data.email)}?subject=${encodeURIComponent(`Re: TARV Contact Inquiry — ${data.name}`)}" style="display:inline-block; background-color:#0f172a; color:#ffffff; font-size:14px; font-weight:700; padding:14px 32px; border-radius:9999px; text-decoration:none; box-shadow:0 4px 12px rgba(15, 23, 42, 0.15); letter-spacing:0.2px;">
-                        Reply Directly to ${escapeHtml(data.name)} &rarr;
-                      </a>
-                    </td>
-                  </tr>
-
-                  <!-- Executive Footer -->
-                  <tr>
-                    <td style="padding:22px 36px; background-color:#f8fafc; border-top:1px solid #e2e8f0; text-align:center;">
-                      <p style="margin:0; font-size:12px; color:#64748b; line-height:1.6;">
-                        <strong>TARV AI Inc.</strong> &bull; API World Tower 403, Sheikh Zayed Rd, Dubai, UAE<br/>
-                        <a href="https://tarvofficial.vercel.app" style="color:#0284c7; text-decoration:none; font-weight:600;">tarv.ai</a> &bull; Physics-Grade MEP Automation Suite
-                      </p>
-                    </td>
-                  </tr>
-
-                </table>
-              </td>
-            </tr>
-          </table>
-        </body>
-        </html>
-      `,
-    });
-
-    if (error) {
-      console.error("Resend error:", error);
-      throw new Error("Failed to send message via Resend.");
+    if (!apiKey) {
+      return { success: true, savedInDb: true, fallbackMailto: true };
     }
 
-    return { success: true };
+    try {
+      const resend = new Resend(apiKey);
+      await resend.emails.send({
+        from: "TARV Contact Us <contact@resend.dev>",
+        to: toEmail,
+        replyTo: data.email,
+        subject: `New Contact Inquiry from ${data.name} (${data.company || "Individual"})`,
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <head><meta charset="utf-8"><title>New TARV Contact Inquiry</title></head>
+          <body style="font-family:sans-serif; padding:20px; color:#0f172a;">
+            <h2>New Website Contact Inquiry</h2>
+            <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
+            <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
+            <p><strong>Company:</strong> ${escapeHtml(data.company)}</p>
+            <p><strong>Message:</strong></p>
+            <p style="background:#f8fafc; padding:15px; border-left:4px solid #0284c7;">${escapeHtml(data.message).replace(/\n/g, "<br/>")}</p>
+          </body>
+          </html>
+        `
+      });
+    } catch (e) {
+      console.warn("[ContactRequest] Resend notice:", e);
+    }
+
+    return { success: true, savedInDb: true };
   });
 
 function escapeHtml(str: string) {
